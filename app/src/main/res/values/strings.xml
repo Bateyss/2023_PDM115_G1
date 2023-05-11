@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">2023_PDM115_G1</string>
+    <string name="title_inicio_sesion">Iniciar Sesion</string>
+    <string name="user_name">Usuario</string>
+    <string name="user_pass">Contraseña</string>
+    <string name="login">Ingresar</string>
 </resources>
