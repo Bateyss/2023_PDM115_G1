@@ -26,8 +26,8 @@ public interface PersonaDao {
     Completable deletePersona(Persona persona);
 
     @Query("SELECT * FROM PERSONA")
-    Flowable<List<Usuario>> findAll();
+    Flowable<List<Persona>> findAll();
 
     @Query("SELECT * FROM PERSONA WHERE ID_PERSONA = :id")
-    Flowable<Usuario> findById(long id);
+    Flowable<Persona> findById(long id);
 }
