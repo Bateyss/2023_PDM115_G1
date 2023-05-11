@@ -126,4 +126,22 @@ public class UsuarioService implements ServiceInterface<Usuario, Long> {
 
         });
     }
+
+    public void buscarUserNameAndPass(String username, String userpass, CallBackDisposableInterface<Usuario> disposableInterface) {
+        DisposableUtils.addComposite(new DisposableUtils.CompositeFlowableCallback() {
+            @Override
+            public Flowable<?> flowableAction() {
+                return usuarioDao.findByUserAndPass(username, userpass);
+            }
+
+            @Override
+            public Disposable completableCallBack(Flowable<?> applySubscribe) {
+                return applySubscribe.subscribe(response -> disposableInterface.onCallBack((Usuario) response), throwable -> {
+                    Log.e("BUSCAR_POR_ID", "Error al buscar por id", throwable);
+                    disposableInterface.onThrow(throwable);
+                });
+            }
+
+        });
+    }
 }
