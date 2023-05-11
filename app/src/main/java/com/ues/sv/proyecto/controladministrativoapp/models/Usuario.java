@@ -1,7 +1,9 @@
 package com.ues.sv.proyecto.controladministrativoapp.models;
 
 import androidx.room.ColumnInfo;
+import androidx.room.Embedded;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.Relation;
 
@@ -15,8 +17,8 @@ public class Usuario {
     @NonNull
     private long idUsuario;
 
-    @NonNull
-    @Relation(entity = Persona.class, entityColumn = "ID_PERSONA", parentColumn = "ID_PERSONA")
+    //@Relation(entity = Persona.class, entityColumn = "ID_PERSONA", parentColumn = "ID_PERSONA")
+    @Embedded
     private Persona persona;
 
     @ColumnInfo(name = "USER_NAME")
@@ -27,6 +29,7 @@ public class Usuario {
     @NonNull
     private String userPass;
 
+    @Ignore
     public Usuario() {
     }
 

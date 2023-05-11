@@ -2,6 +2,7 @@ package com.ues.sv.proyecto.controladministrativoapp.models;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import io.reactivex.rxjava3.annotations.NonNull;
@@ -28,6 +29,7 @@ public class Persona {
     @ColumnInfo(name = "SEXO")
     private String sexo;
 
+    @Ignore
     public Persona() {
     }
 
