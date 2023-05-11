@@ -12,7 +12,23 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.lang.reflect.Field;
 import java.util.Map;
 
+/**
+ * Classe de utilidades para validar formularios en base a @{@link androidx.room.Entity} class
+ */
 public class ValidationUtils {
+
+    /**
+     * <p>Se validara en base a los @{@link ColumnInfo} que posean los campos del Entity
+     * En caso no posea no se validaran</p>
+     * <p>Se validara tomando en cuenta que el EditText tenga un CounterMaxLength
+     * y este no debe ser sobrepasado</p>
+     * <p>Se validara tomando en cuenta que si el campo tiene
+     * un @{@link io.reactivex.rxjava3.annotations.NonNull} el campo del editText no este vacio</p>
+     *
+     * @param mdeloClass @{@link androidx.room.Entity} class
+     * @param attribEditTxtMap {@link Map} &lt; {@link String} , {@link TextInputLayout} &gt; ( fieldName , editTextLayout )
+     * @return [valid]
+     */
     public static boolean validate(Class<?> mdeloClass, Map<String, TextInputLayout> attribEditTxtMap) {
         boolean valid = Boolean.TRUE;
         try {

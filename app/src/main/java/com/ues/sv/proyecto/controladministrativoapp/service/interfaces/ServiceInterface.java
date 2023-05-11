@@ -2,6 +2,11 @@ package com.ues.sv.proyecto.controladministrativoapp.service.interfaces;
 
 import java.util.List;
 
+/**
+ * Interfae generica que ayuda a crear metodos principales del crud en un service
+ * @param <ENTITY> generic {@link androidx.room.Entity} class
+ * @param <IDTYPE> generic {@link androidx.room.PrimaryKey} fieldType of the {@literal ENTITY}
+ */
 public interface ServiceInterface<ENTITY, IDTYPE> {
 
     void registrarEntidad(ENTITY entity, CallBackVoidInterface voidInterface);
