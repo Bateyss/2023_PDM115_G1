@@ -3,5 +3,12 @@
     <string name="title_inicio_sesion">Iniciar Sesion</string>
     <string name="user_name">Usuario</string>
     <string name="user_pass">Contraseña</string>
+    <string name="logon">Registrar</string>
+    <string name="login_anom">Ingres Anonimo</string>
     <string name="login">Ingresar</string>
+    <string name="title_registrar_usuario">Registrar Usuario</string>
+    <string name="user_nombre">Nombre</string>
+    <string name="user_apellido">Apellido</string>
+    <string name="user_identificacion">Identificacion</string>
+    <string name="user_sexo">Genero</string>
 </resources>
