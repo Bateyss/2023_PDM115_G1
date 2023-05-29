@@ -28,6 +28,7 @@ public class UsuarioService implements ServiceInterface<Usuario, Long> {
 
     @Override
     public void registrarEntidad(Usuario usuario, CallBackVoidInterface voidInterface) {
+        usuario.setIdUsuario(0L);
         DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
             @Override
             public Completable completableAction() {

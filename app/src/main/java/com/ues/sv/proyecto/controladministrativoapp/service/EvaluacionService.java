@@ -3,8 +3,8 @@ package com.ues.sv.proyecto.controladministrativoapp.service;
 import android.content.Context;
 import android.util.Log;
 
-import com.ues.sv.proyecto.controladministrativoapp.dao.PersonaDao;
-import com.ues.sv.proyecto.controladministrativoapp.models.Persona;
+import com.ues.sv.proyecto.controladministrativoapp.dao.EvaluacionDao;
+import com.ues.sv.proyecto.controladministrativoapp.models.Evaluacion;
 import com.ues.sv.proyecto.controladministrativoapp.service.interfaces.CallBackDisposableInterface;
 import com.ues.sv.proyecto.controladministrativoapp.service.interfaces.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.service.interfaces.ServiceInterface;
@@ -17,22 +17,23 @@ import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.disposables.Disposable;
 
-public class PersonaService implements ServiceInterface<Persona, Long> {
+public class EvaluacionService implements ServiceInterface<Evaluacion, Long> {
 
-    private final PersonaDao personaDao;
+    private final EvaluacionDao evaluacionDao;
 
-    public PersonaService(Context context) {
+
+    public EvaluacionService(Context context) {
         DatabaseHandler handler = DatabaseHandler.getInstance(context);
-        this.personaDao = handler.personaDao();
+        this.evaluacionDao = handler.evaluacionDao();
     }
 
     @Override
-    public void registrarEntidad(Persona persona, CallBackVoidInterface voidInterface) {
-        persona.setIdPersona(0L);
+    public void registrarEntidad(Evaluacion evaluacion, CallBackVoidInterface voidInterface) {
+        evaluacion.setIdEvaluacion(0L);
         DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
             @Override
             public Completable completableAction() {
-                return personaDao.insertPersona(persona);
+                return evaluacionDao.insertEvaluacion(evaluacion);
             }
 
             @Override
@@ -49,11 +50,11 @@ public class PersonaService implements ServiceInterface<Persona, Long> {
     }
 
     @Override
-    public void editarEntidad(Persona persona, CallBackVoidInterface voidInterface) {
+    public void editarEntidad(Evaluacion evaluacion, CallBackVoidInterface voidInterface) {
         DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
             @Override
             public Completable completableAction() {
-                return personaDao.updatePersona(persona);
+                return evaluacionDao.updateEvaluacion(evaluacion);
             }
 
             @Override
@@ -70,11 +71,11 @@ public class PersonaService implements ServiceInterface<Persona, Long> {
     }
 
     @Override
-    public void eliminarEntidad(Persona persona, CallBackVoidInterface voidInterface) {
+    public void eliminarEntidad(Evaluacion evaluacion, CallBackVoidInterface voidInterface) {
         DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
             @Override
             public Completable completableAction() {
-                return personaDao.deletePersona(persona);
+                return evaluacionDao.deleteEvaluacion(evaluacion);
             }
 
             @Override
@@ -91,16 +92,16 @@ public class PersonaService implements ServiceInterface<Persona, Long> {
     }
 
     @Override
-    public void buscarPorId(Long id, CallBackDisposableInterface<Persona> disposableInterface) {
+    public void buscarPorId(Long id, CallBackDisposableInterface<Evaluacion> disposableInterface) {
         DisposableUtils.addComposite(new DisposableUtils.CompositeFlowableCallback() {
             @Override
             public Flowable<?> flowableAction() {
-                return personaDao.findById(id);
+                return evaluacionDao.findById(id);
             }
 
             @Override
             public Disposable completableCallBack(Flowable<?> applySubscribe) {
-                return applySubscribe.subscribe(response -> disposableInterface.onCallBack((Persona) response), throwable -> {
+                return applySubscribe.subscribe(response -> disposableInterface.onCallBack((Evaluacion) response), throwable -> {
                     Log.e("BUSCAR_POR_ID", "Error al buscar por id", throwable);
                     disposableInterface.onThrow(throwable);
                 });
@@ -110,16 +111,16 @@ public class PersonaService implements ServiceInterface<Persona, Long> {
     }
 
     @Override
-    public void obtenerListaEntidad(CallBackDisposableInterface<List<Persona>> disposableInterface) {
+    public void obtenerListaEntidad(CallBackDisposableInterface<List<Evaluacion>> disposableInterface) {
         DisposableUtils.addComposite(new DisposableUtils.CompositeFlowableCallback() {
             @Override
             public Flowable<?> flowableAction() {
-                return personaDao.findAll();
+                return evaluacionDao.findAll();
             }
 
             @Override
             public Disposable completableCallBack(Flowable<?> applySubscribe) {
-                return applySubscribe.subscribe(response -> disposableInterface.onCallBack((List<Persona>) response), throwable -> {
+                return applySubscribe.subscribe(response -> disposableInterface.onCallBack((List<Evaluacion>) response), throwable -> {
                     Log.e("OBTENER_lISTA", "Error al obtener lista", throwable);
                     disposableInterface.onThrow(throwable);
                 });
