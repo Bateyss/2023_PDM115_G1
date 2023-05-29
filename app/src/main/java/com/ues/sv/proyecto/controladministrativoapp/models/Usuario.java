@@ -12,12 +12,11 @@ import io.reactivex.rxjava3.annotations.NonNull;
 @Entity(tableName = "USUARIO")
 public class Usuario {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "ID_USUARIO")
     @NonNull
     private long idUsuario;
 
-    //@Relation(entity = Persona.class, entityColumn = "ID_PERSONA", parentColumn = "ID_PERSONA")
     @Embedded
     private Persona persona;
 

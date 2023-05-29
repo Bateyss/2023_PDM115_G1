@@ -9,7 +9,7 @@ import io.reactivex.rxjava3.annotations.NonNull;
 
 @Entity(tableName = "PERSONA")
 public class Persona {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "ID_PERSONA")
     @NonNull
     private long idPersona;
@@ -23,7 +23,6 @@ public class Persona {
     private String apellido;
 
     @ColumnInfo(name = "IDENTIFICACION")
-    @NonNull
     private String identificacion;
 
     @ColumnInfo(name = "SEXO")
