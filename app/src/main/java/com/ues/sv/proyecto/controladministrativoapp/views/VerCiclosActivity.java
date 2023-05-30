@@ -1,5 +1,6 @@
 package com.ues.sv.proyecto.controladministrativoapp.views;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,8 +40,8 @@ public class VerCiclosActivity extends AppCompatActivity {
         cicloService = new CicloService(getApplicationContext());
 
         btnCrear.setOnClickListener(v -> {
-            //Intent intent = new Intent(getBaseContext(), RegistrarAlumnoActivity.class);
-            //startActivity(intent);
+            Intent intent = new Intent(getBaseContext(), RegistrarCicloActivity.class);
+            startActivity(intent);
         });
 
         cargarRecyclerList();
@@ -66,14 +67,12 @@ public class VerCiclosActivity extends AppCompatActivity {
 
                             btnEditar.setOnClickListener(v -> {
                                 btnEliminar.setEnabled(Boolean.FALSE);
-                                /*btnEditar.setEnabled(Boolean.FALSE);
-                                Intent intent = new Intent(getBaseContext(), RegistrarAlumnoActivity.class);
-                                intent.putExtra("Carnet", alumno.getCarnet());
-                                intent.putExtra("Nombre", alumno.getNombre());
-                                intent.putExtra("Apellido", alumno.getApellido());
-                                intent.putExtra("MatGanadas", alumno.getMatGanadas());
-                                intent.putExtra("Sexo", alumno.getSexo());
-                                startActivity(intent);*/
+                                btnEditar.setEnabled(Boolean.FALSE);
+                                Intent intent = new Intent(getBaseContext(), RegistrarCicloActivity.class);
+                                intent.putExtra("IdCiclo", ciclo.getIdCiclo());
+                                intent.putExtra("NumeroCiclo", ciclo.getNumeroCiclo());
+                                intent.putExtra("NumeroAnio", ciclo.getNumeroAnio());
+                                startActivity(intent);
                             });
 
                             btnEliminar.setOnClickListener(v -> {

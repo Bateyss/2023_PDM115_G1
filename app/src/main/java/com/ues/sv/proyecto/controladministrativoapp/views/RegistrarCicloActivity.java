@@ -108,7 +108,7 @@ public class RegistrarCicloActivity extends AppCompatActivity {
             ciclo.setNumeroCiclo(bundle.getString("NumeroCiclo", null));
             ciclo.setNumeroAnio(bundle.getString("NumeroAnio", null));
 
-            if (ciclo.getNumeroCiclo() != null && ciclo.getNumeroAnio() != null) {
+            if (ciclo.getIdCiclo() > 0L && ciclo.getNumeroCiclo() != null && ciclo.getNumeroAnio() != null) {
                 layouNumero.getEditText().setText(ciclo.getNumeroCiclo());
                 layouAnio.getEditText().setText(ciclo.getNumeroAnio());
                 esEditar = Boolean.TRUE;
