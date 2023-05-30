@@ -12,6 +12,51 @@
         android:theme="@style/Theme.2023_PDM115_G1"
         tools:targetApi="31">
         <activity
+            android:name=".views.RegistrarTipoEvaluacionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.RegistrarPersonaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.RegistrarMateriaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.RegistrarEvaluacionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.RegistrarDocenteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.RegistrarCursoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.RegistrarCoordinadorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.RegistrarCicloActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.VerTipoEvaluacionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.VerMateriaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.VerEvaluacionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.VerDocentesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.VerCursoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.VerCoordinadoresActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.VerCiclosActivity"
+            android:exported="false" />
+        <activity
             android:name=".views.RegistrarUsuarioActivity"
             android:exported="false" />
         <activity
