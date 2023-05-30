@@ -37,4 +37,10 @@
     <string name="registrar_curso_materia">materia</string>
     <string name="registrar_curso_docente">docente</string>
     <string name="registrar_curso_coordinador">coordinador</string>
+    <string name="curso">curso</string>
+    <string name="tipo_evaliacion">tipo evaluacion</string>
+    <string name="numero_evaluacion">numero_evaluacion</string>
+    <string name="nombre_materia">nombre materia</string>
+    <string name="btn_crear_persona">Registrar Persona</string>
+    <string name="nombre_tipo_evaluacion">Nombre tipo de evaluacion</string>
 </resources>
