@@ -51,7 +51,7 @@ public class RegistrarCoordinadorActivity extends AppCompatActivity {
         personaService = new PersonaService(getApplicationContext());
         coordinadorService = new CoordinadorService(getApplicationContext());
 
-        MaterialDatePicker datePicker = MaterialDatePicker.Builder.datePicker().setTitleText("Seleccionar Fecha").build();
+        MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker().setTitleText("Seleccionar Fecha").build();
 
 
         btnGuardar.setOnClickListener(v -> {
@@ -72,15 +72,16 @@ public class RegistrarCoordinadorActivity extends AppCompatActivity {
     }
 
     private boolean validarDatos() {
+        boolean valid = true;
         if (coordinadorData.getFechaIngreso() == null) {
             layouFecha.setError("Seleccione Fecha de Ingreso");
-            return false;
+            valid = false;
         }
         if (coordinadorData.getPersona() == null) {
             layouPersona.setError("Seleccione Persona");
-            return false;
+            valid = false;
         }
-        return true;
+        return valid;
     }
 
     private void guardarRegistro() {

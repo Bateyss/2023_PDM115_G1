@@ -1,18 +1,17 @@
 package com.ues.sv.proyecto.controladministrativoapp.views;
 
+import android.content.Intent;
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Bundle;
-
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.ues.sv.proyecto.controladministrativoapp.R;
-import com.ues.sv.proyecto.controladministrativoapp.models.Ciclo;
 import com.ues.sv.proyecto.controladministrativoapp.models.Coordinador;
-import com.ues.sv.proyecto.controladministrativoapp.service.CicloService;
 import com.ues.sv.proyecto.controladministrativoapp.service.CoordinadorService;
 import com.ues.sv.proyecto.controladministrativoapp.service.interfaces.CallBackDisposableInterface;
 import com.ues.sv.proyecto.controladministrativoapp.service.interfaces.CallBackVoidInterface;
@@ -41,8 +40,8 @@ public class VerCoordinadoresActivity extends AppCompatActivity {
         coordinadorService = new CoordinadorService(getApplicationContext());
 
         btnCrear.setOnClickListener(v -> {
-            //Intent intent = new Intent(getBaseContext(), RegistrarAlumnoActivity.class);
-            //startActivity(intent);
+            Intent intent = new Intent(getBaseContext(), RegistrarCoordinadorActivity.class);
+            startActivity(intent);
         });
 
         cargarRecyclerList();
@@ -69,14 +68,12 @@ public class VerCoordinadoresActivity extends AppCompatActivity {
 
                             btnEditar.setOnClickListener(v -> {
                                 btnEliminar.setEnabled(Boolean.FALSE);
-                                /*btnEditar.setEnabled(Boolean.FALSE);
-                                Intent intent = new Intent(getBaseContext(), RegistrarAlumnoActivity.class);
-                                intent.putExtra("Carnet", alumno.getCarnet());
-                                intent.putExtra("Nombre", alumno.getNombre());
-                                intent.putExtra("Apellido", alumno.getApellido());
-                                intent.putExtra("MatGanadas", alumno.getMatGanadas());
-                                intent.putExtra("Sexo", alumno.getSexo());
-                                startActivity(intent);*/
+                                btnEditar.setEnabled(Boolean.FALSE);
+                                Intent intent = new Intent(getBaseContext(), RegistrarCoordinadorActivity.class);
+                                intent.putExtra("IdCoordinador", coordinador.getIdCoordinador());
+                                intent.putExtra("FechaIngreso", coordinador.getFechaIngreso());
+                                intent.putExtra("IdPersona", coordinador.getPersona().getIdPersona());
+                                startActivity(intent);
                             });
 
                             btnEliminar.setOnClickListener(v -> {
