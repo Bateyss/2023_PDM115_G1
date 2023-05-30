@@ -1,5 +1,6 @@
 package com.ues.sv.proyecto.controladministrativoapp.views;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,8 +40,8 @@ public class VerCursoActivity extends AppCompatActivity {
         cursoService = new CursoService(getApplicationContext());
 
         btnCrear.setOnClickListener(v -> {
-            //Intent intent = new Intent(getBaseContext(), RegistrarAlumnoActivity.class);
-            //startActivity(intent);
+            Intent intent = new Intent(getBaseContext(), RegistrarCursoActivity.class);
+            startActivity(intent);
         });
 
         cargarRecyclerList();
@@ -66,14 +67,14 @@ public class VerCursoActivity extends AppCompatActivity {
 
                             btnEditar.setOnClickListener(v -> {
                                 btnEliminar.setEnabled(Boolean.FALSE);
-                                /*btnEditar.setEnabled(Boolean.FALSE);
-                                Intent intent = new Intent(getBaseContext(), RegistrarAlumnoActivity.class);
-                                intent.putExtra("Carnet", alumno.getCarnet());
-                                intent.putExtra("Nombre", alumno.getNombre());
-                                intent.putExtra("Apellido", alumno.getApellido());
-                                intent.putExtra("MatGanadas", alumno.getMatGanadas());
-                                intent.putExtra("Sexo", alumno.getSexo());
-                                startActivity(intent);*/
+                                btnEditar.setEnabled(Boolean.FALSE);
+                                Intent intent = new Intent(getBaseContext(), RegistrarCursoActivity.class);
+                                intent.putExtra("IdCurso", curso.getIdCurso());
+                                intent.putExtra("IdCiclo", curso.getCiclo().getIdCiclo());
+                                intent.putExtra("IdMateria", curso.getMateria().getIdMateria());
+                                intent.putExtra("IdDocente", curso.getDocente().getIdDocente());
+                                intent.putExtra("IdCoordinador", curso.getCoordinador().getIdCoordinador());
+                                startActivity(intent);
                             });
 
                             btnEliminar.setOnClickListener(v -> {

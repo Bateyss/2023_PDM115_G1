@@ -70,23 +70,24 @@ public class RegistrarCursoActivity extends AppCompatActivity {
     }
 
     private boolean validarDatos() {
+        boolean valid = true;
         if (cursoData.getCiclo() == null) {
             layouCiclo.setError("Seleccione ciclo");
-            return false;
+            valid = false;
         }
         if (cursoData.getMateria() == null) {
             layouMateria.setError("Seleccione Materia");
-            return false;
+            valid = false;
         }
         if (cursoData.getDocente() == null) {
             layouDocente.setError("Seleccione Docente");
-            return false;
+            valid = false;
         }
         if (cursoData.getCoordinador() == null) {
             layouCoordinador.setError("Seleccione Coordinador");
-            return false;
+            valid = false;
         }
-        return true;
+        return valid;
     }
 
     private void guardarRegistro() {
