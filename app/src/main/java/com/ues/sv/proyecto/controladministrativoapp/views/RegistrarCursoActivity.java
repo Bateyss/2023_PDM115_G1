@@ -166,19 +166,11 @@ public class RegistrarCursoActivity extends AppCompatActivity {
                 MaterialAutoCompleteTextView autoCompleteTextView = (MaterialAutoCompleteTextView) layouCiclo.getEditText();
                 if (autoCompleteTextView != null) {
                     autoCompleteTextView.setAdapter(adapter);
-                    autoCompleteTextView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            cursoData.setCiclo(ciclos.get(position));
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-
-                        }
-                    });
-                    if (cursoData.getCiclo() != null)
-                        autoCompleteTextView.setSelection(ciclos.indexOf(cursoData.getCiclo()));
+                    autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> cursoData.setCiclo(ciclos.get(position)));
+                    if (cursoData.getCiclo() != null) {
+                        int index = ciclos.lastIndexOf(cursoData.getCiclo());
+                        autoCompleteTextView.setText(autoCompleteTextView.getAdapter().getItem(index).toString(), false);
+                    }
                 }
             }
 
@@ -196,19 +188,11 @@ public class RegistrarCursoActivity extends AppCompatActivity {
                 MaterialAutoCompleteTextView autoCompleteTextView = (MaterialAutoCompleteTextView) layouMateria.getEditText();
                 if (autoCompleteTextView != null) {
                     autoCompleteTextView.setAdapter(adapter);
-                    autoCompleteTextView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            cursoData.setMateria(materias.get(position));
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-
-                        }
-                    });
-                    if (cursoData.getMateria() != null)
-                        autoCompleteTextView.setSelection(materias.indexOf(cursoData.getMateria()));
+                    autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> cursoData.setMateria(materias.get(position)));
+                    if (cursoData.getMateria() != null) {
+                        int index = materias.lastIndexOf(cursoData.getMateria());
+                        autoCompleteTextView.setText(autoCompleteTextView.getAdapter().getItem(index).toString(), false);
+                    }
                 }
             }
 
@@ -226,19 +210,11 @@ public class RegistrarCursoActivity extends AppCompatActivity {
                 MaterialAutoCompleteTextView autoCompleteTextView = (MaterialAutoCompleteTextView) layouDocente.getEditText();
                 if (autoCompleteTextView != null) {
                     autoCompleteTextView.setAdapter(adapter);
-                    autoCompleteTextView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            cursoData.setDocente(docentes.get(position));
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-
-                        }
-                    });
-                    if (cursoData.getDocente() != null)
-                        autoCompleteTextView.setSelection(docentes.indexOf(cursoData.getDocente()));
+                    autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> cursoData.setDocente(docentes.get(position)));
+                    if (cursoData.getDocente() != null) {
+                        int index = docentes.lastIndexOf(cursoData.getDocente());
+                        autoCompleteTextView.setText(autoCompleteTextView.getAdapter().getItem(index).toString(), false);
+                    }
                 }
             }
 
@@ -256,19 +232,11 @@ public class RegistrarCursoActivity extends AppCompatActivity {
                 MaterialAutoCompleteTextView autoCompleteTextView = (MaterialAutoCompleteTextView) layouCoordinador.getEditText();
                 if (autoCompleteTextView != null) {
                     autoCompleteTextView.setAdapter(adapter);
-                    autoCompleteTextView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            cursoData.setCoordinador(coordinadors.get(position));
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-
-                        }
-                    });
-                    if (cursoData.getCoordinador() != null)
-                        autoCompleteTextView.setSelection(coordinadors.indexOf(cursoData.getCoordinador()));
+                    autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> cursoData.setCoordinador(coordinadors.get(position)));
+                    if (cursoData.getCoordinador() != null) {
+                        int index = coordinadors.lastIndexOf(cursoData.getCoordinador());
+                        autoCompleteTextView.setText(autoCompleteTextView.getAdapter().getItem(index).toString(), false);
+                    }
                 }
             }
 

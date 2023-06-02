@@ -145,21 +145,13 @@ public class RegistrarAlumnoActivity extends AppCompatActivity {
                 MaterialAutoCompleteTextView autoCompleteTextView = (MaterialAutoCompleteTextView) layouPersona.getEditText();
                 if (autoCompleteTextView != null) {
                     autoCompleteTextView.setAdapter(adapter);
-                    autoCompleteTextView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            alumnoData.setPersona(personas.get(position));
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-                        }
+                    autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
+                        Persona persona = personas.get(position);
+                        alumnoData.setPersona(persona);
                     });
                     if (alumnoData.getPersona() != null) {
                         int index = personas.lastIndexOf(alumnoData.getPersona());
-                        autoCompleteTextView.setListSelection(index);
-                        int selected = autoCompleteTextView.getListSelection();
-                        Log.i("SELECTED PERSONA", String.valueOf(selected));
+                        autoCompleteTextView.setText(autoCompleteTextView.getAdapter().getItem(index).toString(), false);
                     }
                 }
             }

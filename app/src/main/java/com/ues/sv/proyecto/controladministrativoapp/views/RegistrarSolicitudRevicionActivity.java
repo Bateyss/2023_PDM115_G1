@@ -178,19 +178,11 @@ public class RegistrarSolicitudRevicionActivity extends AppCompatActivity {
                 MaterialAutoCompleteTextView autoCompleteTextView = (MaterialAutoCompleteTextView) layouEvaluacion.getEditText();
                 if (autoCompleteTextView != null) {
                     autoCompleteTextView.setAdapter(adapter);
-                    autoCompleteTextView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            solicitudRevisionSelected.setEvaluacion(evaluacions.get(position));
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-
-                        }
-                    });
-                    if (solicitudRevisionSelected.getEvaluacion() != null)
-                        autoCompleteTextView.setSelection(evaluacions.indexOf(solicitudRevisionSelected.getEvaluacion()));
+                    autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> solicitudRevisionSelected.setEvaluacion(evaluacions.get(position)));
+                    if (solicitudRevisionSelected.getEvaluacion() != null) {
+                        int index = evaluacions.lastIndexOf(solicitudRevisionSelected.getEvaluacion());
+                        autoCompleteTextView.setText(autoCompleteTextView.getAdapter().getItem(index).toString(), false);
+                    }
                 }
             }
 
@@ -208,19 +200,11 @@ public class RegistrarSolicitudRevicionActivity extends AppCompatActivity {
                 MaterialAutoCompleteTextView autoCompleteTextView = (MaterialAutoCompleteTextView) layouEvaluacion.getEditText();
                 if (autoCompleteTextView != null) {
                     autoCompleteTextView.setAdapter(adapter);
-                    autoCompleteTextView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            solicitudRevisionSelected.setInscripcion(inscripcions.get(position));
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-
-                        }
-                    });
-                    if (solicitudRevisionSelected.getInscripcion() != null)
-                        autoCompleteTextView.setSelection(inscripcions.indexOf(solicitudRevisionSelected.getInscripcion()));
+                    autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> solicitudRevisionSelected.setInscripcion(inscripcions.get(position)));
+                    if (solicitudRevisionSelected.getInscripcion() != null) {
+                        int index = inscripcions.lastIndexOf(solicitudRevisionSelected.getInscripcion());
+                        autoCompleteTextView.setText(autoCompleteTextView.getAdapter().getItem(index).toString(), false);
+                    }
                 }
             }
 

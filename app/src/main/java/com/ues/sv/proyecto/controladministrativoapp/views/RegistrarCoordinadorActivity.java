@@ -134,7 +134,7 @@ public class RegistrarCoordinadorActivity extends AppCompatActivity {
             Bundle bundle = getIntent().getExtras();
 
             long idCoordinador = bundle.getLong("IdCoordinador", 0L);
-            if (idCoordinador > 0){
+            if (idCoordinador > 0) {
                 coordinadorService.buscarPorId(idCoordinador, new CallBackDisposableInterface<Coordinador>() {
                     @Override
                     public void onCallBack(Coordinador coordinador) {
@@ -163,19 +163,12 @@ public class RegistrarCoordinadorActivity extends AppCompatActivity {
                 MaterialAutoCompleteTextView autoCompleteTextView = (MaterialAutoCompleteTextView) layouPersona.getEditText();
                 if (autoCompleteTextView != null) {
                     autoCompleteTextView.setAdapter(adapter);
-                    autoCompleteTextView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            coordinadorData.setPersona(personas.get(position));
-                        }
+                    autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> coordinadorData.setPersona(personas.get(position)));
+                    if (coordinadorData.getPersona() != null) {
+                        int index = personas.lastIndexOf(coordinadorData.getPersona());
+                        autoCompleteTextView.setText(autoCompleteTextView.getAdapter().getItem(index).toString(), false);
+                    }
 
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-
-                        }
-                    });
-                    if (coordinadorData.getPersona() != null)
-                        autoCompleteTextView.setSelection(personas.indexOf(coordinadorData.getPersona()));
                 }
             }
 
@@ -185,12 +178,13 @@ public class RegistrarCoordinadorActivity extends AppCompatActivity {
             }
         });
     }
+
     public void onBack() {
         OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
             @Override
             public void handleOnBackPressed() {
                 // Handle the back button event
-                Intent intent = new Intent(getApplicationContext(),VerCoordinadoresActivity.class);
+                Intent intent = new Intent(getApplicationContext(), VerCoordinadoresActivity.class);
                 startActivity(intent);
             }
         };

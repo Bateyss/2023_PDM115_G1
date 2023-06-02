@@ -162,19 +162,11 @@ public class RegistrarDocenteActivity extends AppCompatActivity {
                 MaterialAutoCompleteTextView autoCompleteTextView = (MaterialAutoCompleteTextView) layouPersona.getEditText();
                 if (autoCompleteTextView != null) {
                     autoCompleteTextView.setAdapter(adapter);
-                    autoCompleteTextView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            docenteData.setPersona(personas.get(position));
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-
-                        }
-                    });
-                    if (docenteData.getPersona() != null)
-                        autoCompleteTextView.setSelection(personas.indexOf(docenteData.getPersona()));
+                    autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> docenteData.setPersona(personas.get(position)));
+                    if (docenteData.getPersona() != null) {
+                        int index = personas.lastIndexOf(docenteData.getPersona());
+                        autoCompleteTextView.setText(autoCompleteTextView.getAdapter().getItem(index).toString(), false);
+                    }
                 }
             }
 

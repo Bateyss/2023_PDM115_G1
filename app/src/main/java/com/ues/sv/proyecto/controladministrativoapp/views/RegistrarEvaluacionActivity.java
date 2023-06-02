@@ -166,19 +166,11 @@ public class RegistrarEvaluacionActivity extends AppCompatActivity {
                 MaterialAutoCompleteTextView autoCompleteTextView = (MaterialAutoCompleteTextView) layouCurso.getEditText();
                 if (autoCompleteTextView != null) {
                     autoCompleteTextView.setAdapter(adapter);
-                    autoCompleteTextView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            evaluacionData.setCurso(cursos.get(position));
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-
-                        }
-                    });
-                    if (evaluacionData.getCurso() != null)
-                        autoCompleteTextView.setSelection(cursos.indexOf(evaluacionData.getCurso()));
+                    autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> evaluacionData.setCurso(cursos.get(position)));
+                    if (evaluacionData.getCurso() != null) {
+                        int index = cursos.lastIndexOf(evaluacionData.getCurso());
+                        autoCompleteTextView.setText(autoCompleteTextView.getAdapter().getItem(index).toString(), false);
+                    }
                 }
             }
 
@@ -196,19 +188,11 @@ public class RegistrarEvaluacionActivity extends AppCompatActivity {
                 MaterialAutoCompleteTextView autoCompleteTextView = (MaterialAutoCompleteTextView) layouCurso.getEditText();
                 if (autoCompleteTextView != null) {
                     autoCompleteTextView.setAdapter(adapter);
-                    autoCompleteTextView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            evaluacionData.setTipoEvaluacion(tipoEvaluacions.get(position));
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-
-                        }
-                    });
-                    if (evaluacionData.getCurso() != null)
-                        autoCompleteTextView.setSelection(tipoEvaluacions.indexOf(evaluacionData.getTipoEvaluacion()));
+                    autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> evaluacionData.setTipoEvaluacion(tipoEvaluacions.get(position)));
+                    if (evaluacionData.getTipoEvaluacion() != null) {
+                        int index = tipoEvaluacions.lastIndexOf(evaluacionData.getTipoEvaluacion());
+                        autoCompleteTextView.setText(autoCompleteTextView.getAdapter().getItem(index).toString(), false);
+                    }
                 }
             }
 
