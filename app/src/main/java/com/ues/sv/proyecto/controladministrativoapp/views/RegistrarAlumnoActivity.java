@@ -10,10 +10,12 @@ import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
 import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.Alumno;
 import com.ues.sv.proyecto.controladministrativoapp.models.Persona;
@@ -22,6 +24,8 @@ import com.ues.sv.proyecto.controladministrativoapp.service.PersonaService;
 import com.ues.sv.proyecto.controladministrativoapp.service.interfaces.CallBackDisposableInterface;
 import com.ues.sv.proyecto.controladministrativoapp.service.interfaces.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.ValidationUtils;
+import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.OnlyTxtInterface;
+import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.OnlyTxtSpinnerAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,8 +70,7 @@ public class RegistrarAlumnoActivity extends AppCompatActivity {
         }
         Map<String, TextInputLayout> map = new HashMap<>();
         map.put("carnet", layouCarnet);
-        if (!ValidationUtils.validate(Alumno.class, map))
-            valid = false;
+        if (!ValidationUtils.validate(Alumno.class, map)) valid = false;
         return valid;
     }
 
@@ -79,7 +82,7 @@ public class RegistrarAlumnoActivity extends AppCompatActivity {
                     @Override
                     public void onCallBack() {
                         Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getBaseContext(), VerDocentesActivity.class);
+                        Intent intent = new Intent(getBaseContext(), VerAlumnosActivity.class);
                         startActivity(intent);
                     }
 
@@ -92,7 +95,9 @@ public class RegistrarAlumnoActivity extends AppCompatActivity {
                 alumnoService.registrarEntidad(alumnoData, new CallBackDisposableInterface() {
                     @Override
                     public void onCallBack(Object o) {
-
+                        Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getBaseContext(), VerAlumnosActivity.class);
+                        startActivity(intent);
                     }
 
                     @Override
@@ -148,11 +153,14 @@ public class RegistrarAlumnoActivity extends AppCompatActivity {
 
                         @Override
                         public void onNothingSelected(AdapterView<?> parent) {
-
                         }
                     });
-                    if (alumnoData.getPersona() != null)
-                        autoCompleteTextView.setSelection(personas.lastIndexOf(alumnoData.getPersona()));
+                    if (alumnoData.getPersona() != null) {
+                        int index = personas.lastIndexOf(alumnoData.getPersona());
+                        autoCompleteTextView.setListSelection(index);
+                        int selected = autoCompleteTextView.getListSelection();
+                        Log.i("SELECTED PERSONA", String.valueOf(selected));
+                    }
                 }
             }
 
