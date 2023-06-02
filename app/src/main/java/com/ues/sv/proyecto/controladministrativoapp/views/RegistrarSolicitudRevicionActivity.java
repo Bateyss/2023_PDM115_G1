@@ -122,9 +122,9 @@ public class RegistrarSolicitudRevicionActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    solicitudRevisionService.registrarEntidad(solicitudRevisionSelected, new CallBackVoidInterface() {
+                    solicitudRevisionService.registrarEntidad(solicitudRevisionSelected, new CallBackDisposableInterface() {
                         @Override
-                        public void onCallBack() {
+                        public void onCallBack(Object o) {
                             Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getBaseContext(), VerSolicitudEvaluacionActivity.class);
                             startActivity(intent);

@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
@@ -61,14 +62,15 @@ public class RegistrarCoordinadorActivity extends AppCompatActivity {
         layouFecha.getEditText().setOnClickListener(v -> {
             datePicker.show(getSupportFragmentManager(), "tag");
             datePicker.addOnPositiveButtonClickListener(selection -> {
-                Long timeMilis = (long) selection;
-                Date dateSelected = new Date(timeMilis);
+                Date dateSelected = new Date(selection);
+                coordinadorData.setFechaIngreso(dateSelected);
                 String dateTxt = DateUtils.formatDate(dateSelected, DateUtils.FORMAT_DD_MM_YYYY);
                 layouFecha.getEditText().setText(dateTxt);
             });
         });
 
         cargarDatos();
+        onBack();
     }
 
     private boolean validarDatos() {
@@ -86,7 +88,6 @@ public class RegistrarCoordinadorActivity extends AppCompatActivity {
 
     private void guardarRegistro() {
         try {
-
             try {
                 if (esEditar) {
                     coordinadorService.editarEntidad(coordinadorData, new CallBackVoidInterface() {
@@ -103,9 +104,9 @@ public class RegistrarCoordinadorActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    coordinadorService.registrarEntidad(coordinadorData, new CallBackVoidInterface() {
+                    coordinadorService.registrarEntidad(coordinadorData, new CallBackDisposableInterface() {
                         @Override
-                        public void onCallBack() {
+                        public void onCallBack(Object o) {
                             Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getBaseContext(), VerCoordinadoresActivity.class);
                             startActivity(intent);
@@ -132,27 +133,22 @@ public class RegistrarCoordinadorActivity extends AppCompatActivity {
         try {
             Bundle bundle = getIntent().getExtras();
 
-            coordinadorData.setIdCoordinador(bundle.getLong("IdCoordinador", 0L));
-            personaService.buscarPorId(bundle.getLong("IdPersona", 1L), new CallBackDisposableInterface<Persona>() {
-                @Override
-                public void onCallBack(Persona persona) {
-                    coordinadorData.setPersona(persona);
-                }
+            long idCoordinador = bundle.getLong("IdCoordinador", 0L);
+            if (idCoordinador > 0){
+                coordinadorService.buscarPorId(idCoordinador, new CallBackDisposableInterface<Coordinador>() {
+                    @Override
+                    public void onCallBack(Coordinador coordinador) {
+                        coordinadorData = coordinador;
+                        String dateTxt = DateUtils.formatDate(coordinador.getFechaIngreso(), DateUtils.FORMAT_DD_MM_YYYY);
+                        layouFecha.getEditText().setText(dateTxt);
+                        esEditar = Boolean.TRUE;
+                    }
 
-                @Override
-                public void onThrow(Throwable throwable) {
+                    @Override
+                    public void onThrow(Throwable throwable) {
 
-                }
-            });
-            Date d = DateUtils.getDateFromStringFormat(bundle.getString("FechaIngreso"), DateUtils.FORMAT_YYYY_MM_DD);
-            if (d != null) {
-                coordinadorData.setFechaIngreso(d);
-                String dateTxt = DateUtils.formatDate(d, DateUtils.FORMAT_DD_MM_YYYY);
-                layouFecha.getEditText().setText(dateTxt);
-            }
-
-            if (coordinadorData.getIdCoordinador() > 0 && coordinadorData.getFechaIngreso() != null) {
-                esEditar = Boolean.TRUE;
+                    }
+                });
             }
 
         } catch (Exception e) {
@@ -188,5 +184,16 @@ public class RegistrarCoordinadorActivity extends AppCompatActivity {
 
             }
         });
+    }
+    public void onBack() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                Intent intent = new Intent(getApplicationContext(),VerCoordinadoresActivity.class);
+                startActivity(intent);
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
 }

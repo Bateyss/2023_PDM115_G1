@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
@@ -12,6 +13,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.TipoEvaluacion;
 import com.ues.sv.proyecto.controladministrativoapp.service.TipoEvaluacionService;
+import com.ues.sv.proyecto.controladministrativoapp.service.interfaces.CallBackDisposableInterface;
 import com.ues.sv.proyecto.controladministrativoapp.service.interfaces.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.ValidationUtils;
 
@@ -25,6 +27,8 @@ public class RegistrarTipoEvaluacionActivity extends AppCompatActivity {
 
     private boolean esEditar = Boolean.FALSE;
     private TipoEvaluacionService tipoEvaluacionService;
+
+    private TipoEvaluacion tipoEvaluacionData = new TipoEvaluacion();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,7 @@ public class RegistrarTipoEvaluacionActivity extends AppCompatActivity {
         });
 
         cargarDatos();
+        onBack();
     }
 
     private boolean validarDatos() {
@@ -51,12 +56,12 @@ public class RegistrarTipoEvaluacionActivity extends AppCompatActivity {
 
     private void guardarRegistro() {
         try {
-            TipoEvaluacion tipoEvaluacion = new TipoEvaluacion();
-            tipoEvaluacion.setNombreTipoEvaluacion(layouNombre.getEditText().getText().toString());
+
+            tipoEvaluacionData.setNombreTipoEvaluacion(layouNombre.getEditText().getText().toString());
 
             try {
                 if (esEditar) {
-                    tipoEvaluacionService.editarEntidad(tipoEvaluacion, new CallBackVoidInterface() {
+                    tipoEvaluacionService.editarEntidad(tipoEvaluacionData, new CallBackVoidInterface() {
                         @Override
                         public void onCallBack() {
                             Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
@@ -70,9 +75,9 @@ public class RegistrarTipoEvaluacionActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    tipoEvaluacionService.registrarEntidad(tipoEvaluacion, new CallBackVoidInterface() {
+                    tipoEvaluacionService.registrarEntidad(tipoEvaluacionData, new CallBackDisposableInterface() {
                         @Override
-                        public void onCallBack() {
+                        public void onCallBack(Object o) {
                             Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getBaseContext(), VerTipoEvaluacionActivity.class);
                             startActivity(intent);
@@ -98,15 +103,35 @@ public class RegistrarTipoEvaluacionActivity extends AppCompatActivity {
     private void cargarDatos() {
         try {
             Bundle bundle = getIntent().getExtras();
-            TipoEvaluacion tipoEvaluacion = new TipoEvaluacion();
-            tipoEvaluacion.setIdTipoEvaliacion(bundle.getLong("IdTipoEvaliacion", 0L));
-            tipoEvaluacion.setNombreTipoEvaluacion(bundle.getString("NombreTipoEvaluacion", null));
-            if (tipoEvaluacion.getIdTipoEvaliacion() > 0L && tipoEvaluacion.getNombreTipoEvaluacion() != null) {
-                layouNombre.getEditText().setText(tipoEvaluacion.getNombreTipoEvaluacion());
-                esEditar = Boolean.TRUE;
-            }
+            long idTipoEvaluacion = bundle.getLong("IdTipoEvaluacion", 0L);
+            if (idTipoEvaluacion > 0)
+                tipoEvaluacionService.buscarPorId(idTipoEvaluacion, new CallBackDisposableInterface<TipoEvaluacion>() {
+                    @Override
+                    public void onCallBack(TipoEvaluacion tipoEvaluacion) {
+                        tipoEvaluacionData = tipoEvaluacion;
+                        layouNombre.getEditText().setText(tipoEvaluacion.getNombreTipoEvaluacion());
+                        esEditar = Boolean.TRUE;
+                    }
+
+                    @Override
+                    public void onThrow(Throwable throwable) {
+
+                    }
+                });
         } catch (Exception e) {
             Log.e("CARGAR_DATOS", e.getMessage(), e.getCause());
         }
+    }
+
+    public void onBack() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                Intent intent = new Intent(getApplicationContext(), VerTipoEvaluacionActivity.class);
+                startActivity(intent);
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
 }

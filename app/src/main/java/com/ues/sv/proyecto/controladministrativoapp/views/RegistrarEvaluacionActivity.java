@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
@@ -61,6 +62,7 @@ public class RegistrarEvaluacionActivity extends AppCompatActivity {
             if (validarDatos()) guardarRegistro();
         });
         cargarDatos();
+        onBack();
     }
 
     private boolean validarDatos() {
@@ -80,7 +82,8 @@ public class RegistrarEvaluacionActivity extends AppCompatActivity {
         }
         Map<String, TextInputLayout> map = new HashMap<>();
         map.put("numeroEvaluacion", layouNumero);
-        valid = ValidationUtils.validate(Evaluacion.class, map);
+        if (!ValidationUtils.validate(Evaluacion.class, map))
+            valid = false;
         return valid;
     }
 
@@ -105,9 +108,9 @@ public class RegistrarEvaluacionActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    evaluacionService.registrarEntidad(evaluacionData, new CallBackVoidInterface() {
+                    evaluacionService.registrarEntidad(evaluacionData, new CallBackDisposableInterface() {
                         @Override
-                        public void onCallBack() {
+                        public void onCallBack(Object o) {
                             Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getBaseContext(), VerEvaluacionActivity.class);
                             startActivity(intent);
@@ -134,34 +137,21 @@ public class RegistrarEvaluacionActivity extends AppCompatActivity {
         try {
             Bundle bundle = getIntent().getExtras();
 
-            evaluacionData.setIdEvaluacion(bundle.getLong("IdEvaluacion", 0L));
-            cursoService.buscarPorId(bundle.getLong("IdCurso", 1L), new CallBackDisposableInterface<Curso>() {
-                @Override
-                public void onCallBack(Curso curso) {
-                    evaluacionData.setCurso(curso);
-                }
+            long idEvaluacion = bundle.getLong("IdEvaluacion", 0L);
+            if (idEvaluacion > 0) {
+                evaluacionService.buscarPorId(idEvaluacion, new CallBackDisposableInterface<Evaluacion>() {
+                    @Override
+                    public void onCallBack(Evaluacion evaluacion) {
+                        evaluacionData = evaluacion;
+                        layouNumero.getEditText().setText(evaluacion.getNumeroEvaluacion());
+                        esEditar = Boolean.TRUE;
+                    }
 
-                @Override
-                public void onThrow(Throwable throwable) {
+                    @Override
+                    public void onThrow(Throwable throwable) {
 
-                }
-            });
-            tipoEvaluacionService.buscarPorId(bundle.getLong("IdTipoEvaliacion", 1L), new CallBackDisposableInterface<TipoEvaluacion>() {
-                @Override
-                public void onCallBack(TipoEvaluacion tipoEvaluacion) {
-                    evaluacionData.setTipoEvaluacion(tipoEvaluacion);
-                }
-
-                @Override
-                public void onThrow(Throwable throwable) {
-
-                }
-            });
-            evaluacionData.setNumeroEvaluacion(bundle.getInt("NumeroEvaluacion", 0));
-            layouNumero.getEditText().setText(evaluacionData.getNumeroEvaluacion());
-
-            if (evaluacionData.getIdEvaluacion() > 0 && evaluacionData.getNumeroEvaluacion() != null) {
-                esEditar = Boolean.TRUE;
+                    }
+                });
             }
 
         } catch (Exception e) {
@@ -227,5 +217,17 @@ public class RegistrarEvaluacionActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void onBack() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                Intent intent = new Intent(getApplicationContext(), VerEvaluacionActivity.class);
+                startActivity(intent);
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
 }

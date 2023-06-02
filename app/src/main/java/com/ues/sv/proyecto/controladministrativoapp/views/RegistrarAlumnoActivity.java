@@ -89,12 +89,10 @@ public class RegistrarAlumnoActivity extends AppCompatActivity {
                     }
                 });
             } else {
-                alumnoService.registrarEntidad(alumnoData, new CallBackVoidInterface() {
+                alumnoService.registrarEntidad(alumnoData, new CallBackDisposableInterface() {
                     @Override
-                    public void onCallBack() {
-                        Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getBaseContext(), VerDocentesActivity.class);
-                        startActivity(intent);
+                    public void onCallBack(Object o) {
+
                     }
 
                     @Override
@@ -154,7 +152,7 @@ public class RegistrarAlumnoActivity extends AppCompatActivity {
                         }
                     });
                     if (alumnoData.getPersona() != null)
-                        autoCompleteTextView.setSelection(personas.indexOf(alumnoData.getPersona()));
+                        autoCompleteTextView.setSelection(personas.lastIndexOf(alumnoData.getPersona()));
                 }
             }
 

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
@@ -12,6 +13,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.Ciclo;
 import com.ues.sv.proyecto.controladministrativoapp.service.CicloService;
+import com.ues.sv.proyecto.controladministrativoapp.service.interfaces.CallBackDisposableInterface;
 import com.ues.sv.proyecto.controladministrativoapp.service.interfaces.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.ValidationUtils;
 
@@ -27,6 +29,8 @@ public class RegistrarCicloActivity extends AppCompatActivity {
     private boolean esEditar = Boolean.FALSE;
 
     private CicloService cicloService;
+
+    private Ciclo cicloData = new Ciclo();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,7 @@ public class RegistrarCicloActivity extends AppCompatActivity {
         });
 
         cargarDatos();
+        onBack();
     }
 
     private boolean validarDatos() {
@@ -55,7 +60,7 @@ public class RegistrarCicloActivity extends AppCompatActivity {
 
     private void guardarRegistro() {
         try {
-            Ciclo ciclo = new Ciclo();
+            Ciclo ciclo = cicloData;
             ciclo.setNumeroCiclo(layouNumero.getEditText().getText().toString());
             ciclo.setNumeroAnio(layouAnio.getEditText().getText().toString());
 
@@ -64,7 +69,7 @@ public class RegistrarCicloActivity extends AppCompatActivity {
                     cicloService.editarEntidad(ciclo, new CallBackVoidInterface() {
                         @Override
                         public void onCallBack() {
-                            Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getBaseContext(), "editado", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getBaseContext(), VerCiclosActivity.class);
                             startActivity(intent);
                         }
@@ -75,19 +80,20 @@ public class RegistrarCicloActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    cicloService.registrarEntidad(ciclo, new CallBackVoidInterface() {
-                        @Override
-                        public void onCallBack() {
-                            Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getBaseContext(), VerCiclosActivity.class);
-                            startActivity(intent);
-                        }
+                    cicloService.registrarEntidad(ciclo, new CallBackDisposableInterface() {
+                                @Override
+                                public void onCallBack(Object o) {
+                                    Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(getBaseContext(), VerCiclosActivity.class);
+                                    startActivity(intent);
+                                }
 
-                        @Override
-                        public void onThrow(Throwable throwable) {
+                                @Override
+                                public void onThrow(Throwable throwable) {
 
-                        }
-                    });
+                                }
+                            }
+                    );
                 }
 
             } catch (Exception ex) {
@@ -103,19 +109,38 @@ public class RegistrarCicloActivity extends AppCompatActivity {
     private void cargarDatos() {
         try {
             Bundle bundle = getIntent().getExtras();
-            Ciclo ciclo = new Ciclo();
-            ciclo.setIdCiclo(bundle.getLong("IdCiclo", 0L));
-            ciclo.setNumeroCiclo(bundle.getString("NumeroCiclo", null));
-            ciclo.setNumeroAnio(bundle.getString("NumeroAnio", null));
 
-            if (ciclo.getIdCiclo() > 0L && ciclo.getNumeroCiclo() != null && ciclo.getNumeroAnio() != null) {
-                layouNumero.getEditText().setText(ciclo.getNumeroCiclo());
-                layouAnio.getEditText().setText(ciclo.getNumeroAnio());
-                esEditar = Boolean.TRUE;
-            }
+            long idCiclo = bundle.getLong("IdCiclo", 0L);
+            if (idCiclo > 0)
+                cicloService.buscarPorId(idCiclo, new CallBackDisposableInterface<Ciclo>() {
+                    @Override
+                    public void onCallBack(Ciclo ciclo) {
+                        layouNumero.getEditText().setText(ciclo.getNumeroCiclo());
+                        layouAnio.getEditText().setText(ciclo.getNumeroAnio());
+                        cicloData = ciclo;
+                        esEditar = Boolean.TRUE;
+                    }
+
+                    @Override
+                    public void onThrow(Throwable throwable) {
+
+                    }
+                });
 
         } catch (Exception e) {
             Log.e("CARGAR_DATOS", e.getMessage(), e.getCause());
         }
+    }
+
+    public void onBack() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                Intent intent = new Intent(getApplicationContext(), VerCiclosActivity.class);
+                startActivity(intent);
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
 }

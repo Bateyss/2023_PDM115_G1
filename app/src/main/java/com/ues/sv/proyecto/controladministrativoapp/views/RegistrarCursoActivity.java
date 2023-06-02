@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
@@ -67,6 +68,7 @@ public class RegistrarCursoActivity extends AppCompatActivity {
         });
 
         cargarDatos();
+        onBack();
     }
 
     private boolean validarDatos() {
@@ -97,7 +99,7 @@ public class RegistrarCursoActivity extends AppCompatActivity {
                     cursoService.editarEntidad(cursoData, new CallBackVoidInterface() {
                         @Override
                         public void onCallBack() {
-                            Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getBaseContext(), "editado", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getBaseContext(), VerCursoActivity.class);
                             startActivity(intent);
                         }
@@ -108,9 +110,9 @@ public class RegistrarCursoActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    cursoService.registrarEntidad(cursoData, new CallBackVoidInterface() {
+                    cursoService.registrarEntidad(cursoData, new CallBackDisposableInterface() {
                         @Override
-                        public void onCallBack() {
+                        public void onCallBack(Object o) {
                             Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getBaseContext(), VerCursoActivity.class);
                             startActivity(intent);
@@ -137,56 +139,20 @@ public class RegistrarCursoActivity extends AppCompatActivity {
         try {
             Bundle bundle = getIntent().getExtras();
 
-            cursoData.setIdCurso(bundle.getLong("IdCurso", 0L));
-            cicloService.buscarPorId(bundle.getLong("IdCiclo", 1L), new CallBackDisposableInterface<Ciclo>() {
-                @Override
-                public void onCallBack(Ciclo ciclo) {
-                    cursoData.setCiclo(ciclo);
-                }
+            long idCurso = bundle.getLong("IdCurso", 0L);
+            if (idCurso > 0)
+                cursoService.buscarPorId(idCurso, new CallBackDisposableInterface<Curso>() {
+                    @Override
+                    public void onCallBack(Curso curso) {
+                        cursoData = curso;
+                        esEditar = Boolean.TRUE;
+                    }
 
-                @Override
-                public void onThrow(Throwable throwable) {
+                    @Override
+                    public void onThrow(Throwable throwable) {
 
-                }
-            });
-            materiaService.buscarPorId(bundle.getLong("IdMateria", 1L), new CallBackDisposableInterface<Materia>() {
-                @Override
-                public void onCallBack(Materia materia) {
-                    cursoData.setMateria(materia);
-                }
-
-                @Override
-                public void onThrow(Throwable throwable) {
-
-                }
-            });
-            docenteService.buscarPorId(bundle.getLong("IdDocente", 1L), new CallBackDisposableInterface<Docente>() {
-                @Override
-                public void onCallBack(Docente docente) {
-                    cursoData.setDocente(docente);
-                }
-
-                @Override
-                public void onThrow(Throwable throwable) {
-
-                }
-            });
-            coordinadorService.buscarPorId(bundle.getLong("IdCoordinador", 1L), new CallBackDisposableInterface<Coordinador>() {
-                @Override
-                public void onCallBack(Coordinador coordinador) {
-                    cursoData.setCoordinador(coordinador);
-                }
-
-                @Override
-                public void onThrow(Throwable throwable) {
-
-                }
-            });
-
-
-            if (cursoData.getIdCurso() > 0) {
-                esEditar = Boolean.TRUE;
-            }
+                    }
+                });
 
         } catch (Exception e) {
             Log.e("CARGAR_DATOS", e.getMessage(), e.getCause());
@@ -311,5 +277,17 @@ public class RegistrarCursoActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void onBack() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                Intent intent = new Intent(getApplicationContext(), VerCursoActivity.class);
+                startActivity(intent);
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
 }

@@ -1,9 +1,11 @@
 package com.ues.sv.proyecto.controladministrativoapp.views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
@@ -11,6 +13,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.Persona;
 import com.ues.sv.proyecto.controladministrativoapp.service.PersonaService;
+import com.ues.sv.proyecto.controladministrativoapp.service.interfaces.CallBackDisposableInterface;
 import com.ues.sv.proyecto.controladministrativoapp.service.interfaces.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.ValidationUtils;
 
@@ -24,6 +27,8 @@ public class RegistrarPersonaActivity extends AppCompatActivity {
 
     private boolean esEditar = Boolean.FALSE;
     private PersonaService personaService;
+
+    private Persona personaData = new Persona();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,7 @@ public class RegistrarPersonaActivity extends AppCompatActivity {
         });
 
         cargarDatos();
+        onBack();
     }
 
     private boolean validarDatos() {
@@ -56,7 +62,7 @@ public class RegistrarPersonaActivity extends AppCompatActivity {
 
     private void guardarRegistro() {
         try {
-            Persona persona = new Persona();
+            Persona persona = personaData;
             persona.setNombre(layouNombre.getEditText().getText().toString());
             persona.setApellido(layouApellido.getEditText().getText().toString());
             persona.setIdentificacion(layouIdentificacion.getEditText().getText().toString());
@@ -80,14 +86,12 @@ public class RegistrarPersonaActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    personaService.registrarEntidad(persona, new CallBackVoidInterface() {
+                    personaService.registrarEntidad(persona, new CallBackDisposableInterface() {
                         @Override
-                        public void onCallBack() {
+                        public void onCallBack(Object o) {
                             Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
-                            layouNombre.getEditText().setText(null);
-                            layouApellido.getEditText().setText(null);
-                            layouIdentificacion.getEditText().setText(null);
-                            layouSexo.getEditText().setText(null);
+                            Intent intent = new Intent(getBaseContext(), InicioActivity.class);
+                            startActivity(intent);
                         }
 
                         @Override
@@ -110,21 +114,38 @@ public class RegistrarPersonaActivity extends AppCompatActivity {
     private void cargarDatos() {
         try {
             Bundle bundle = getIntent().getExtras();
-            Persona persona = new Persona();
-            persona.setIdPersona(bundle.getLong("IdPersona", 0L));
-            persona.setNombre(bundle.getString("Nombre", null));
-            persona.setApellido(bundle.getString("Apellido", null));
-            persona.setIdentificacion(bundle.getString("Identificacion", null));
-            if (persona.getIdPersona() > 0L && persona.getNombre() != null
-                    && persona.getApellido() != null) {
-                layouNombre.getEditText().setText(persona.getNombre());
-                layouApellido.getEditText().setText(persona.getApellido());
-                layouIdentificacion.getEditText().setText(persona.getIdentificacion());
-                layouSexo.getEditText().setText(persona.getSexo());
-                esEditar = Boolean.TRUE;
-            }
+            long idPersona = bundle.getLong("IdPersona", 0L);
+            if (idPersona > 0)
+                personaService.buscarPorId(idPersona, new CallBackDisposableInterface<Persona>() {
+                    @Override
+                    public void onCallBack(Persona persona) {
+                        personaData = persona;
+                        layouNombre.getEditText().setText(persona.getNombre());
+                        layouApellido.getEditText().setText(persona.getApellido());
+                        layouIdentificacion.getEditText().setText(persona.getIdentificacion());
+                        layouSexo.getEditText().setText(persona.getSexo());
+                        esEditar = Boolean.TRUE;
+                    }
+
+                    @Override
+                    public void onThrow(Throwable throwable) {
+
+                    }
+                });
         } catch (Exception e) {
             Log.e("CARGAR_DATOS", e.getMessage(), e.getCause());
         }
+    }
+
+    public void onBack() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                Intent intent = new Intent(getApplicationContext(), InicioActivity.class);
+                startActivity(intent);
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
 }

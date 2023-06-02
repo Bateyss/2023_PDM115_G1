@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
@@ -61,12 +62,14 @@ public class RegistrarDocenteActivity extends AppCompatActivity {
             datePicker.addOnPositiveButtonClickListener(selection -> {
                 Long timeMilis = (long) selection;
                 Date dateSelected = new Date(timeMilis);
+                docenteData.setFechaIngreso(dateSelected);
                 String dateTxt = DateUtils.formatDate(dateSelected, DateUtils.FORMAT_DD_MM_YYYY);
                 layouFecha.getEditText().setText(dateTxt);
             });
         });
 
         cargarDatos();
+        onBack();
     }
 
     private boolean validarDatos() {
@@ -101,9 +104,9 @@ public class RegistrarDocenteActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    docenteService.registrarEntidad(docenteData, new CallBackVoidInterface() {
+                    docenteService.registrarEntidad(docenteData, new CallBackDisposableInterface() {
                         @Override
-                        public void onCallBack() {
+                        public void onCallBack(Object o) {
                             Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getBaseContext(), VerDocentesActivity.class);
                             startActivity(intent);
@@ -130,28 +133,22 @@ public class RegistrarDocenteActivity extends AppCompatActivity {
         try {
             Bundle bundle = getIntent().getExtras();
 
-            docenteData.setIdDocente(bundle.getLong("IdDocente", 0L));
-            personaService.buscarPorId(bundle.getLong("IdPersona", 1L), new CallBackDisposableInterface<Persona>() {
-                @Override
-                public void onCallBack(Persona persona) {
-                    docenteData.setPersona(persona);
-                }
+            long idDocente = bundle.getLong("IdDocente", 0L);
+            if (idDocente > 0)
+                docenteService.buscarPorId(idDocente, new CallBackDisposableInterface<Docente>() {
+                    @Override
+                    public void onCallBack(Docente docente) {
+                        docenteData = docente;
+                        String dateTxt = DateUtils.formatDate(docente.getFechaIngreso(), DateUtils.FORMAT_DD_MM_YYYY);
+                        layouFecha.getEditText().setText(dateTxt);
+                        esEditar = Boolean.TRUE;
+                    }
 
-                @Override
-                public void onThrow(Throwable throwable) {
+                    @Override
+                    public void onThrow(Throwable throwable) {
 
-                }
-            });
-            Date d = DateUtils.getDateFromStringFormat(bundle.getString("FechaIngreso"), DateUtils.FORMAT_YYYY_MM_DD);
-            if (d != null) {
-                docenteData.setFechaIngreso(d);
-                String dateTxt = DateUtils.formatDate(d, DateUtils.FORMAT_DD_MM_YYYY);
-                layouFecha.getEditText().setText(dateTxt);
-            }
-
-            if (docenteData.getIdDocente() > 0 && docenteData.getFechaIngreso() != null) {
-                esEditar = Boolean.TRUE;
-            }
+                    }
+                });
 
         } catch (Exception e) {
             Log.e("CARGAR_DATOS", e.getMessage(), e.getCause());
@@ -186,5 +183,17 @@ public class RegistrarDocenteActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void onBack() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                Intent intent = new Intent(getApplicationContext(), VerDocentesActivity.class);
+                startActivity(intent);
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
 }
