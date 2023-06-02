@@ -3,6 +3,7 @@ package com.ues.sv.proyecto.controladministrativoapp.views;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -45,6 +46,7 @@ public class VerCursoActivity extends AppCompatActivity {
         });
 
         cargarRecyclerList();
+        onBack();
     }
 
     private void cargarRecyclerList() {
@@ -54,7 +56,7 @@ public class VerCursoActivity extends AppCompatActivity {
                 OnlyTxtRecyclerAdapter<Curso> recyclerAdapter = new OnlyTxtRecyclerAdapter<Curso>(cursos, getBaseContext(), new OnlyTxtInterface<Curso>() {
                     @Override
                     public void imprimirdatos(MaterialTextView textView, Curso curso) {
-                        String txt = curso.getMateria() + " " + curso.getCiclo().getNumeroAnio();
+                        String txt = curso.getMateria().getNombreMateria() + " " + curso.getCiclo().getNumeroAnio();
                         textView.setText(txt);
                     }
 
@@ -70,10 +72,6 @@ public class VerCursoActivity extends AppCompatActivity {
                                 btnEditar.setEnabled(Boolean.FALSE);
                                 Intent intent = new Intent(getBaseContext(), RegistrarCursoActivity.class);
                                 intent.putExtra("IdCurso", curso.getIdCurso());
-                                intent.putExtra("IdCiclo", curso.getCiclo().getIdCiclo());
-                                intent.putExtra("IdMateria", curso.getMateria().getIdMateria());
-                                intent.putExtra("IdDocente", curso.getDocente().getIdDocente());
-                                intent.putExtra("IdCoordinador", curso.getCoordinador().getIdCoordinador());
                                 startActivity(intent);
                             });
 
@@ -104,5 +102,16 @@ public class VerCursoActivity extends AppCompatActivity {
 
             }
         });
+    }
+    public void onBack() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                Intent intent = new Intent(getApplicationContext(),InicioActivity.class);
+                startActivity(intent);
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
 }

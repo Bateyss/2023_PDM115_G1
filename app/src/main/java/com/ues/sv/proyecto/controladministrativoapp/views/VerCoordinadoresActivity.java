@@ -3,6 +3,7 @@ package com.ues.sv.proyecto.controladministrativoapp.views;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -45,7 +46,7 @@ public class VerCoordinadoresActivity extends AppCompatActivity {
         });
 
         cargarRecyclerList();
-
+        onBack();
     }
 
     private void cargarRecyclerList() {
@@ -71,8 +72,6 @@ public class VerCoordinadoresActivity extends AppCompatActivity {
                                 btnEditar.setEnabled(Boolean.FALSE);
                                 Intent intent = new Intent(getBaseContext(), RegistrarCoordinadorActivity.class);
                                 intent.putExtra("IdCoordinador", coordinador.getIdCoordinador());
-                                intent.putExtra("FechaIngreso", coordinador.getFechaIngreso());
-                                intent.putExtra("IdPersona", coordinador.getPersona().getIdPersona());
                                 startActivity(intent);
                             });
 
@@ -103,5 +102,16 @@ public class VerCoordinadoresActivity extends AppCompatActivity {
 
             }
         });
+    }
+    public void onBack() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                Intent intent = new Intent(getApplicationContext(),InicioActivity.class);
+                startActivity(intent);
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
 }

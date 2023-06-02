@@ -114,10 +114,10 @@ public class VerImpresionesActivity extends AppCompatActivity {
                 motivoErrorImpresion.setIdMotivo(0L);
                 motivoErrorImpresion.setDescripcionMotivo(motivoText);
                 motivoErrorImpresion.setImpresion(this.impresionData);
-                motivoErrorImpresionService.registrarEntidad(motivoErrorImpresion, new CallBackVoidInterface() {
+                motivoErrorImpresionService.registrarEntidad(motivoErrorImpresion, new CallBackDisposableInterface() {
                     @Override
-                    public void onCallBack() {
-                        cargarDatos();
+                    public void onCallBack(Object o) {
+
                     }
 
                     @Override
@@ -152,12 +152,13 @@ public class VerImpresionesActivity extends AppCompatActivity {
             }
         }
     }
+
     public void onBack() {
         OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
             @Override
             public void handleOnBackPressed() {
                 // Handle the back button event
-                Intent intent = new Intent(getApplicationContext(),VerEvaluacionActivity.class);
+                Intent intent = new Intent(getApplicationContext(), VerEvaluacionActivity.class);
                 startActivity(intent);
             }
         };
