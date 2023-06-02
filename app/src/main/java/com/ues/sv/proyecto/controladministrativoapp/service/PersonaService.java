@@ -28,10 +28,11 @@ public class PersonaService implements ServiceInterface<Persona, Long> {
 
     @Override
     public void registrarEntidad(Persona persona, CallBackVoidInterface voidInterface) {
-        persona.setIdPersona(0L);
+
         DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
             @Override
             public Completable completableAction() {
+                persona.setIdPersona(null);
                 return personaDao.insertPersona(persona);
             }
 

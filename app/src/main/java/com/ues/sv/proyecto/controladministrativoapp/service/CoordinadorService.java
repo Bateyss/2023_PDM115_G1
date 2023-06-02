@@ -29,7 +29,7 @@ public class CoordinadorService implements ServiceInterface<Coordinador, Long> {
 
     @Override
     public void registrarEntidad(Coordinador coordinador, CallBackVoidInterface voidInterface) {
-        coordinador.setIdCoordinador(0L);
+        coordinador.setIdCoordinador(null);
         DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
             @Override
             public Completable completableAction() {

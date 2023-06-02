@@ -29,7 +29,7 @@ public class CursoService implements ServiceInterface<Curso, Long> {
 
     @Override
     public void registrarEntidad(Curso curso, CallBackVoidInterface voidInterface) {
-        curso.setIdCurso(0L);
+        curso.setIdCurso(null);
         DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
             @Override
             public Completable completableAction() {

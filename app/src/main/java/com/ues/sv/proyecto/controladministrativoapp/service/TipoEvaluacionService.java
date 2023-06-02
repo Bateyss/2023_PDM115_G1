@@ -29,10 +29,10 @@ public class TipoEvaluacionService implements ServiceInterface<TipoEvaluacion, L
 
     @Override
     public void registrarEntidad(TipoEvaluacion tipoEvaluacion, CallBackVoidInterface voidInterface) {
-        tipoEvaluacion.setIdTipoEvaliacion(0L);
         DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
             @Override
             public Completable completableAction() {
+                tipoEvaluacion.setIdTipoEvaluacion(null);
                 return tipoEvaluacionDao.insertTipoEvaluacion(tipoEvaluacion);
             }
 

@@ -29,7 +29,7 @@ public class MateriaService implements ServiceInterface<Materia, Long> {
 
     @Override
     public void registrarEntidad(Materia materia, CallBackVoidInterface voidInterface) {
-        materia.setIdMateria(0L);
+        materia.setIdMateria(null);
         DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
             @Override
             public Completable completableAction() {

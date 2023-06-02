@@ -21,7 +21,6 @@ public class CicloService implements ServiceInterface<Ciclo, Long> {
 
     private final CicloDao cicloDao;
 
-
     public CicloService(Context context) {
         DatabaseHandler handler = DatabaseHandler.getInstance(context);
         this.cicloDao = handler.cicloDao();
@@ -29,7 +28,7 @@ public class CicloService implements ServiceInterface<Ciclo, Long> {
 
     @Override
     public void registrarEntidad(Ciclo ciclo, CallBackVoidInterface voidInterface) {
-        ciclo.setIdCiclo(0L);
+        ciclo.setIdCiclo(null);
         DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
             @Override
             public Completable completableAction() {

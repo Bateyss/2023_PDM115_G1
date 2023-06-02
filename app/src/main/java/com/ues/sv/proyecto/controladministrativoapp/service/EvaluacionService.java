@@ -4,7 +4,9 @@ import android.content.Context;
 import android.util.Log;
 
 import com.ues.sv.proyecto.controladministrativoapp.dao.EvaluacionDao;
+import com.ues.sv.proyecto.controladministrativoapp.models.EncargadoImpresion;
 import com.ues.sv.proyecto.controladministrativoapp.models.Evaluacion;
+import com.ues.sv.proyecto.controladministrativoapp.models.Impresion;
 import com.ues.sv.proyecto.controladministrativoapp.service.interfaces.CallBackDisposableInterface;
 import com.ues.sv.proyecto.controladministrativoapp.service.interfaces.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.service.interfaces.ServiceInterface;
@@ -20,16 +22,20 @@ import io.reactivex.rxjava3.disposables.Disposable;
 public class EvaluacionService implements ServiceInterface<Evaluacion, Long> {
 
     private final EvaluacionDao evaluacionDao;
+    private final ImpresionService impresionService;
+    private final EncargadoImpresionService encargadoImpresionService;
 
 
     public EvaluacionService(Context context) {
         DatabaseHandler handler = DatabaseHandler.getInstance(context);
         this.evaluacionDao = handler.evaluacionDao();
+        this.impresionService = new ImpresionService(context);
+        this.encargadoImpresionService = new EncargadoImpresionService(context);
     }
 
     @Override
     public void registrarEntidad(Evaluacion evaluacion, CallBackVoidInterface voidInterface) {
-        evaluacion.setIdEvaluacion(0L);
+        evaluacion.setIdEvaluacion(null);
         DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
             @Override
             public Completable completableAction() {
@@ -39,6 +45,35 @@ public class EvaluacionService implements ServiceInterface<Evaluacion, Long> {
             @Override
             public void onCallback() {
                 voidInterface.onCallBack();
+                encargadoImpresionService.findFirst( new CallBackDisposableInterface<EncargadoImpresion>() {
+                    @Override
+                    public void onCallBack(EncargadoImpresion encargadoImpresion) {
+                        Impresion impresion = new Impresion();
+                        impresion.setIdImpresion(0L);
+                        impresion.setEstadoImpresion(0);
+                        impresion.setEvaluacion(evaluacion);
+                        impresion.setObservacionesImpresion("");
+                        impresion.setEncargadoImpresion(encargadoImpresion);
+                        impresion.setFormato("");
+                        impresionService.registrarEntidad(impresion, new CallBackVoidInterface() {
+                            @Override
+                            public void onCallBack() {
+
+                            }
+
+                            @Override
+                            public void onThrow(Throwable throwable) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onThrow(Throwable throwable) {
+
+                    }
+                });
+
             }
 
             @Override
