@@ -12,11 +12,12 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
 
 @Dao
 public interface EncargadoImpresionDao {
     @Insert
-    Completable insertEncargadoImpresion(EncargadoImpresion encargadoImpresion);
+    Single<Long> insertEncargadoImpresion(EncargadoImpresion encargadoImpresion);
 
     @Update
     Completable updateEncargadoImpresion(EncargadoImpresion encargadoImpresion);

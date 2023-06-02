@@ -12,11 +12,12 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
 
 @Dao
 public interface ImpresionDao {
     @Insert
-    Completable insertImpresion(Impresion impresion);
+    Single<Long> insertImpresion(Impresion impresion);
 
     @Update
     Completable updateImpresion(Impresion impresion);

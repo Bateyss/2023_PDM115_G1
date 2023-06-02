@@ -12,11 +12,12 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
 
 @Dao
 public interface AlumnoDao {
     @Insert
-    Completable insertAlumno(Alumno alumno);
+    Single<Long> insertAlumno(Alumno alumno);
 
     @Update
     Completable updateAlumno(Alumno alumno);

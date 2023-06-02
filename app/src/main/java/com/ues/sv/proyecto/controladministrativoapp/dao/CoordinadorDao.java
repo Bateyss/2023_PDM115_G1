@@ -12,11 +12,12 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
 
 @Dao
 public interface CoordinadorDao {
     @Insert
-    Completable insertCoordinador(Coordinador coordinador);
+    Single<Long> insertCoordinador(Coordinador coordinador);
 
     @Update
     Completable updateCoordinador(Coordinador coordinador);

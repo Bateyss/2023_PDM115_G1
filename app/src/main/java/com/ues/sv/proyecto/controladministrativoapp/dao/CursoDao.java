@@ -12,11 +12,12 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
 
 @Dao
 public interface CursoDao {
     @Insert
-    Completable insertCurso(Curso curso);
+    Single<Long> insertCurso(Curso curso);
 
     @Update
     Completable updateCurso(Curso curso);

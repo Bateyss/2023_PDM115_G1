@@ -12,11 +12,12 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
 
 @Dao
 public interface ParametrosDao {
     @Insert
-    Completable insertParametros(Parametros parametros);
+    Single<Long> insertParametros(Parametros parametros);
 
     @Update
     Completable updateParametros(Parametros parametros);

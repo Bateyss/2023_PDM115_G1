@@ -12,11 +12,12 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
 
 @Dao
 public interface MotivoErrorImpresionDao {
     @Insert
-    Completable insertMotivoErrorImpresion(MotivoErrorImpresion motivoErrorImpresion);
+    Single<Long> insertMotivoErrorImpresion(MotivoErrorImpresion motivoErrorImpresion);
 
     @Update
     Completable updateMotivoErrorImpresion(MotivoErrorImpresion motivoErrorImpresion);

@@ -12,11 +12,12 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
 
 @Dao
 public interface InscripcionDao {
     @Insert
-    Completable insertInscripcion(Inscripcion inscripcion);
+    Single<Long> insertInscripcion(Inscripcion inscripcion);
 
     @Update
     Completable updateInscripcion(Inscripcion inscripcion);

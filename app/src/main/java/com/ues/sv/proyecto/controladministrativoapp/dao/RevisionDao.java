@@ -12,11 +12,12 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
 
 @Dao
 public interface RevisionDao {
     @Insert
-    Completable insertRevision(Revision revision);
+    Single<Long> insertRevision(Revision revision);
 
     @Update
     Completable updateRevision(Revision revision);
