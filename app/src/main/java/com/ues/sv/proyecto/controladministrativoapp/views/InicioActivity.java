@@ -142,6 +142,9 @@ public class InicioActivity extends AppCompatActivity {
                 }
             });
         });
+        tipoEvaluacions.get(0).setIdTipoEvaluacion(1L);
+        tipoEvaluacions.get(1).setIdTipoEvaluacion(2L);
+        tipoEvaluacions.get(2).setIdTipoEvaluacion(3L);
 
         List<Materia> materias = new ArrayList<>();
         materias.add(new Materia(1L, "Materia 1"));
@@ -161,6 +164,11 @@ public class InicioActivity extends AppCompatActivity {
                 }
             });
         });
+        materias.get(0).setIdMateria(1L);
+        materias.get(1).setIdMateria(2L);
+        materias.get(2).setIdMateria(3L);
+        materias.get(3).setIdMateria(4L);
+
         List<Ciclo> ciclos = new ArrayList<>();
         ciclos.add(new Ciclo(1L, "01", "2023"));
         ciclos.add(new Ciclo(2L, "02", "2023"));
@@ -177,6 +185,10 @@ public class InicioActivity extends AppCompatActivity {
 
             }
         }));
+        ciclos.get(0).setIdCiclo(1L);
+        ciclos.get(1).setIdCiclo(2L);
+        ciclos.get(2).setIdCiclo(3L);
+        ciclos.get(3).setIdCiclo(4L);
 
         List<Parametros> parametros = new ArrayList<>();
         parametros.add(new Parametros(1L, "MAX_DAY_SOL_REVISION", "10", 1));
@@ -211,6 +223,9 @@ public class InicioActivity extends AppCompatActivity {
 
             }
         }));
+        personas.get(0).setIdPersona(1L);
+        personas.get(1).setIdPersona(2L);
+        personas.get(2).setIdPersona(3L);
 
         List<Alumno> alumnos = new ArrayList<>();
         alumnos.add(new Alumno(1L, personas.get(0), "AA" + personas.get(0).getIdentificacion()));
@@ -227,6 +242,9 @@ public class InicioActivity extends AppCompatActivity {
 
             }
         }));
+        alumnos.get(0).setIdAlumno(1L);
+        alumnos.get(1).setIdAlumno(2L);
+        alumnos.get(2).setIdAlumno(3L);
 
         List<Docente> docentes = new ArrayList<>();
         docentes.add(new Docente(1L, personas.get(0), new Date()));
@@ -243,6 +261,9 @@ public class InicioActivity extends AppCompatActivity {
 
             }
         }));
+        docentes.get(0).setIdDocente(1L);
+        docentes.get(1).setIdDocente(2L);
+        docentes.get(2).setIdDocente(3L);
 
         List<EncargadoImpresion> encargadoImpresions = new ArrayList<>();
         encargadoImpresions.add(new EncargadoImpresion(1L, personas.get(0), "Area x"));
@@ -259,6 +280,9 @@ public class InicioActivity extends AppCompatActivity {
 
             }
         }));
+        encargadoImpresions.get(0).setIdEncargado(1L);
+        encargadoImpresions.get(1).setIdEncargado(2L);
+        encargadoImpresions.get(2).setIdEncargado(3L);
 
         List<Coordinador> coordinadors = new ArrayList<>();
         coordinadors.add(new Coordinador(1L, personas.get(0), new Date()));
@@ -275,6 +299,9 @@ public class InicioActivity extends AppCompatActivity {
 
             }
         }));
+        coordinadors.get(0).setIdCoordinador(1L);
+        coordinadors.get(1).setIdCoordinador(2L);
+        coordinadors.get(2).setIdCoordinador(3L);
 
         List<Curso> cursos = new ArrayList<>();
         cursos.add(new Curso(1L, ciclos.get(0), materias.get(0), docentes.get(0), coordinadors.get(0)));
@@ -291,6 +318,9 @@ public class InicioActivity extends AppCompatActivity {
 
             }
         }));
+        cursos.get(0).setIdCurso(1L);
+        cursos.get(1).setIdCurso(2L);
+        cursos.get(2).setIdCurso(3L);
 
         List<Inscripcion> inscripciones = new ArrayList<>();
         inscripciones.add(new Inscripcion(1L, alumnos.get(0), cursos.get(0)));
@@ -307,6 +337,9 @@ public class InicioActivity extends AppCompatActivity {
 
             }
         }));
+        inscripciones.get(0).setIdInscripcion(1L);
+        inscripciones.get(1).setIdInscripcion(2L);
+        inscripciones.get(2).setIdInscripcion(3L);
 
         List<Evaluacion> evaluaciones = new ArrayList<>();
         evaluaciones.add(new Evaluacion(1L, cursos.get(0), tipoEvaluacions.get(0), 1));
@@ -323,6 +356,9 @@ public class InicioActivity extends AppCompatActivity {
 
             }
         }));
+        evaluaciones.get(0).setIdEvaluacion(1L);
+        evaluaciones.get(1).setIdEvaluacion(2L);
+        evaluaciones.get(2).setIdEvaluacion(3L);
 
         List<SolicitudRevision> solicitudRevisiones = new ArrayList<>();
         solicitudRevisiones.add(new SolicitudRevision(1L, inscripciones.get(0), evaluaciones.get(1), "asd", new Date(), 1));
