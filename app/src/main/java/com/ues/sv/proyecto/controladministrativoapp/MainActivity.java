@@ -14,6 +14,7 @@ import com.ues.sv.proyecto.controladministrativoapp.models.Usuario;
 import com.ues.sv.proyecto.controladministrativoapp.service.UsuarioService;
 import com.ues.sv.proyecto.controladministrativoapp.service.interfaces.CallBackDisposableInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.ValidationUtils;
+import com.ues.sv.proyecto.controladministrativoapp.views.InicioActivity;
 import com.ues.sv.proyecto.controladministrativoapp.views.RegistrarUsuarioActivity;
 
 import java.util.HashMap;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private MaterialButton btnLogin, brnRegistrar, btnAnonimunLogin;
 
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -43,16 +45,8 @@ public class MainActivity extends AppCompatActivity {
 
         btnAnonimunLogin.setOnClickListener(v -> {
             v.setEnabled(Boolean.FALSE);
-//            SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
-
-//            preferences.edit().putString("username", usuario.getUserName()).apply();
-//            preferences.edit().putString("usernombre", usuario.getPersona().getNombre()).apply();
-//            preferences.edit().putString("userapellido", usuario.getPersona().getApellido()).apply();
-//            preferences.edit().putString("useridentificacion", usuario.getPersona().getIdentificacion()).apply();
-//            preferences.edit().putString("usersexo", usuario.getPersona().getSexo()).apply();
-
-//                                Intent intent = new Intent();
-//                                startActivity(intent);
+            Intent intent = new Intent(getApplicationContext(), InicioActivity.class);
+            startActivity(intent);
         });
 
         brnRegistrar.setOnClickListener(v -> {
@@ -71,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
                 public void onCallBack(Usuario usuario) {
                     // TODO inicio de sesion exitoso, intent para mover a siguiente pantalla
                     Toast.makeText(MainActivity.this, "Inicio Correcto", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), InicioActivity.class);
+                    startActivity(intent);
                 }
 
                 @Override
