@@ -55,6 +55,21 @@ public class Revision {
         this.fechaRevision = fechaRevision;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Revision revision = (Revision) o;
+
+        return idRevision.equals(revision.idRevision);
+    }
+
+    @Override
+    public int hashCode() {
+        return idRevision.hashCode();
+    }
+
     public Long getIdRevision() {
         return idRevision;
     }

@@ -38,6 +38,21 @@ public class Coordinador {
         this.fechaIngreso = fechaIngreso;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Coordinador that = (Coordinador) o;
+
+        return idCoordinador.equals(that.idCoordinador);
+    }
+
+    @Override
+    public int hashCode() {
+        return idCoordinador.hashCode();
+    }
+
     public Long getIdCoordinador() {
         return idCoordinador;
     }

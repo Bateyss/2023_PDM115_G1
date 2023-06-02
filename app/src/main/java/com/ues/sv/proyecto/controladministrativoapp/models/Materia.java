@@ -28,6 +28,21 @@ public class Materia {
         this.nombreMateria = nombreMateria;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Materia materia = (Materia) o;
+
+        return idMateria.equals(materia.idMateria);
+    }
+
+    @Override
+    public int hashCode() {
+        return idMateria.hashCode();
+    }
+
     public Long getIdMateria() {
         return idMateria;
     }

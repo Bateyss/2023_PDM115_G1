@@ -31,6 +31,21 @@ public class ParticipanteRevision {
         this.persona = persona;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ParticipanteRevision that = (ParticipanteRevision) o;
+
+        return idParticipante.equals(that.idParticipante);
+    }
+
+    @Override
+    public int hashCode() {
+        return idParticipante.hashCode();
+    }
+
     public Long getIdParticipante() {
         return idParticipante;
     }

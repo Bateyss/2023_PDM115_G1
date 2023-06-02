@@ -31,6 +31,21 @@ public class Alumno {
         this.carnet = carnet;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Alumno alumno = (Alumno) o;
+
+        return idAlumno.equals(alumno.idAlumno);
+    }
+
+    @Override
+    public int hashCode() {
+        return idAlumno.hashCode();
+    }
+
     public Long getIdAlumno() {
         return idAlumno;
     }

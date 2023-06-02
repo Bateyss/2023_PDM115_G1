@@ -35,6 +35,21 @@ public class Evaluacion {
         this.numeroEvaluacion = numeroEvaluacion;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Evaluacion that = (Evaluacion) o;
+
+        return idEvaluacion.equals(that.idEvaluacion);
+    }
+
+    @Override
+    public int hashCode() {
+        return idEvaluacion.hashCode();
+    }
+
     public Long getIdEvaluacion() {
         return idEvaluacion;
     }

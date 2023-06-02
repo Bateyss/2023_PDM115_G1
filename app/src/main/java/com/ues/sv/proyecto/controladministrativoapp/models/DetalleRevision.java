@@ -37,6 +37,21 @@ public class DetalleRevision {
         this.notaActual = notaActual;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DetalleRevision that = (DetalleRevision) o;
+
+        return idDetalle.equals(that.idDetalle);
+    }
+
+    @Override
+    public int hashCode() {
+        return idDetalle.hashCode();
+    }
+
     public Long getIdDetalle() {
         return idDetalle;
     }

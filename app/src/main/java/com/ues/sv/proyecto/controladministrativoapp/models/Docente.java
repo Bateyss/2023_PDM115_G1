@@ -38,6 +38,21 @@ public class Docente {
         this.fechaIngreso = fechaIngreso;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Docente docente = (Docente) o;
+
+        return idDocente.equals(docente.idDocente);
+    }
+
+    @Override
+    public int hashCode() {
+        return idDocente.hashCode();
+    }
+
     public Long getIdDocente() {
         return idDocente;
     }

@@ -30,6 +30,21 @@ public class Inscripcion {
         this.curso = curso;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Inscripcion that = (Inscripcion) o;
+
+        return idInscripcion.equals(that.idInscripcion);
+    }
+
+    @Override
+    public int hashCode() {
+        return idInscripcion.hashCode();
+    }
+
     public Long getIdInscripcion() {
         return idInscripcion;
     }

@@ -43,6 +43,21 @@ public class Impresion {
         this.estadoImpresion = estadoImpresion;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Impresion impresion = (Impresion) o;
+
+        return idImpresion.equals(impresion.idImpresion);
+    }
+
+    @Override
+    public int hashCode() {
+        return idImpresion.hashCode();
+    }
+
     public Long getIdImpresion() {
         return idImpresion;
     }

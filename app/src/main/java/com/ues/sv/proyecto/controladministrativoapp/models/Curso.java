@@ -41,6 +41,21 @@ public class Curso {
         this.coordinador = coordinador;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Curso curso = (Curso) o;
+
+        return idCurso.equals(curso.idCurso);
+    }
+
+    @Override
+    public int hashCode() {
+        return idCurso.hashCode();
+    }
+
     public Long getIdCurso() {
         return idCurso;
     }

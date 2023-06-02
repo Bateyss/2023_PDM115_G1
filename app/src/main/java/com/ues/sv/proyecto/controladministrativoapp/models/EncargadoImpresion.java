@@ -31,6 +31,21 @@ public class EncargadoImpresion {
         this.area = area;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        EncargadoImpresion that = (EncargadoImpresion) o;
+
+        return idEncargado.equals(that.idEncargado);
+    }
+
+    @Override
+    public int hashCode() {
+        return idEncargado.hashCode();
+    }
+
     public Long getIdEncargado() {
         return idEncargado;
     }

@@ -5,7 +5,6 @@ import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-import androidx.room.Relation;
 
 import io.reactivex.rxjava3.annotations.NonNull;
 
@@ -36,6 +35,21 @@ public class Usuario {
         this.persona = persona;
         this.userName = userName;
         this.userPass = userPass;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Usuario usuario = (Usuario) o;
+
+        return idUsuario.equals(usuario.idUsuario);
+    }
+
+    @Override
+    public int hashCode() {
+        return idUsuario.hashCode();
     }
 
     public Long getIdUsuario() {

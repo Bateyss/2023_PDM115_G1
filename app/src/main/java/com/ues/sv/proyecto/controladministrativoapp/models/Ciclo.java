@@ -31,6 +31,21 @@ public class Ciclo {
         this.numeroAnio = numeroAnio;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Ciclo ciclo = (Ciclo) o;
+
+        return idCiclo.equals(ciclo.idCiclo);
+    }
+
+    @Override
+    public int hashCode() {
+        return idCiclo.hashCode();
+    }
+
     public Long getIdCiclo() {
         return idCiclo;
     }

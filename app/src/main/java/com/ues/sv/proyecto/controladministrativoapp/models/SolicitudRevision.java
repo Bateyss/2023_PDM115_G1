@@ -51,6 +51,21 @@ public class SolicitudRevision {
         this.estadoSolicitud = estadoSolicitud;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SolicitudRevision that = (SolicitudRevision) o;
+
+        return idSolicitudRevision.equals(that.idSolicitudRevision);
+    }
+
+    @Override
+    public int hashCode() {
+        return idSolicitudRevision.hashCode();
+    }
+
     public Long getIdSolicitudRevision() {
         return idSolicitudRevision;
     }

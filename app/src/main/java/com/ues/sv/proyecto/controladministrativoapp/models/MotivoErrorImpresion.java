@@ -31,6 +31,21 @@ public class MotivoErrorImpresion {
         this.descripcionMotivo = descripcionMotivo;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        MotivoErrorImpresion that = (MotivoErrorImpresion) o;
+
+        return idMotivo.equals(that.idMotivo);
+    }
+
+    @Override
+    public int hashCode() {
+        return idMotivo.hashCode();
+    }
+
     public Long getIdMotivo() {
         return idMotivo;
     }

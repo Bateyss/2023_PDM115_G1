@@ -26,6 +26,21 @@ public class TipoEvaluacion {
         this.nombreTipoEvaluacion = nombreTipoEvaluacion;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TipoEvaluacion that = (TipoEvaluacion) o;
+
+        return idTipoEvaluacion.equals(that.idTipoEvaluacion);
+    }
+
+    @Override
+    public int hashCode() {
+        return idTipoEvaluacion.hashCode();
+    }
+
     public Long getIdTipoEvaluacion() {
         return idTipoEvaluacion;
     }

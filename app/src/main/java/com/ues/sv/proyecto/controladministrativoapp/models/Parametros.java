@@ -37,6 +37,21 @@ public class Parametros {
         this.idHistorico = idHistorico;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Parametros that = (Parametros) o;
+
+        return idParametro.equals(that.idParametro);
+    }
+
+    @Override
+    public int hashCode() {
+        return idParametro.hashCode();
+    }
+
     public Long getIdParametro() {
         return idParametro;
     }

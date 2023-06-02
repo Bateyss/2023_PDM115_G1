@@ -39,6 +39,21 @@ public class Persona {
         this.sexo = sexo;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Persona persona = (Persona) o;
+
+        return idPersona.equals(persona.idPersona);
+    }
+
+    @Override
+    public int hashCode() {
+        return idPersona.hashCode();
+    }
+
     public Long getIdPersona() {
         return idPersona;
     }
