@@ -18,8 +18,7 @@ public class Docente {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "ID_DOCENTE")
-    @NonNull
-    private long idDocente;
+    private Long idDocente;
 
     @Embedded
     private Persona persona;
@@ -33,17 +32,17 @@ public class Docente {
     public Docente() {
     }
 
-    public Docente(long idDocente, Persona persona, Date fechaIngreso) {
+    public Docente(Long idDocente, Persona persona, Date fechaIngreso) {
         this.idDocente = idDocente;
         this.persona = persona;
         this.fechaIngreso = fechaIngreso;
     }
 
-    public long getIdDocente() {
+    public Long getIdDocente() {
         return idDocente;
     }
 
-    public void setIdDocente(long idDocente) {
+    public void setIdDocente(Long idDocente) {
         this.idDocente = idDocente;
     }
 

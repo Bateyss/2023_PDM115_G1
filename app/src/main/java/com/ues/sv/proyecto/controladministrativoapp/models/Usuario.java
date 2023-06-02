@@ -14,8 +14,7 @@ public class Usuario {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "ID_USUARIO")
-    @NonNull
-    private long idUsuario;
+    private Long idUsuario;
 
     @Embedded
     private Persona persona;
@@ -32,18 +31,18 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(long idUsuario, Persona persona, String userName, String userPass) {
+    public Usuario(Long idUsuario, Persona persona, String userName, String userPass) {
         this.idUsuario = idUsuario;
         this.persona = persona;
         this.userName = userName;
         this.userPass = userPass;
     }
 
-    public long getIdUsuario() {
+    public Long getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(long idUsuario) {
+    public void setIdUsuario(Long idUsuario) {
         this.idUsuario = idUsuario;
     }
 

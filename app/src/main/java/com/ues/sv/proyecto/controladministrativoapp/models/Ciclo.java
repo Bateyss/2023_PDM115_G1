@@ -11,8 +11,7 @@ import io.reactivex.rxjava3.annotations.NonNull;
 public class Ciclo {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "ID_CICLO")
-    @NonNull
-    private long idCiclo;
+    private Long idCiclo;
 
     @ColumnInfo(name = "NUMERO_CICLO")
     @NonNull
@@ -26,17 +25,17 @@ public class Ciclo {
     public Ciclo() {
     }
 
-    public Ciclo(long idCiclo, String numeroCiclo, String numeroAnio) {
+    public Ciclo(Long idCiclo, String numeroCiclo, String numeroAnio) {
         this.idCiclo = idCiclo;
         this.numeroCiclo = numeroCiclo;
         this.numeroAnio = numeroAnio;
     }
 
-    public long getIdCiclo() {
+    public Long getIdCiclo() {
         return idCiclo;
     }
 
-    public void setIdCiclo(long idCiclo) {
+    public void setIdCiclo(Long idCiclo) {
         this.idCiclo = idCiclo;
     }
 

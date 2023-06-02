@@ -11,8 +11,7 @@ import io.reactivex.rxjava3.annotations.NonNull;
 public class TipoEvaluacion {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "ID_TIPO_EVALUACION")
-    @NonNull
-    private long idTipoEvaliacion;
+    private Long idTipoEvaluacion;
 
     @ColumnInfo(name = "NOMBRE_TIPO_EVALUACION")
     @NonNull
@@ -22,17 +21,17 @@ public class TipoEvaluacion {
     public TipoEvaluacion() {
     }
 
-    public TipoEvaluacion(long idTipoEvaliacion, String nombreTipoEvaluacion) {
-        this.idTipoEvaliacion = idTipoEvaliacion;
+    public TipoEvaluacion(Long idTipoEvaluacion, String nombreTipoEvaluacion) {
+        this.idTipoEvaluacion = idTipoEvaluacion;
         this.nombreTipoEvaluacion = nombreTipoEvaluacion;
     }
 
-    public long getIdTipoEvaliacion() {
-        return idTipoEvaliacion;
+    public Long getIdTipoEvaluacion() {
+        return idTipoEvaluacion;
     }
 
-    public void setIdTipoEvaliacion(long idTipoEvaliacion) {
-        this.idTipoEvaliacion = idTipoEvaliacion;
+    public void setIdTipoEvaluacion(Long idTipoEvaluacion) {
+        this.idTipoEvaluacion = idTipoEvaluacion;
     }
 
     public String getNombreTipoEvaluacion() {

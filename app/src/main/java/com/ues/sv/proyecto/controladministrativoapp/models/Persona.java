@@ -11,8 +11,7 @@ import io.reactivex.rxjava3.annotations.NonNull;
 public class Persona {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "ID_PERSONA")
-    @NonNull
-    private long idPersona;
+    private Long idPersona;
 
     @ColumnInfo(name = "NOMBRE")
     @NonNull
@@ -32,7 +31,7 @@ public class Persona {
     public Persona() {
     }
 
-    public Persona(long idPersona, String nombre, String apellido, String identificacion, String sexo) {
+    public Persona(Long idPersona, String nombre, String apellido, String identificacion, String sexo) {
         this.idPersona = idPersona;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -40,11 +39,11 @@ public class Persona {
         this.sexo = sexo;
     }
 
-    public long getIdPersona() {
+    public Long getIdPersona() {
         return idPersona;
     }
 
-    public void setIdPersona(long idPersona) {
+    public void setIdPersona(Long idPersona) {
         this.idPersona = idPersona;
     }
 

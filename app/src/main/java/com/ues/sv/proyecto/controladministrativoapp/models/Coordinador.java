@@ -18,8 +18,7 @@ public class Coordinador {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "ID_COORDINADOR")
-    @NonNull
-    private long idCoordinador;
+    private Long idCoordinador;
 
     @Embedded
     private Persona persona;
@@ -33,17 +32,17 @@ public class Coordinador {
     public Coordinador() {
     }
 
-    public Coordinador(long idCoordinador, Persona persona, Date fechaIngreso) {
+    public Coordinador(Long idCoordinador, Persona persona, Date fechaIngreso) {
         this.idCoordinador = idCoordinador;
         this.persona = persona;
         this.fechaIngreso = fechaIngreso;
     }
 
-    public long getIdCoordinador() {
+    public Long getIdCoordinador() {
         return idCoordinador;
     }
 
-    public void setIdCoordinador(long idCoordinador) {
+    public void setIdCoordinador(Long idCoordinador) {
         this.idCoordinador = idCoordinador;
     }
 

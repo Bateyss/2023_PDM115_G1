@@ -13,8 +13,7 @@ public class Materia {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "ID_MATERIA")
-    @NonNull
-    private long idMateria;
+    private Long idMateria;
 
     @ColumnInfo(name = "NOMBRE_MATERIA")
     @NonNull
@@ -24,16 +23,16 @@ public class Materia {
     public Materia() {
     }
 
-    public Materia(long idMateria, String nombreMateria) {
+    public Materia(Long idMateria, String nombreMateria) {
         this.idMateria = idMateria;
         this.nombreMateria = nombreMateria;
     }
 
-    public long getIdMateria() {
+    public Long getIdMateria() {
         return idMateria;
     }
 
-    public void setIdMateria(long idMateria) {
+    public void setIdMateria(Long idMateria) {
         this.idMateria = idMateria;
     }
 

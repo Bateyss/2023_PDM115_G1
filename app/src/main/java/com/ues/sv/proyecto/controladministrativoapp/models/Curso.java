@@ -15,8 +15,7 @@ public class Curso {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "ID_CURSO")
-    @NonNull
-    private long idCurso;
+    private Long idCurso;
 
     @Embedded(prefix = "CURSO_")
     private Ciclo ciclo;
@@ -34,7 +33,7 @@ public class Curso {
     public Curso() {
     }
 
-    public Curso(long idCurso, Ciclo ciclo, Materia materia, Docente docente, Coordinador coordinador) {
+    public Curso(Long idCurso, Ciclo ciclo, Materia materia, Docente docente, Coordinador coordinador) {
         this.idCurso = idCurso;
         this.ciclo = ciclo;
         this.materia = materia;
@@ -42,11 +41,11 @@ public class Curso {
         this.coordinador = coordinador;
     }
 
-    public long getIdCurso() {
+    public Long getIdCurso() {
         return idCurso;
     }
 
-    public void setIdCurso(long idCurso) {
+    public void setIdCurso(Long idCurso) {
         this.idCurso = idCurso;
     }
 
