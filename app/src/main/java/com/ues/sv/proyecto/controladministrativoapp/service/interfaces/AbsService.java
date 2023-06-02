@@ -27,22 +27,22 @@ public abstract class AbsService<MODELO, DAO, IDTYPE> implements ServiceInterfac
     }
 
     @Override
-    public void registrarEntidad(MODELO modelo,@NonNull CallBackVoidInterface voidInterface) {
-        this.absServiceInterface.registrarEntidad(modelo, voidInterface, this.dao);
+    public void registrarEntidad(MODELO modelo, @NonNull CallBackDisposableInterface callBackDisposableInterface) {
+        this.absServiceInterface.registrarEntidad(modelo, callBackDisposableInterface, this.dao);
     }
 
     @Override
-    public void editarEntidad(MODELO modelo,@NonNull CallBackVoidInterface voidInterface) {
+    public void editarEntidad(MODELO modelo, @NonNull CallBackVoidInterface voidInterface) {
         this.absServiceInterface.editarEntidad(modelo, voidInterface, this.dao);
     }
 
     @Override
-    public void eliminarEntidad(MODELO modelo,@NonNull CallBackVoidInterface voidInterface) {
+    public void eliminarEntidad(MODELO modelo, @NonNull CallBackVoidInterface voidInterface) {
         this.absServiceInterface.eliminarEntidad(modelo, voidInterface, this.dao);
     }
 
     @Override
-    public void buscarPorId(IDTYPE id,@NonNull CallBackDisposableInterface<MODELO> disposableInterface) {
+    public void buscarPorId(IDTYPE id, @NonNull CallBackDisposableInterface<MODELO> disposableInterface) {
         this.absServiceInterface.buscarPorId(id, disposableInterface, this.dao);
     }
 

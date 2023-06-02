@@ -15,6 +15,7 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 public class CursoService implements ServiceInterface<Curso, Long> {
@@ -28,25 +29,25 @@ public class CursoService implements ServiceInterface<Curso, Long> {
     }
 
     @Override
-    public void registrarEntidad(Curso curso, CallBackVoidInterface voidInterface) {
-        curso.setIdCurso(null);
-        DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
+    public void registrarEntidad(Curso curso, CallBackDisposableInterface callBackDisposableInterface) {
+        DisposableUtils.addComposite(new DisposableUtils.CompositeSingleCallbac() {
             @Override
-            public Completable completableAction() {
+
+            public Single<?> singleAction() {
+                curso.setIdCurso(null);
                 return cursoDao.insertCurso(curso);
             }
 
             @Override
-            public void onCallback() {
-                voidInterface.onCallBack();
-            }
-
-            @Override
-            public void onThrow(Throwable throwable) {
-                Log.e("CREAR_ENTIDAD", "Error al crear entidad", throwable);
-                voidInterface.onThrow(throwable);
+            public Disposable completableCallBack(Single<?> applySubscribe) {
+                return applySubscribe.subscribe(id -> callBackDisposableInterface.onCallBack(id)
+                        , throwable -> {
+                            Log.e("CREAR_ENTIDAD", "Error al crear entidad", throwable);
+                            callBackDisposableInterface.onThrow(throwable);
+                        });
             }
         });
+
     }
 
     @Override

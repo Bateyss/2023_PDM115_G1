@@ -17,6 +17,7 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 public class EvaluacionService implements ServiceInterface<Evaluacion, Long> {
@@ -34,54 +35,57 @@ public class EvaluacionService implements ServiceInterface<Evaluacion, Long> {
     }
 
     @Override
-    public void registrarEntidad(Evaluacion evaluacion, CallBackVoidInterface voidInterface) {
-        evaluacion.setIdEvaluacion(null);
-        DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
+    public void registrarEntidad(Evaluacion evaluacion, CallBackDisposableInterface callBackDisposableInterface) {
+        DisposableUtils.addComposite(new DisposableUtils.CompositeSingleCallbac() {
             @Override
-            public Completable completableAction() {
+
+            public Single<?> singleAction() {
+                evaluacion.setIdEvaluacion(null);
                 return evaluacionDao.insertEvaluacion(evaluacion);
             }
 
             @Override
-            public void onCallback() {
-                voidInterface.onCallBack();
-                encargadoImpresionService.findFirst( new CallBackDisposableInterface<EncargadoImpresion>() {
-                    @Override
-                    public void onCallBack(EncargadoImpresion encargadoImpresion) {
-                        Impresion impresion = new Impresion();
-                        impresion.setIdImpresion(0L);
-                        impresion.setEstadoImpresion(0);
-                        impresion.setEvaluacion(evaluacion);
-                        impresion.setObservacionesImpresion("");
-                        impresion.setEncargadoImpresion(encargadoImpresion);
-                        impresion.setFormato("");
-                        impresionService.registrarEntidad(impresion, new CallBackVoidInterface() {
-                            @Override
-                            public void onCallBack() {
+            public Disposable completableCallBack(Single<?> applySubscribe) {
+                return applySubscribe.subscribe(id -> {
+                            callBackDisposableInterface.onCallBack(id);
+                            encargadoImpresionService.findFirst(new CallBackDisposableInterface<EncargadoImpresion>() {
+                                @Override
+                                public void onCallBack(EncargadoImpresion encargadoImpresion) {
+                                    Impresion impresion = new Impresion();
+                                    impresion.setIdImpresion(0L);
+                                    impresion.setEstadoImpresion(0);
+                                    evaluacion.setIdEvaluacion((long) id);
+                                    impresion.setEvaluacion(evaluacion);
+                                    impresion.setObservacionesImpresion("");
+                                    impresion.setEncargadoImpresion(encargadoImpresion);
+                                    impresion.setFormato("");
+                                    impresionService.registrarEntidad(impresion, new CallBackDisposableInterface() {
+                                        @Override
+                                        public void onCallBack(Object o) {
 
-                            }
+                                        }
 
-                            @Override
-                            public void onThrow(Throwable throwable) {
+                                        @Override
+                                        public void onThrow(Throwable throwable) {
 
-                            }
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onThrow(Throwable throwable) {
+
+                                }
+                            });
+
+                        }
+                        , throwable -> {
+                            Log.e("CREAR_ENTIDAD", "Error al crear entidad", throwable);
+                            callBackDisposableInterface.onThrow(throwable);
                         });
-                    }
-
-                    @Override
-                    public void onThrow(Throwable throwable) {
-
-                    }
-                });
-
-            }
-
-            @Override
-            public void onThrow(Throwable throwable) {
-                Log.e("CREAR_ENTIDAD", "Error al crear entidad", throwable);
-                voidInterface.onThrow(throwable);
             }
         });
+
     }
 
     @Override

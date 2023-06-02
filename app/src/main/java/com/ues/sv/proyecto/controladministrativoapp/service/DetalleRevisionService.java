@@ -16,6 +16,7 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 public class DetalleRevisionService extends AbsService<DetalleRevision, DetalleRevisionDao, Long> {
@@ -23,24 +24,24 @@ public class DetalleRevisionService extends AbsService<DetalleRevision, DetalleR
 
     public DetalleRevisionService(Context context) {
         super(context, new AbsServiceInterface<DetalleRevision, Long, DetalleRevisionDao>() {
+
             @Override
-            public void registrarEntidad(DetalleRevision detalleRevision, CallBackVoidInterface voidInterface, DetalleRevisionDao detalleRevisionDao) {
-                DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
+            public void registrarEntidad(DetalleRevision detalleRevision, CallBackDisposableInterface disposableInterface, DetalleRevisionDao detalleRevisionDao) {
+                DisposableUtils.addComposite(new DisposableUtils.CompositeSingleCallbac() {
                     @Override
-                    public Completable completableAction() {
+
+                    public Single<?> singleAction() {
                         detalleRevision.setIdDetalle(null);
                         return detalleRevisionDao.insertDetalleRevision(detalleRevision);
                     }
 
                     @Override
-                    public void onCallback() {
-                        voidInterface.onCallBack();
-                    }
-
-                    @Override
-                    public void onThrow(Throwable throwable) {
-                        Log.e("CREAR_ENTIDAD", "Error al crear entidad", throwable);
-                        voidInterface.onThrow(throwable);
+                    public Disposable completableCallBack(Single<?> applySubscribe) {
+                        return applySubscribe.subscribe(id -> disposableInterface.onCallBack(id)
+                                , throwable -> {
+                                    Log.e("CREAR_ENTIDAD", "Error al crear entidad", throwable);
+                                    disposableInterface.onThrow(throwable);
+                                });
                     }
                 });
             }

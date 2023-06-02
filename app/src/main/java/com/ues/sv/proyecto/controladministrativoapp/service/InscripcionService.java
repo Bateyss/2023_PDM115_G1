@@ -16,31 +16,33 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 public class InscripcionService extends AbsService<Inscripcion, InscripcionDao, Long> {
     public InscripcionService(Context context) {
         super(context, new AbsServiceInterface<Inscripcion, Long, InscripcionDao>() {
+
             @Override
-            public void registrarEntidad(Inscripcion inscripcion, CallBackVoidInterface voidInterface, InscripcionDao inscripcionDao) {
-                DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
+            public void registrarEntidad(Inscripcion inscripcion, CallBackDisposableInterface disposableInterface, InscripcionDao inscripcionDao) {
+                DisposableUtils.addComposite(new DisposableUtils.CompositeSingleCallbac() {
                     @Override
-                    public Completable completableAction() {
+
+                    public Single<?> singleAction() {
                         inscripcion.setIdInscripcion(null);
                         return inscripcionDao.insertInscripcion(inscripcion);
                     }
 
                     @Override
-                    public void onCallback() {
-                        voidInterface.onCallBack();
-                    }
-
-                    @Override
-                    public void onThrow(Throwable throwable) {
-                        Log.e("CREAR_ENTIDAD", "Error al crear entidad", throwable);
-                        voidInterface.onThrow(throwable);
+                    public Disposable completableCallBack(Single<?> applySubscribe) {
+                        return applySubscribe.subscribe(id -> disposableInterface.onCallBack(id)
+                                , throwable -> {
+                                    Log.e("CREAR_ENTIDAD", "Error al crear entidad", throwable);
+                                    disposableInterface.onThrow(throwable);
+                                });
                     }
                 });
+
             }
 
             @Override

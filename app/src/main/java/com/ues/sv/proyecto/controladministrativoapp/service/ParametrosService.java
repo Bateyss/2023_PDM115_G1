@@ -16,31 +16,33 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 public class ParametrosService extends AbsService<Parametros, ParametrosDao, Long> {
     public ParametrosService(Context context) {
         super(context, new AbsServiceInterface<Parametros, Long, ParametrosDao>() {
+
             @Override
-            public void registrarEntidad(Parametros parametros, CallBackVoidInterface voidInterface, ParametrosDao parametrosDao) {
-                DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
+            public void registrarEntidad(Parametros parametros, CallBackDisposableInterface disposableInterface, ParametrosDao parametrosDao) {
+                DisposableUtils.addComposite(new DisposableUtils.CompositeSingleCallbac() {
                     @Override
-                    public Completable completableAction() {
+
+                    public Single<?> singleAction() {
                         parametros.setIdParametro(null);
                         return parametrosDao.insertParametros(parametros);
                     }
 
                     @Override
-                    public void onCallback() {
-                        voidInterface.onCallBack();
-                    }
-
-                    @Override
-                    public void onThrow(Throwable throwable) {
-                        Log.e("CREAR_ENTIDAD", "Error al crear entidad", throwable);
-                        voidInterface.onThrow(throwable);
+                    public Disposable completableCallBack(Single<?> applySubscribe) {
+                        return applySubscribe.subscribe(id -> disposableInterface.onCallBack(id)
+                                , throwable -> {
+                                    Log.e("CREAR_ENTIDAD", "Error al crear entidad", throwable);
+                                    disposableInterface.onThrow(throwable);
+                                });
                     }
                 });
+
             }
 
             @Override

@@ -15,6 +15,7 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 public class PersonaService implements ServiceInterface<Persona, Long> {
@@ -27,26 +28,25 @@ public class PersonaService implements ServiceInterface<Persona, Long> {
     }
 
     @Override
-    public void registrarEntidad(Persona persona, CallBackVoidInterface voidInterface) {
-
-        DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
+    public void registrarEntidad(Persona persona, CallBackDisposableInterface callBackDisposableInterface) {
+        DisposableUtils.addComposite(new DisposableUtils.CompositeSingleCallbac() {
             @Override
-            public Completable completableAction() {
+
+            public Single<?> singleAction() {
                 persona.setIdPersona(null);
                 return personaDao.insertPersona(persona);
             }
 
             @Override
-            public void onCallback() {
-                voidInterface.onCallBack();
-            }
-
-            @Override
-            public void onThrow(Throwable throwable) {
-                Log.e("CREAR_ENTIDAD", "Error al crear entidad", throwable);
-                voidInterface.onThrow(throwable);
+            public Disposable completableCallBack(Single<?> applySubscribe) {
+                return applySubscribe.subscribe(id -> callBackDisposableInterface.onCallBack((long) id)
+                        , throwable -> {
+                            Log.e("CREAR_ENTIDAD", "Error al crear entidad", throwable);
+                            callBackDisposableInterface.onThrow(throwable);
+                        });
             }
         });
+
     }
 
     @Override

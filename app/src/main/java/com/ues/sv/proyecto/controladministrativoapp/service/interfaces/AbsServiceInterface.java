@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface AbsServiceInterface<ENTITY, IDTYPE, DAO> {
 
-    void registrarEntidad(ENTITY entity, CallBackVoidInterface voidInterface,DAO dao);
+    void registrarEntidad(ENTITY entity, CallBackDisposableInterface<IDTYPE> disposableInterface,DAO dao);
 
     void editarEntidad(ENTITY entity, CallBackVoidInterface voidInterface,DAO dao);
 

@@ -16,6 +16,7 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 public class AlumnoService extends AbsService<Alumno, AlumnoDao, Long> {
@@ -24,23 +25,22 @@ public class AlumnoService extends AbsService<Alumno, AlumnoDao, Long> {
     public AlumnoService(Context context) {
         super(context, new AbsServiceInterface<Alumno, Long, AlumnoDao>() {
             @Override
-            public void registrarEntidad(Alumno alumno, CallBackVoidInterface voidInterface, AlumnoDao alumnoDao) {
-                DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
+            public void registrarEntidad(Alumno alumno, CallBackDisposableInterface callBackDisposableInterface, AlumnoDao alumnoDao) {
+                DisposableUtils.addComposite(new DisposableUtils.CompositeSingleCallbac() {
                     @Override
-                    public Completable completableAction() {
+
+                    public Single<?> singleAction() {
                         alumno.setIdAlumno(null);
                         return alumnoDao.insertAlumno(alumno);
                     }
 
                     @Override
-                    public void onCallback() {
-                        voidInterface.onCallBack();
-                    }
-
-                    @Override
-                    public void onThrow(Throwable throwable) {
-                        Log.e("CREAR_ENTIDAD", "Error al crear entidad", throwable);
-                        voidInterface.onThrow(throwable);
+                    public Disposable completableCallBack(Single<?> applySubscribe) {
+                        return applySubscribe.subscribe(id -> callBackDisposableInterface.onCallBack(id)
+                                , throwable -> {
+                                    Log.e("CREAR_ENTIDAD", "Error al crear entidad", throwable);
+                                    callBackDisposableInterface.onThrow(throwable);
+                                });
                     }
                 });
             }

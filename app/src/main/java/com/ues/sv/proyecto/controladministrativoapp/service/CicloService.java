@@ -15,6 +15,7 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 public class CicloService implements ServiceInterface<Ciclo, Long> {
@@ -27,23 +28,22 @@ public class CicloService implements ServiceInterface<Ciclo, Long> {
     }
 
     @Override
-    public void registrarEntidad(Ciclo ciclo, CallBackVoidInterface voidInterface) {
-        ciclo.setIdCiclo(null);
-        DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
+    public void registrarEntidad(Ciclo ciclo, CallBackDisposableInterface callBackDisposableInterface) {
+        DisposableUtils.addComposite(new DisposableUtils.CompositeSingleCallbac() {
             @Override
-            public Completable completableAction() {
+
+            public Single<?> singleAction() {
+                ciclo.setIdCiclo(null);
                 return cicloDao.insertCiclo(ciclo);
             }
 
             @Override
-            public void onCallback() {
-                voidInterface.onCallBack();
-            }
-
-            @Override
-            public void onThrow(Throwable throwable) {
-                Log.e("CREAR_ENTIDAD", "Error al crear entidad", throwable);
-                voidInterface.onThrow(throwable);
+            public Disposable completableCallBack(Single<?> applySubscribe) {
+                return applySubscribe.subscribe(id -> callBackDisposableInterface.onCallBack(id)
+                        , throwable -> {
+                            Log.e("CREAR_ENTIDAD", "Error al crear entidad", throwable);
+                            callBackDisposableInterface.onThrow(throwable);
+                        });
             }
         });
     }

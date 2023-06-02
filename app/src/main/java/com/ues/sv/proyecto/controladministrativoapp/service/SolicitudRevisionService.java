@@ -16,29 +16,30 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 public class SolicitudRevisionService extends AbsService<SolicitudRevision, SolicitudRevisionDao, Long> {
     public SolicitudRevisionService(Context context) {
         super(context, new AbsServiceInterface<SolicitudRevision, Long, SolicitudRevisionDao>() {
+
             @Override
-            public void registrarEntidad(SolicitudRevision solicitudRevision, CallBackVoidInterface voidInterface, SolicitudRevisionDao solicitudRevisionDao) {
-                DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
+            public void registrarEntidad(SolicitudRevision solicitudRevision, CallBackDisposableInterface disposableInterface, SolicitudRevisionDao solicitudRevisionDao) {
+                DisposableUtils.addComposite(new DisposableUtils.CompositeSingleCallbac() {
                     @Override
-                    public Completable completableAction() {
+
+                    public Single<?> singleAction() {
                         solicitudRevision.setIdSolicitudRevision(null);
                         return solicitudRevisionDao.insertSolicitudRevision(solicitudRevision);
                     }
 
                     @Override
-                    public void onCallback() {
-                        voidInterface.onCallBack();
-                    }
-
-                    @Override
-                    public void onThrow(Throwable throwable) {
-                        Log.e("CREAR_ENTIDAD", "Error al crear entidad", throwable);
-                        voidInterface.onThrow(throwable);
+                    public Disposable completableCallBack(Single<?> applySubscribe) {
+                        return applySubscribe.subscribe(id -> disposableInterface.onCallBack(id)
+                                , throwable -> {
+                                    Log.e("CREAR_ENTIDAD", "Error al crear entidad", throwable);
+                                    disposableInterface.onThrow(throwable);
+                                });
                     }
                 });
 
@@ -135,7 +136,7 @@ public class SolicitudRevisionService extends AbsService<SolicitudRevision, Soli
         return handler.solicitudRevisionDao();
     }
 
-    public void obtenerListaPorEvaluacionId(Long idEvaluacion,CallBackDisposableInterface<List<SolicitudRevision>> disposableInterface) {
+    public void obtenerListaPorEvaluacionId(Long idEvaluacion, CallBackDisposableInterface<List<SolicitudRevision>> disposableInterface) {
         DisposableUtils.addComposite(new DisposableUtils.CompositeFlowableCallback() {
             @Override
             public Flowable<?> flowableAction() {
