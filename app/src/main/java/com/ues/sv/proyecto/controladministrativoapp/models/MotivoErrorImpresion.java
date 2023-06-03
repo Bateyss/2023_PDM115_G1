@@ -6,6 +6,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.ues.sv.proyecto.controladministrativoapp.sqlite.Validacion;
+
 import io.reactivex.rxjava3.annotations.NonNull;
 
 @Entity(tableName = "MOTIVOERRORIMPRESION")
@@ -19,6 +21,7 @@ public class MotivoErrorImpresion {
 
     @ColumnInfo(name = "DESCRIPCION_MOTIVO")
     @NonNull
+    @Validacion(notNull = true)
     private String descripcionMotivo;
 
     @Ignore

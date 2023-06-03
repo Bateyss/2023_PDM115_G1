@@ -6,6 +6,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.ues.sv.proyecto.controladministrativoapp.sqlite.Validacion;
+
 import io.reactivex.rxjava3.annotations.NonNull;
 
 @Entity(tableName = "MATERIA")
@@ -17,6 +19,7 @@ public class Materia {
 
     @ColumnInfo(name = "NOMBRE_MATERIA")
     @NonNull
+    @Validacion(notNull = true)
     private String nombreMateria;
 
     @Ignore

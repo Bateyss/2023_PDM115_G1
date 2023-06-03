@@ -4,10 +4,12 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
+import io.reactivex.rxjava3.annotations.NonNull;
+
 import androidx.room.ColumnInfo;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.ues.sv.proyecto.controladministrativoapp.sqlite.Validacion;
 
 import java.lang.reflect.Field;
 import java.util.Map;
@@ -25,7 +27,7 @@ public class ValidationUtils {
      * <p>Se validara tomando en cuenta que si el campo tiene
      * un @{@link io.reactivex.rxjava3.annotations.NonNull} el campo del editText no este vacio</p>
      *
-     * @param mdeloClass @{@link androidx.room.Entity} class
+     * @param mdeloClass       @{@link androidx.room.Entity} class
      * @param attribEditTxtMap {@link Map} &lt; {@link String} , {@link TextInputLayout} &gt; ( fieldName , editTextLayout )
      * @return [valid]
      */
@@ -34,8 +36,8 @@ public class ValidationUtils {
         try {
             Field[] fields = mdeloClass.getDeclaredFields();
             for (Field field : fields) {
-                ColumnInfo columnInfo = field.getAnnotation(ColumnInfo.class);
-                if (columnInfo != null) {
+                Validacion validacion = field.getAnnotation(Validacion.class);
+                if (validacion != null) {
                     TextInputLayout edit = attribEditTxtMap.getOrDefault(field.getName(), null);
                     if (edit != null) {
                         String value = edit.getEditText().getText().toString();
@@ -48,8 +50,7 @@ public class ValidationUtils {
                             edit.setErrorEnabled(Boolean.TRUE);
                         }
 
-                        NonNull nonNull = field.getAnnotation(NonNull.class);
-                        if (nonNull != null) {
+                        if (validacion.notNull()) {
                             if (value.isEmpty()) {
                                 valid = false;
                                 String error = "El campo " + edit.getHelperText() + " no debe quedar vacio";

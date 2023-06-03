@@ -5,6 +5,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.ues.sv.proyecto.controladministrativoapp.sqlite.Validacion;
+
 import io.reactivex.rxjava3.annotations.NonNull;
 
 @Entity(tableName = "TIPOEVALUACION")
@@ -15,6 +17,7 @@ public class TipoEvaluacion {
 
     @ColumnInfo(name = "NOMBRE_TIPO_EVALUACION")
     @NonNull
+    @Validacion(notNull = true)
     private String nombreTipoEvaluacion;
 
     @Ignore

@@ -6,6 +6,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.ues.sv.proyecto.controladministrativoapp.sqlite.Validacion;
+
 import io.reactivex.rxjava3.annotations.NonNull;
 
 @Entity(tableName = "IMPRESION")
@@ -22,12 +24,15 @@ public class Impresion {
 
     @ColumnInfo(name = "FORMATO")
     @NonNull
+    @Validacion(notNull = true)
     private String formato;
 
     @ColumnInfo(name = "OBSERVACIONES_IMPRESION")
+    @Validacion()
     private String observacionesImpresion;
 
     @ColumnInfo(name = "ESTADO_IMPRESION")
+    @Validacion()
     private Integer estadoImpresion;
 
     @Ignore

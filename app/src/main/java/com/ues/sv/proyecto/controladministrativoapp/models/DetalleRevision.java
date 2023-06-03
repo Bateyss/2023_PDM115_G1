@@ -6,6 +6,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.ues.sv.proyecto.controladministrativoapp.sqlite.Validacion;
+
 import io.reactivex.rxjava3.annotations.NonNull;
 
 @Entity(tableName = "DETALLEREVISION")
@@ -20,10 +22,12 @@ public class DetalleRevision {
 
     @ColumnInfo(name = "NOTA_ANTERIOR")
     @NonNull
+    @Validacion(notNull = true)
     private Double notaAnterior;
 
     @ColumnInfo(name = "NOTA_ACTUAL")
     @NonNull
+    @Validacion(notNull = true)
     private Double notaActual;
 
     @Ignore

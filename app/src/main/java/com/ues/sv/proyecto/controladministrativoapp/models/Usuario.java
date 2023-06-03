@@ -6,6 +6,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.ues.sv.proyecto.controladministrativoapp.sqlite.Validacion;
+
 import io.reactivex.rxjava3.annotations.NonNull;
 
 @Entity(tableName = "USUARIO")
@@ -20,10 +22,12 @@ public class Usuario {
 
     @ColumnInfo(name = "USER_NAME")
     @NonNull
+    @Validacion(notNull = true)
     private String userName;
 
     @ColumnInfo(name = "USER_PASS")
     @NonNull
+    @Validacion(notNull = true)
     private String userPass;
 
     @Ignore

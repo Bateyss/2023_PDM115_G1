@@ -7,6 +7,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
+import com.ues.sv.proyecto.controladministrativoapp.sqlite.Validacion;
 import com.ues.sv.proyecto.controladministrativoapp.utils.DateConverter;
 
 import java.util.Date;
@@ -27,11 +28,13 @@ public class SolicitudRevision {
 
     @ColumnInfo(name = "MOTIVO")
     @NonNull
+    @Validacion(notNull = true)
     private String motivo;
 
     @ColumnInfo(name = "FECHA_CREACION")
     @NonNull
     @TypeConverters(DateConverter.class)
+    @Validacion(notNull = true)
     private Date fechaCreacion;
 
     @ColumnInfo(name = "ESTADO_SOLICITUD")

@@ -7,6 +7,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
+import com.ues.sv.proyecto.controladministrativoapp.sqlite.Validacion;
 import com.ues.sv.proyecto.controladministrativoapp.utils.DateConverter;
 
 import java.util.Date;
@@ -24,21 +25,26 @@ public class Revision {
 
     @ColumnInfo(name = "NUMERO_REVISION")
     @NonNull
+    @Validacion(notNull = true)
     private String numeroRevision;
 
     @ColumnInfo(name = "OBSERVACIONES_REVISION")
+    @Validacion()
     private String observacionesRevision;
 
     @ColumnInfo(name = "ESTADO_REVISION")
     @NonNull
+    @Validacion(notNull = true)
     private Integer estadoRevision;
 
     @ColumnInfo(name = "NOTA_REVISION")
     @NonNull
+    @Validacion(notNull = true)
     private Double notaRevision;
 
     @ColumnInfo(name = "FECHA_REVISION")
     @TypeConverters(value = {DateConverter.class})
+    @Validacion()
     private Date fechaRevision;
 
     @Ignore
