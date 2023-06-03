@@ -75,11 +75,6 @@ public class RegistrarEvaluacionActivity extends AppCompatActivity {
             layouCurso.setError("Seleccione un Tipo de Evaluacion");
             valid = false;
         }
-
-        if (evaluacionData.getNumeroEvaluacion() == null) {
-            layouCurso.setError("Seleccione Fecha de Ingreso");
-            valid = false;
-        }
         Map<String, TextInputLayout> map = new HashMap<>();
         map.put("numeroEvaluacion", layouNumero);
         if (!ValidationUtils.validate(Evaluacion.class, map))
