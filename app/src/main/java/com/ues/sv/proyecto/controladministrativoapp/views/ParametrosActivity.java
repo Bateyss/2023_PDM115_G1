@@ -49,7 +49,7 @@ public class ParametrosActivity extends AppCompatActivity {
         parametrosService.buscarPorIdHistorico(ID_HISTORICO_REVISION, new CallBackDisposableInterface<Parametros>() {
             @Override
             public void onCallBack(Parametros parametros) {
-                parametros.setValor(layoutRevision.getEditText().toString());
+                parametros.setValor(layoutRevision.getEditText().getText().toString());
                 parametrosService.editarEntidad(parametros, new CallBackVoidInterface() {
                     @Override
                     public void onCallBack() {
@@ -71,7 +71,7 @@ public class ParametrosActivity extends AppCompatActivity {
         parametrosService.buscarPorIdHistorico(ID_HISTORICO_DIFERIR, new CallBackDisposableInterface<Parametros>() {
             @Override
             public void onCallBack(Parametros parametros) {
-                parametros.setValor(layoutDiferir.getEditText().toString());
+                parametros.setValor(layoutDiferir.getEditText().getText().toString());
                 parametrosService.editarEntidad(parametros, new CallBackVoidInterface() {
                     @Override
                     public void onCallBack() {
@@ -93,7 +93,7 @@ public class ParametrosActivity extends AppCompatActivity {
         parametrosService.buscarPorIdHistorico(ID_HISTORICO_REPETIR, new CallBackDisposableInterface<Parametros>() {
             @Override
             public void onCallBack(Parametros parametros) {
-                parametros.setValor(layoutRepetir.getEditText().toString());
+                parametros.setValor(layoutRepetir.getEditText().getText().toString());
                 parametrosService.editarEntidad(parametros, new CallBackVoidInterface() {
                     @Override
                     public void onCallBack() {

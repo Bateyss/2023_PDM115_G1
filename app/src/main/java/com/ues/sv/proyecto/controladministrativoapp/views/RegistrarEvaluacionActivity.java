@@ -143,7 +143,7 @@ public class RegistrarEvaluacionActivity extends AppCompatActivity {
                     @Override
                     public void onCallBack(Evaluacion evaluacion) {
                         evaluacionData = evaluacion;
-                        layouNumero.getEditText().setText(evaluacion.getNumeroEvaluacion());
+                        layouNumero.getEditText().setText(String.valueOf(evaluacion.getNumeroEvaluacion()));
                         esEditar = Boolean.TRUE;
                     }
 
@@ -185,7 +185,7 @@ public class RegistrarEvaluacionActivity extends AppCompatActivity {
                 List<String> tipoEvaluacionesStrings = new ArrayList<>();
                 tipoEvaluacions.forEach(tipoev -> tipoEvaluacionesStrings.add(tipoev.getNombreTipoEvaluacion()));
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.holder_item_only_text, R.id.only_text_txt_view, tipoEvaluacionesStrings);
-                MaterialAutoCompleteTextView autoCompleteTextView = (MaterialAutoCompleteTextView) layouCurso.getEditText();
+                MaterialAutoCompleteTextView autoCompleteTextView = (MaterialAutoCompleteTextView) layouTipo.getEditText();
                 if (autoCompleteTextView != null) {
                     autoCompleteTextView.setAdapter(adapter);
                     autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> evaluacionData.setTipoEvaluacion(tipoEvaluacions.get(position)));

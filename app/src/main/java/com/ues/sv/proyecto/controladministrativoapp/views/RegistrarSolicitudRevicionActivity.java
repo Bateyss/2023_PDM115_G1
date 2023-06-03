@@ -3,8 +3,6 @@ package com.ues.sv.proyecto.controladministrativoapp.views;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -156,6 +154,10 @@ public class RegistrarSolicitudRevicionActivity extends AppCompatActivity {
                     @Override
                     public void onCallBack(SolicitudRevision solicitudRevision) {
                         solicitudRevisionSelected = solicitudRevision;
+                        layouMotivo.getEditText().setText(solicitudRevision.getMotivo());
+                        layouEstado.getEditText().setText(String.valueOf(solicitudRevision.getEstadoSolicitud()));
+                        String dateTxt = DateUtils.formatDate(solicitudRevision.getFechaCreacion(), DateUtils.FORMAT_DD_MM_YYYY);
+                        layouFecha.getEditText().setText(dateTxt);
                     }
 
                     @Override
@@ -197,7 +199,7 @@ public class RegistrarSolicitudRevicionActivity extends AppCompatActivity {
                 List<String> sStrings = new ArrayList<>();
                 inscripcions.forEach(insc -> sStrings.add(insc.getAlumno().getCarnet() + " \n " + insc.getAlumno().getPersona().getNombre() + " " + insc.getAlumno().getPersona().getApellido()));
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.holder_item_only_text, R.id.only_text_txt_view, sStrings);
-                MaterialAutoCompleteTextView autoCompleteTextView = (MaterialAutoCompleteTextView) layouEvaluacion.getEditText();
+                MaterialAutoCompleteTextView autoCompleteTextView = (MaterialAutoCompleteTextView) layouInscripcion.getEditText();
                 if (autoCompleteTextView != null) {
                     autoCompleteTextView.setAdapter(adapter);
                     autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> solicitudRevisionSelected.setInscripcion(inscripcions.get(position)));

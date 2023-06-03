@@ -9,7 +9,7 @@ import java.util.Locale;
 
 public class DateUtils {
     public static final String FORMAT_YYYY_MM_DD = "yyyy-MM-dd";
-    public static final String FORMAT_DD_MM_YYYY = "dd-MM_YYYY";
+    public static final String FORMAT_DD_MM_YYYY = "dd-MM-YYYY";
     public static final String FORMAT_YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH-mm-ss";
 
     public static Date getDateFromStringFormat(String stringDate, String format) {

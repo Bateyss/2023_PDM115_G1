@@ -75,7 +75,7 @@
                 android:layout_marginTop="@dimen/padding_small"
                 android:hint="@string/motivo"
                 app:counterEnabled="true"
-                app:counterMaxLength="3"
+                app:counterMaxLength="100"
                 app:endIconMode="clear_text"
                 app:helperText="@string/motivo"
                 app:layout_constraintStart_toStartOf="parent"
@@ -84,7 +84,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number" />
+                    android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
