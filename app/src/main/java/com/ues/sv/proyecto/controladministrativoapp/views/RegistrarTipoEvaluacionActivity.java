@@ -12,9 +12,9 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.TipoEvaluacion;
-import com.ues.sv.proyecto.controladministrativoapp.service.TipoEvaluacionService;
-import com.ues.sv.proyecto.controladministrativoapp.service.interfaces.CallBackDisposableInterface;
-import com.ues.sv.proyecto.controladministrativoapp.service.interfaces.CallBackVoidInterface;
+import com.ues.sv.proyecto.controladministrativoapp.room.service.TipoEvaluacionService;
+import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
+import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.ValidationUtils;
 
 import java.util.HashMap;

@@ -17,11 +17,11 @@ import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.Evaluacion;
 import com.ues.sv.proyecto.controladministrativoapp.models.Inscripcion;
 import com.ues.sv.proyecto.controladministrativoapp.models.SolicitudRevision;
-import com.ues.sv.proyecto.controladministrativoapp.service.EvaluacionService;
-import com.ues.sv.proyecto.controladministrativoapp.service.InscripcionService;
-import com.ues.sv.proyecto.controladministrativoapp.service.SolicitudRevisionService;
-import com.ues.sv.proyecto.controladministrativoapp.service.interfaces.CallBackDisposableInterface;
-import com.ues.sv.proyecto.controladministrativoapp.service.interfaces.CallBackVoidInterface;
+import com.ues.sv.proyecto.controladministrativoapp.room.service.EvaluacionService;
+import com.ues.sv.proyecto.controladministrativoapp.room.service.InscripcionService;
+import com.ues.sv.proyecto.controladministrativoapp.room.service.SolicitudRevisionService;
+import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
+import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.DateUtils;
 import com.ues.sv.proyecto.controladministrativoapp.utils.ValidationUtils;
 

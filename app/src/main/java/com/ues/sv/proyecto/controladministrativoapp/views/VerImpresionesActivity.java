@@ -15,10 +15,10 @@ import com.google.android.material.textview.MaterialTextView;
 import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.Impresion;
 import com.ues.sv.proyecto.controladministrativoapp.models.MotivoErrorImpresion;
-import com.ues.sv.proyecto.controladministrativoapp.service.ImpresionService;
-import com.ues.sv.proyecto.controladministrativoapp.service.MotivoErrorImpresionService;
-import com.ues.sv.proyecto.controladministrativoapp.service.interfaces.CallBackDisposableInterface;
-import com.ues.sv.proyecto.controladministrativoapp.service.interfaces.CallBackVoidInterface;
+import com.ues.sv.proyecto.controladministrativoapp.room.service.ImpresionService;
+import com.ues.sv.proyecto.controladministrativoapp.room.service.MotivoErrorImpresionService;
+import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
+import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.OnlyTxtInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.OnlyTxtRecyclerAdapter;
 

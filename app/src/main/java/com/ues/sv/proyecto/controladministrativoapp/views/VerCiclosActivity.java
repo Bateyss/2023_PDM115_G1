@@ -13,9 +13,9 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.Ciclo;
-import com.ues.sv.proyecto.controladministrativoapp.service.CicloService;
-import com.ues.sv.proyecto.controladministrativoapp.service.interfaces.CallBackDisposableInterface;
-import com.ues.sv.proyecto.controladministrativoapp.service.interfaces.CallBackVoidInterface;
+import com.ues.sv.proyecto.controladministrativoapp.room.service.CicloService;
+import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
+import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.OnlyTxtInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.OnlyTxtRecyclerAdapter;
 

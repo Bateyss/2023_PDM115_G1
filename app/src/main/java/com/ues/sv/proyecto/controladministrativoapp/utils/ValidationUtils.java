@@ -4,12 +4,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 
-import io.reactivex.rxjava3.annotations.NonNull;
-
 import androidx.room.ColumnInfo;
 
 import com.google.android.material.textfield.TextInputLayout;
-import com.ues.sv.proyecto.controladministrativoapp.sqlite.Validacion;
 
 import java.lang.reflect.Field;
 import java.util.Map;

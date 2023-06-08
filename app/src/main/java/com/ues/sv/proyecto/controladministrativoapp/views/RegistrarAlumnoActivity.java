@@ -3,29 +3,23 @@ package com.ues.sv.proyecto.controladministrativoapp.views;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.android.material.textview.MaterialTextView;
 import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.Alumno;
 import com.ues.sv.proyecto.controladministrativoapp.models.Persona;
-import com.ues.sv.proyecto.controladministrativoapp.service.AlumnoService;
-import com.ues.sv.proyecto.controladministrativoapp.service.PersonaService;
-import com.ues.sv.proyecto.controladministrativoapp.service.interfaces.CallBackDisposableInterface;
-import com.ues.sv.proyecto.controladministrativoapp.service.interfaces.CallBackVoidInterface;
+import com.ues.sv.proyecto.controladministrativoapp.room.service.AlumnoService;
+import com.ues.sv.proyecto.controladministrativoapp.room.service.PersonaService;
+import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
+import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.ValidationUtils;
-import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.OnlyTxtInterface;
-import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.OnlyTxtSpinnerAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;

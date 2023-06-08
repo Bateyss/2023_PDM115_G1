@@ -15,9 +15,9 @@ import com.ues.sv.proyecto.controladministrativoapp.MainActivity;
 import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.Persona;
 import com.ues.sv.proyecto.controladministrativoapp.models.Usuario;
-import com.ues.sv.proyecto.controladministrativoapp.service.PersonaService;
-import com.ues.sv.proyecto.controladministrativoapp.service.UsuarioService;
-import com.ues.sv.proyecto.controladministrativoapp.service.interfaces.CallBackDisposableInterface;
+import com.ues.sv.proyecto.controladministrativoapp.room.service.PersonaService;
+import com.ues.sv.proyecto.controladministrativoapp.room.service.UsuarioService;
+import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.ValidationUtils;
 
 import java.util.HashMap;

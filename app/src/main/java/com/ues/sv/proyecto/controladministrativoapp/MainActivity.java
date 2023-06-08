@@ -1,8 +1,6 @@
 package com.ues.sv.proyecto.controladministrativoapp;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -11,8 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.ues.sv.proyecto.controladministrativoapp.models.Usuario;
-import com.ues.sv.proyecto.controladministrativoapp.service.UsuarioService;
-import com.ues.sv.proyecto.controladministrativoapp.service.interfaces.CallBackDisposableInterface;
+import com.ues.sv.proyecto.controladministrativoapp.room.service.UsuarioService;
+import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.ValidationUtils;
 import com.ues.sv.proyecto.controladministrativoapp.views.InicioActivity;
 import com.ues.sv.proyecto.controladministrativoapp.views.RegistrarUsuarioActivity;
