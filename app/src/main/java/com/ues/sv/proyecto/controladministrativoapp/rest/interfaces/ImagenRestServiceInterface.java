@@ -8,10 +8,15 @@ import java.util.List;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Single;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface ImagenRestServiceInterface {
@@ -28,6 +33,9 @@ public interface ImagenRestServiceInterface {
     Completable delete(@Body Imagen imagen);
 
     @POST()
-    Single<Imagen> create(@Body Imagen imagen);
+    Call<Imagen> create(@Part MultipartBody.Part file);
+
+    @PUT()
+    Call<Imagen> update(@Body Imagen imagen, @Part MultipartBody.Part file);
 
 }
