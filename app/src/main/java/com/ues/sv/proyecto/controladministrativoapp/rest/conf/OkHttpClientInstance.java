@@ -21,11 +21,13 @@ import com.ues.sv.proyecto.controladministrativoapp.rest.interfaces.SolicitudRev
 import com.ues.sv.proyecto.controladministrativoapp.rest.interfaces.TipoEvaluacionRestServiceInterface;
 import com.ues.sv.proyecto.controladministrativoapp.rest.interfaces.UsuarioRestServiceInterface;
 
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Multipart;
 
 public class OkHttpClientInstance {
 
@@ -87,7 +89,7 @@ public class OkHttpClientInstance {
         if (cicloRestServiceInterface == null) {
             synchronized (CicloRestServiceInterface.class) {
                 if (cicloRestServiceInterface == null) {
-                    cicloRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(AlumnoRestServiceInterface.BASE_URL).build()
+                    cicloRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(CicloRestServiceInterface.BASE_URL).build()
                             .create(CicloRestServiceInterface.class);
                 }
             }
@@ -99,7 +101,7 @@ public class OkHttpClientInstance {
         if (coordinadorRestServiceInterface == null) {
             synchronized (CoordinadorRestServiceInterface.class) {
                 if (coordinadorRestServiceInterface == null) {
-                    coordinadorRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(AlumnoRestServiceInterface.BASE_URL).build()
+                    coordinadorRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(CoordinadorRestServiceInterface.BASE_URL).build()
                             .create(CoordinadorRestServiceInterface.class);
                 }
             }
@@ -111,7 +113,7 @@ public class OkHttpClientInstance {
         if (cursoRestServiceInterface == null) {
             synchronized (CursoRestServiceInterface.class) {
                 if (cursoRestServiceInterface == null) {
-                    cursoRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(AlumnoRestServiceInterface.BASE_URL).build()
+                    cursoRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(CursoRestServiceInterface.BASE_URL).build()
                             .create(CursoRestServiceInterface.class);
                 }
             }
@@ -123,7 +125,7 @@ public class OkHttpClientInstance {
         if (detalleRevisionRestServiceInterface == null) {
             synchronized (DetalleRevisionRestServiceInterface.class) {
                 if (detalleRevisionRestServiceInterface == null) {
-                    detalleRevisionRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(AlumnoRestServiceInterface.BASE_URL).build()
+                    detalleRevisionRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(DetalleRevisionRestServiceInterface.BASE_URL).build()
                             .create(DetalleRevisionRestServiceInterface.class);
                 }
             }
@@ -135,7 +137,7 @@ public class OkHttpClientInstance {
         if (docenteRestServiceInterface == null) {
             synchronized (DocenteRestServiceInterface.class) {
                 if (docenteRestServiceInterface == null) {
-                    docenteRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(AlumnoRestServiceInterface.BASE_URL).build()
+                    docenteRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(DocenteRestServiceInterface.BASE_URL).build()
                             .create(DocenteRestServiceInterface.class);
                 }
             }
@@ -147,7 +149,7 @@ public class OkHttpClientInstance {
         if (encargadoImpresionRestServiceInterface == null) {
             synchronized (EncargadoImpresionRestServiceInterface.class) {
                 if (encargadoImpresionRestServiceInterface == null) {
-                    encargadoImpresionRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(AlumnoRestServiceInterface.BASE_URL).build()
+                    encargadoImpresionRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(EncargadoImpresionRestServiceInterface.BASE_URL).build()
                             .create(EncargadoImpresionRestServiceInterface.class);
                 }
             }
@@ -159,7 +161,7 @@ public class OkHttpClientInstance {
         if (evaluacionRestServiceInterface == null) {
             synchronized (EvaluacionRestServiceInterface.class) {
                 if (evaluacionRestServiceInterface == null) {
-                    evaluacionRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(AlumnoRestServiceInterface.BASE_URL).build()
+                    evaluacionRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(EvaluacionRestServiceInterface.BASE_URL).build()
                             .create(EvaluacionRestServiceInterface.class);
                 }
             }
@@ -171,7 +173,7 @@ public class OkHttpClientInstance {
         if (imagenRestServiceInterface == null) {
             synchronized (ImagenRestServiceInterface.class) {
                 if (imagenRestServiceInterface == null) {
-                    imagenRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(AlumnoRestServiceInterface.BASE_URL).build()
+                    imagenRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(ImagenRestServiceInterface.BASE_URL).build()
                             .create(ImagenRestServiceInterface.class);
                 }
             }
@@ -183,7 +185,7 @@ public class OkHttpClientInstance {
         if (impresionRestServiceInterface == null) {
             synchronized (ImpresionRestServiceInterface.class) {
                 if (impresionRestServiceInterface == null) {
-                    impresionRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(AlumnoRestServiceInterface.BASE_URL).build()
+                    impresionRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(ImpresionRestServiceInterface.BASE_URL).build()
                             .create(ImpresionRestServiceInterface.class);
                 }
             }
@@ -195,7 +197,7 @@ public class OkHttpClientInstance {
         if (inscripcionRestServiceInterface == null) {
             synchronized (InscripcionRestServiceInterface.class) {
                 if (inscripcionRestServiceInterface == null) {
-                    inscripcionRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(AlumnoRestServiceInterface.BASE_URL).build()
+                    inscripcionRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(InscripcionRestServiceInterface.BASE_URL).build()
                             .create(InscripcionRestServiceInterface.class);
                 }
             }
@@ -207,7 +209,7 @@ public class OkHttpClientInstance {
         if (materiaRestServiceInterface == null) {
             synchronized (MateriaRestServiceInterface.class) {
                 if (materiaRestServiceInterface == null) {
-                    materiaRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(AlumnoRestServiceInterface.BASE_URL).build()
+                    materiaRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(MateriaRestServiceInterface.BASE_URL).build()
                             .create(MateriaRestServiceInterface.class);
                 }
             }
@@ -219,7 +221,7 @@ public class OkHttpClientInstance {
         if (motivoErrorImpresionRestServiceInterface == null) {
             synchronized (MotivoErrorImpresionRestServiceInterface.class) {
                 if (motivoErrorImpresionRestServiceInterface == null) {
-                    motivoErrorImpresionRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(AlumnoRestServiceInterface.BASE_URL).build()
+                    motivoErrorImpresionRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(MotivoErrorImpresionRestServiceInterface.BASE_URL).build()
                             .create(MotivoErrorImpresionRestServiceInterface.class);
                 }
             }
@@ -231,7 +233,7 @@ public class OkHttpClientInstance {
         if (parametrosRestServiceInterface == null) {
             synchronized (ParametrosRestServiceInterface.class) {
                 if (parametrosRestServiceInterface == null) {
-                    parametrosRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(AlumnoRestServiceInterface.BASE_URL).build()
+                    parametrosRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(ParametrosRestServiceInterface.BASE_URL).build()
                             .create(ParametrosRestServiceInterface.class);
                 }
             }
@@ -243,7 +245,7 @@ public class OkHttpClientInstance {
         if (participanteRevisionRestServiceInterface == null) {
             synchronized (ParticipanteRevisionRestServiceInterface.class) {
                 if (participanteRevisionRestServiceInterface == null) {
-                    participanteRevisionRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(AlumnoRestServiceInterface.BASE_URL).build()
+                    participanteRevisionRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(ParticipanteRevisionRestServiceInterface.BASE_URL).build()
                             .create(ParticipanteRevisionRestServiceInterface.class);
                 }
             }
@@ -255,7 +257,7 @@ public class OkHttpClientInstance {
         if (personaRestServiceInterface == null) {
             synchronized (PersonaRestServiceInterface.class) {
                 if (personaRestServiceInterface == null) {
-                    personaRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(AlumnoRestServiceInterface.BASE_URL).build()
+                    personaRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(PersonaRestServiceInterface.BASE_URL).build()
                             .create(PersonaRestServiceInterface.class);
                 }
             }
@@ -267,7 +269,7 @@ public class OkHttpClientInstance {
         if (revisionRestServiceInterface == null) {
             synchronized (RevisionRestServiceInterface.class) {
                 if (revisionRestServiceInterface == null) {
-                    revisionRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(AlumnoRestServiceInterface.BASE_URL).build()
+                    revisionRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(RevisionRestServiceInterface.BASE_URL).build()
                             .create(RevisionRestServiceInterface.class);
                 }
             }
@@ -279,7 +281,7 @@ public class OkHttpClientInstance {
         if (solicitudRevisionRestServiceInterface == null) {
             synchronized (SolicitudRevisionRestServiceInterface.class) {
                 if (solicitudRevisionRestServiceInterface == null) {
-                    solicitudRevisionRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(AlumnoRestServiceInterface.BASE_URL).build()
+                    solicitudRevisionRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(SolicitudRevisionRestServiceInterface.BASE_URL).build()
                             .create(SolicitudRevisionRestServiceInterface.class);
                 }
             }
@@ -291,7 +293,7 @@ public class OkHttpClientInstance {
         if (tipoEvaluacionRestServiceInterface == null) {
             synchronized (TipoEvaluacionRestServiceInterface.class) {
                 if (tipoEvaluacionRestServiceInterface == null) {
-                    tipoEvaluacionRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(AlumnoRestServiceInterface.BASE_URL).build()
+                    tipoEvaluacionRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(TipoEvaluacionRestServiceInterface.BASE_URL).build()
                             .create(TipoEvaluacionRestServiceInterface.class);
                 }
             }
@@ -303,7 +305,7 @@ public class OkHttpClientInstance {
         if (usuarioRestServiceInterface == null) {
             synchronized (UsuarioRestServiceInterface.class) {
                 if (usuarioRestServiceInterface == null) {
-                    usuarioRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(AlumnoRestServiceInterface.BASE_URL).build()
+                    usuarioRestServiceInterface = OkHttpClientInstance.getRetrofitBuilderInstance().baseUrl(UsuarioRestServiceInterface.BASE_URL).build()
                             .create(UsuarioRestServiceInterface.class);
                 }
             }
