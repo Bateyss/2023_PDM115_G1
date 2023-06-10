@@ -9,11 +9,11 @@ import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Single;
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
@@ -21,21 +21,21 @@ import retrofit2.http.Path;
 
 public interface ImagenRestServiceInterface {
 
-    String BASE_URL = ApiData.API1_URL.concat("/imagen");
-
-    @GET("/list")
+    @GET("imagen/list")
     Flowable<List<Imagen>> getList();
 
-    @GET("/id/{id}")
+    @GET("imagenid/{id}")
     Single<Imagen> getOneById(@Path("id") Long id);
 
-    @DELETE()
+    @DELETE("imagen")
     Completable delete(@Body Imagen imagen);
 
-    @POST()
+    @Multipart
+    @POST("imagen")
     Call<Imagen> create(@Part MultipartBody.Part file);
 
-    @PUT()
+    @Multipart
+    @PUT("imagen")
     Call<Imagen> update(@Body Imagen imagen, @Part MultipartBody.Part file);
 
 }

@@ -1,11 +1,34 @@
 package com.ues.sv.proyecto.controladministrativoapp.rest.interfaces;
 
 import com.ues.sv.proyecto.controladministrativoapp.models.Ciclo;
-import com.ues.sv.proyecto.controladministrativoapp.rest.conf.ApiData;
-import com.ues.sv.proyecto.controladministrativoapp.rest.conf.CommonRestService;
 
-public interface CicloRestServiceInterface extends CommonRestService<Ciclo> {
+import java.util.List;
 
-    String BASE_URL = ApiData.API1_URL.concat("/ciclo");
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
+
+public interface CicloRestServiceInterface {
+
+    @GET("ciclo/list")
+    Flowable<List<Ciclo>> getList();
+
+    @GET("ciclo/id/{id}")
+    Single<Ciclo> getOneById(@Path("id") Long id);
+
+    @DELETE("ciclo")
+    Completable delete(@Body Ciclo entity);
+
+    @POST("ciclo")
+    Single<Ciclo> create(@Body Ciclo entity);
+
+    @PUT("ciclo")
+    Single<Ciclo> update(@Body Ciclo entity);
 
 }

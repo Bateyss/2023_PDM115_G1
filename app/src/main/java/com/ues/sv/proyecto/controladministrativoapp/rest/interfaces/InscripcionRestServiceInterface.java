@@ -1,11 +1,33 @@
 package com.ues.sv.proyecto.controladministrativoapp.rest.interfaces;
 
 import com.ues.sv.proyecto.controladministrativoapp.models.Inscripcion;
-import com.ues.sv.proyecto.controladministrativoapp.rest.conf.ApiData;
-import com.ues.sv.proyecto.controladministrativoapp.rest.conf.CommonRestService;
 
-public interface InscripcionRestServiceInterface extends CommonRestService<Inscripcion> {
+import java.util.List;
 
-    String BASE_URL = ApiData.API1_URL.concat("/inscripcion");
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
 
+public interface InscripcionRestServiceInterface {
+
+    @GET("inscripcion/list")
+    Flowable<List<Inscripcion>> getList();
+
+    @GET("inscripcion/id/{id}")
+    Single<Inscripcion> getOneById(@Path("id") Long id);
+
+    @DELETE("inscripcion")
+    Completable delete(@Body Inscripcion entity);
+
+    @POST("inscripcion")
+    Single<Inscripcion> create(@Body Inscripcion entity);
+
+    @PUT("inscripcion")
+    Single<Inscripcion> update(@Body Inscripcion entity);
 }

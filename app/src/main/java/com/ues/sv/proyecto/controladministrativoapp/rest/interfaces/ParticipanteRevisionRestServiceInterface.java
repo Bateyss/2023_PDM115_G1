@@ -1,11 +1,34 @@
 package com.ues.sv.proyecto.controladministrativoapp.rest.interfaces;
 
 import com.ues.sv.proyecto.controladministrativoapp.models.ParticipanteRevision;
-import com.ues.sv.proyecto.controladministrativoapp.rest.conf.ApiData;
-import com.ues.sv.proyecto.controladministrativoapp.rest.conf.CommonRestService;
 
-public interface ParticipanteRevisionRestServiceInterface extends CommonRestService<ParticipanteRevision> {
+import java.util.List;
 
-    String BASE_URL = ApiData.API1_URL.concat("/participanterevision");
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
+
+public interface ParticipanteRevisionRestServiceInterface {
+
+    @GET("participanterevision/list")
+    Flowable<List<ParticipanteRevision>> getList();
+
+    @GET("participanterevision/id/{id}")
+    Single<ParticipanteRevision> getOneById(@Path("id") Long id);
+
+    @DELETE("participanterevision")
+    Completable delete(@Body ParticipanteRevision entity);
+
+    @POST("participanterevision")
+    Single<ParticipanteRevision> create(@Body ParticipanteRevision entity);
+
+    @PUT("participanterevision")
+    Single<ParticipanteRevision> update(@Body ParticipanteRevision entity);
 
 }
