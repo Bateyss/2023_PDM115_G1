@@ -18,6 +18,7 @@ import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.disposables.Disposable;
 
+
 public class UsuarioRestService extends AbsRestServiceImpl<Usuario, UsuarioRestServiceInterface, Long> {
 
     public UsuarioRestService() {
@@ -127,5 +128,24 @@ public class UsuarioRestService extends AbsRestServiceImpl<Usuario, UsuarioRestS
     @Override
     protected UsuarioRestServiceInterface getRest() {
         return OkHttpClientInstance.usuarioRestServiceInterface();
+    }
+
+    public void buscarUserNameAndPass(String username, String userpass, CallBackDisposableInterface<Usuario> disposableInterface) {
+        DisposableUtils.addComposite(new DisposableUtils.CompositeSingleCallbac() {
+            @Override
+
+            public Single<?> singleAction() {
+                return OkHttpClientInstance.usuarioRestServiceInterface().buscarByUserAndPass(username, userpass);
+            }
+
+            @Override
+            public Disposable completableCallBack(Single<?> applySubscribe) {
+                return applySubscribe.subscribe(object -> disposableInterface.onCallBack((Usuario) object)
+                        , throwable -> {
+                            Log.e("BUSCAR_POR_ID", "Error al buscar por id", throwable);
+                            disposableInterface.onThrow(throwable);
+                        });
+            }
+        });
     }
 }

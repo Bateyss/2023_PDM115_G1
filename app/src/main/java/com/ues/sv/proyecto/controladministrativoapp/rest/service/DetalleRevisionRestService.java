@@ -3,11 +3,9 @@ package com.ues.sv.proyecto.controladministrativoapp.rest.service;
 import android.util.Log;
 
 import com.ues.sv.proyecto.controladministrativoapp.models.DetalleRevision;
-import com.ues.sv.proyecto.controladministrativoapp.models.DetalleRevision;
 import com.ues.sv.proyecto.controladministrativoapp.rest.bin.AbsRestService;
 import com.ues.sv.proyecto.controladministrativoapp.rest.bin.AbsRestServiceImpl;
 import com.ues.sv.proyecto.controladministrativoapp.rest.conf.OkHttpClientInstance;
-import com.ues.sv.proyecto.controladministrativoapp.rest.interfaces.DetalleRevisionRestServiceInterface;
 import com.ues.sv.proyecto.controladministrativoapp.rest.interfaces.DetalleRevisionRestServiceInterface;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;
@@ -36,11 +34,10 @@ public class DetalleRevisionRestService extends AbsRestServiceImpl<DetalleRevisi
 
                     @Override
                     public Disposable completableCallBack(Single<?> applySubscribe) {
-                        return applySubscribe.subscribe(object -> disposableInterface.onCallBack((DetalleRevision) object)
-                                , throwable -> {
-                                    Log.e("CREAR_ENTIDAD", "Error al crear entidad", throwable);
-                                    disposableInterface.onThrow(throwable);
-                                });
+                        return applySubscribe.subscribe(object -> disposableInterface.onCallBack((DetalleRevision) object), throwable -> {
+                            Log.e("CREAR_ENTIDAD", "Error al crear entidad", throwable);
+                            disposableInterface.onThrow(throwable);
+                        });
                     }
                 });
             }
@@ -56,11 +53,10 @@ public class DetalleRevisionRestService extends AbsRestServiceImpl<DetalleRevisi
 
                     @Override
                     public Disposable completableCallBack(Single<?> applySubscribe) {
-                        return applySubscribe.subscribe(object -> disposableInterface.onCallBack((DetalleRevision) object)
-                                , throwable -> {
-                                    Log.e("EDITAR_ENTIDAD", "Error al editar entidad", throwable);
-                                    disposableInterface.onThrow(throwable);
-                                });
+                        return applySubscribe.subscribe(object -> disposableInterface.onCallBack((DetalleRevision) object), throwable -> {
+                            Log.e("EDITAR_ENTIDAD", "Error al editar entidad", throwable);
+                            disposableInterface.onThrow(throwable);
+                        });
                     }
                 });
             }
@@ -97,11 +93,10 @@ public class DetalleRevisionRestService extends AbsRestServiceImpl<DetalleRevisi
 
                     @Override
                     public Disposable completableCallBack(Single<?> applySubscribe) {
-                        return applySubscribe.subscribe(object -> disposableInterface.onCallBack((DetalleRevision) object)
-                                , throwable -> {
-                                    Log.e("BUSCAR_POR_ID", "Error al buscar por id", throwable);
-                                    disposableInterface.onThrow(throwable);
-                                });
+                        return applySubscribe.subscribe(object -> disposableInterface.onCallBack((DetalleRevision) object), throwable -> {
+                            Log.e("BUSCAR_POR_ID", "Error al buscar por id", throwable);
+                            disposableInterface.onThrow(throwable);
+                        });
                     }
                 });
             }

@@ -34,11 +34,10 @@ public class ImpresionRestService extends AbsRestServiceImpl<Impresion, Impresio
 
                     @Override
                     public Disposable completableCallBack(Single<?> applySubscribe) {
-                        return applySubscribe.subscribe(object -> disposableInterface.onCallBack((Impresion) object)
-                                , throwable -> {
-                                    Log.e("CREAR_ENTIDAD", "Error al crear entidad", throwable);
-                                    disposableInterface.onThrow(throwable);
-                                });
+                        return applySubscribe.subscribe(object -> disposableInterface.onCallBack((Impresion) object), throwable -> {
+                            Log.e("CREAR_ENTIDAD", "Error al crear entidad", throwable);
+                            disposableInterface.onThrow(throwable);
+                        });
                     }
                 });
             }
@@ -54,11 +53,10 @@ public class ImpresionRestService extends AbsRestServiceImpl<Impresion, Impresio
 
                     @Override
                     public Disposable completableCallBack(Single<?> applySubscribe) {
-                        return applySubscribe.subscribe(object -> disposableInterface.onCallBack((Impresion) object)
-                                , throwable -> {
-                                    Log.e("EDITAR_ENTIDAD", "Error al editar entidad", throwable);
-                                    disposableInterface.onThrow(throwable);
-                                });
+                        return applySubscribe.subscribe(object -> disposableInterface.onCallBack((Impresion) object), throwable -> {
+                            Log.e("EDITAR_ENTIDAD", "Error al editar entidad", throwable);
+                            disposableInterface.onThrow(throwable);
+                        });
                     }
                 });
             }
@@ -95,11 +93,10 @@ public class ImpresionRestService extends AbsRestServiceImpl<Impresion, Impresio
 
                     @Override
                     public Disposable completableCallBack(Single<?> applySubscribe) {
-                        return applySubscribe.subscribe(object -> disposableInterface.onCallBack((Impresion) object)
-                                , throwable -> {
-                                    Log.e("BUSCAR_POR_ID", "Error al buscar por id", throwable);
-                                    disposableInterface.onThrow(throwable);
-                                });
+                        return applySubscribe.subscribe(object -> disposableInterface.onCallBack((Impresion) object), throwable -> {
+                            Log.e("BUSCAR_POR_ID", "Error al buscar por id", throwable);
+                            disposableInterface.onThrow(throwable);
+                        });
                     }
                 });
             }
@@ -127,5 +124,22 @@ public class ImpresionRestService extends AbsRestServiceImpl<Impresion, Impresio
     @Override
     protected ImpresionRestServiceInterface getRest() {
         return OkHttpClientInstance.impresionRestServiceInterface();
+    }
+
+    public void buscarPorIdEvaluacion(Long idEvaluacion, CallBackDisposableInterface<Impresion> disposableInterface) {
+        DisposableUtils.addComposite(new DisposableUtils.CompositeSingleCallbac() {
+            @Override
+            public Single<?> singleAction() {
+                return OkHttpClientInstance.impresionRestServiceInterface().getOneByIdEvaluacion(idEvaluacion);
+            }
+
+            @Override
+            public Disposable completableCallBack(Single<?> applySubscribe) {
+                return applySubscribe.subscribe(object -> disposableInterface.onCallBack((Impresion) object), throwable -> {
+                    Log.e("BUSCAR_POR_ID", "Error al buscar por id", throwable);
+                    disposableInterface.onThrow(throwable);
+                });
+            }
+        });
     }
 }

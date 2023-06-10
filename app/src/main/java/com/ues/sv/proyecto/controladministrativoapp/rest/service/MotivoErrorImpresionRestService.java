@@ -2,6 +2,7 @@ package com.ues.sv.proyecto.controladministrativoapp.rest.service;
 
 import android.util.Log;
 
+import com.ues.sv.proyecto.controladministrativoapp.models.Impresion;
 import com.ues.sv.proyecto.controladministrativoapp.models.MotivoErrorImpresion;
 import com.ues.sv.proyecto.controladministrativoapp.rest.bin.AbsRestService;
 import com.ues.sv.proyecto.controladministrativoapp.rest.bin.AbsRestServiceImpl;
@@ -127,5 +128,24 @@ public class MotivoErrorImpresionRestService extends AbsRestServiceImpl<MotivoEr
     @Override
     protected MotivoErrorImpresionRestServiceInterface getRest() {
         return OkHttpClientInstance.motivoErrorImpresionRestServiceInterface();
+    }
+
+    public void obtenerListaPorImpresion(Impresion impresion, CallBackDisposableInterface<List<MotivoErrorImpresion>> disposableInterface) {
+        DisposableUtils.addComposite(new DisposableUtils.CompositeFlowableCallback() {
+            @Override
+
+            public Flowable<?> flowableAction() {
+                return OkHttpClientInstance.motivoErrorImpresionRestServiceInterface().getListByImpresion(impresion);
+            }
+
+            @Override
+            public Disposable completableCallBack(Flowable<?> applySubscribe) {
+                return applySubscribe.subscribe(object -> disposableInterface.onCallBack((List<MotivoErrorImpresion>) object)
+                        , throwable -> {
+                            Log.e("BUSCAR_POR_ID", "Error al buscar por id", throwable);
+                            disposableInterface.onThrow(throwable);
+                        });
+            }
+        });
     }
 }

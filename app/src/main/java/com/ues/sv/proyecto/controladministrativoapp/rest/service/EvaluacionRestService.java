@@ -3,11 +3,9 @@ package com.ues.sv.proyecto.controladministrativoapp.rest.service;
 import android.util.Log;
 
 import com.ues.sv.proyecto.controladministrativoapp.models.Evaluacion;
-import com.ues.sv.proyecto.controladministrativoapp.models.Evaluacion;
 import com.ues.sv.proyecto.controladministrativoapp.rest.bin.AbsRestService;
 import com.ues.sv.proyecto.controladministrativoapp.rest.bin.AbsRestServiceImpl;
 import com.ues.sv.proyecto.controladministrativoapp.rest.conf.OkHttpClientInstance;
-import com.ues.sv.proyecto.controladministrativoapp.rest.interfaces.EvaluacionRestServiceInterface;
 import com.ues.sv.proyecto.controladministrativoapp.rest.interfaces.EvaluacionRestServiceInterface;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;

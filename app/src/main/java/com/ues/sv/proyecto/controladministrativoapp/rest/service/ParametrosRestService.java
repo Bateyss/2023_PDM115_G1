@@ -128,4 +128,23 @@ public class ParametrosRestService extends AbsRestServiceImpl<Parametros, Parame
     protected ParametrosRestServiceInterface getRest() {
         return OkHttpClientInstance.parametrosRestServiceInterface();
     }
+
+    public void buscarPorIdHistorico(Integer idHistorico, CallBackDisposableInterface<Parametros> disposableInterface) {
+        DisposableUtils.addComposite(new DisposableUtils.CompositeSingleCallbac() {
+            @Override
+
+            public Single<?> singleAction() {
+                return OkHttpClientInstance.parametrosRestServiceInterface().getOneByIdHistorico(idHistorico);
+            }
+
+            @Override
+            public Disposable completableCallBack(Single<?> applySubscribe) {
+                return applySubscribe.subscribe(object -> disposableInterface.onCallBack((Parametros) object)
+                        , throwable -> {
+                            Log.e("BUSCAR_POR_ID", "Error al buscar por id", throwable);
+                            disposableInterface.onThrow(throwable);
+                        });
+            }
+        });
+    }
 }

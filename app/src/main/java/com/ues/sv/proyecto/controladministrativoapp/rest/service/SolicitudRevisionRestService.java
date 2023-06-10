@@ -128,4 +128,21 @@ public class SolicitudRevisionRestService extends AbsRestServiceImpl<SolicitudRe
     protected SolicitudRevisionRestServiceInterface getRest() {
         return OkHttpClientInstance.solicitudRevisionRestServiceInterface();
     }
+
+    public void obtenerListaPorEvaluacionId(Long idEvaluacion, CallBackDisposableInterface<List<SolicitudRevision>> disposableInterface) {
+        DisposableUtils.addComposite(new DisposableUtils.CompositeFlowableCallback() {
+            @Override
+            public Flowable<?> flowableAction() {
+                return OkHttpClientInstance.solicitudRevisionRestServiceInterface().getListByIdEvaluacion(idEvaluacion);
+            }
+
+            @Override
+            public Disposable completableCallBack(Flowable<?> applySubscribe) {
+                return applySubscribe.subscribe(response -> disposableInterface.onCallBack((List<SolicitudRevision>) response), throwable -> {
+                    Log.e("OBTENER_lISTA", "Error al obtener lista", throwable);
+                    disposableInterface.onThrow(throwable);
+                });
+            }
+        });
+    }
 }

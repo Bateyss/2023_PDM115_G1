@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 import com.ues.sv.proyecto.controladministrativoapp.models.Imagen;
+import com.ues.sv.proyecto.controladministrativoapp.rest.conf.ApiData;
 import com.ues.sv.proyecto.controladministrativoapp.rest.conf.OkHttpClientInstance;
 import com.ues.sv.proyecto.controladministrativoapp.rest.interfaces.ImagenRestServiceInterface;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
@@ -145,7 +146,7 @@ public class ImagenRestService {
     }
 
     public void descargarImagen(Imagen imagen, ImageView imageView) {
-        String urlImagen = imagenRestService.BASE_URL.concat("/download/").concat(imagen.getNombre());
+        String urlImagen = ApiData.API1_URL.concat("imagen/download/").concat(imagen.getNombre());
         Picasso.get().load(urlImagen).resize(50, 50).centerCrop().into(imageView);
     }
 
