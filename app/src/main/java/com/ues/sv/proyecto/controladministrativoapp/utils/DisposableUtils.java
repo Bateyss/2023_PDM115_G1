@@ -2,6 +2,8 @@ package com.ues.sv.proyecto.controladministrativoapp.utils;
 
 import android.util.Log;
 
+import com.ues.sv.proyecto.controladministrativoapp.rest.bin.ErrorResponse;
+
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
@@ -30,9 +32,9 @@ public class DisposableUtils {
                 compositeInterface.singleAction()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .doOnError(throwable ->
-                                Log.e("ADD_FLOWABLEs_COMPOSITE", "Error ejecutar flowable"
-                                        , throwable))));
+                        .doOnError(throwable -> Log.e("ADD_FLOWABLEs_COMPOSITE", "Error ejecutar single"
+                                , throwable)
+                        )));
     }
 
     public static void addComposite(CompositeFlowableCallback compositeInterface) {
