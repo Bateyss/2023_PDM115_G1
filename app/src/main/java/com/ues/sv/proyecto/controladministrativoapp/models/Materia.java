@@ -5,6 +5,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
 import com.ues.sv.proyecto.controladministrativoapp.utils.Validacion;
 
 import io.reactivex.rxjava3.annotations.NonNull;
@@ -14,11 +15,13 @@ public class Materia {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "ID_MATERIA")
+    @SerializedName("idMateria")
     private Long idMateria;
 
     @ColumnInfo(name = "NOMBRE_MATERIA")
     @NonNull
     @Validacion(notNull = true)
+    @SerializedName("nombreMateria")
     private String nombreMateria;
 
     @Ignore

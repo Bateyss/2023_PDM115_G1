@@ -6,6 +6,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
 import com.ues.sv.proyecto.controladministrativoapp.utils.Validacion;
 
 import io.reactivex.rxjava3.annotations.NonNull;
@@ -15,19 +16,23 @@ public class Usuario {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "ID_USUARIO")
+    @SerializedName("idUsuario")
     private Long idUsuario;
 
     @Embedded
+    @SerializedName("persona")
     private Persona persona;
 
     @ColumnInfo(name = "USER_NAME")
     @NonNull
     @Validacion(notNull = true)
+    @SerializedName("userName")
     private String userName;
 
     @ColumnInfo(name = "USER_PASS")
     @NonNull
     @Validacion(notNull = true)
+    @SerializedName("userPass")
     private String userPass;
 
     @Ignore

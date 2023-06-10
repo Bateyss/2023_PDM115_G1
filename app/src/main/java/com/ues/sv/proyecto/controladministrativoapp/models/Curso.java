@@ -3,30 +3,33 @@ package com.ues.sv.proyecto.controladministrativoapp.models;
 import androidx.room.ColumnInfo;
 import androidx.room.Embedded;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-import androidx.room.Relation;
 
-import io.reactivex.rxjava3.annotations.NonNull;
+import com.google.gson.annotations.SerializedName;
 
 @Entity(tableName = "CURSO")
 public class Curso {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "ID_CURSO")
+    @SerializedName("idCurso")
     private Long idCurso;
 
     @Embedded(prefix = "CURSO_")
+    @SerializedName("ciclo")
     private Ciclo ciclo;
 
     @Embedded(prefix = "CURSO_")
+    @SerializedName("materia")
     private Materia materia;
 
     @Embedded(prefix = "CURSO_DOCENTE_")
+    @SerializedName("docente")
     private Docente docente;
 
     @Embedded(prefix = "CURSO_COORDINADOR_")
+    @SerializedName("coordinador")
     private Coordinador coordinador;
 
     @Ignore

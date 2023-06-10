@@ -6,6 +6,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
 import com.ues.sv.proyecto.controladministrativoapp.utils.Validacion;
 
 import io.reactivex.rxjava3.annotations.NonNull;
@@ -14,17 +15,21 @@ import io.reactivex.rxjava3.annotations.NonNull;
 public class Evaluacion {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "ID_EVALUACION")
+    @SerializedName("idEvaluacion")
     private Long idEvaluacion;
 
     @Embedded
+    @SerializedName("curso")
     private Curso curso;
 
     @Embedded
+    @SerializedName("tipoEvaluacion")
     private TipoEvaluacion tipoEvaluacion;
 
     @ColumnInfo(name = "NUMERO_EVALUACION")
     @NonNull
     @Validacion(notNull = true)
+    @SerializedName("numeroEvaluacion")
     private Integer numeroEvaluacion;
 
     @Ignore

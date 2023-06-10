@@ -6,6 +6,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
+
 import io.reactivex.rxjava3.annotations.NonNull;
 
 @Entity(tableName = "PARTICIPANTEREVISION")
@@ -13,12 +15,15 @@ public class ParticipanteRevision {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "ID_PARTICIPANTE")
+    @SerializedName("idParticipante")
     private Long idParticipante;
 
     @Embedded
+    @SerializedName("revision")
     private Revision revision;
 
     @Embedded
+    @SerializedName("persona")
     private Persona persona;
 
     @Ignore

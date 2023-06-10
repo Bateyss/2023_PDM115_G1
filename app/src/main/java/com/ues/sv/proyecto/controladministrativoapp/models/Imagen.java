@@ -1,10 +1,15 @@
 package com.ues.sv.proyecto.controladministrativoapp.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Objects;
 
 public class Imagen {
+    @SerializedName("idImagen")
     private Long idImagen;
+    @SerializedName("nombre")
     private String nombre;
+    @SerializedName("ubicacion")
     private String ubicacion;
 
     public Imagen() {

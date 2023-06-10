@@ -5,6 +5,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
 import com.ues.sv.proyecto.controladministrativoapp.utils.Validacion;
 
 import io.reactivex.rxjava3.annotations.NonNull;
@@ -13,16 +14,19 @@ import io.reactivex.rxjava3.annotations.NonNull;
 public class Ciclo {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "ID_CICLO")
+    @SerializedName("idCiclo")
     private Long idCiclo;
 
     @ColumnInfo(name = "NUMERO_CICLO")
     @NonNull
     @Validacion(notNull = true)
+    @SerializedName("numeroCiclo")
     private String numeroCiclo;
 
     @ColumnInfo(name = "NUMERO_ANIO")
     @NonNull
     @Validacion(notNull = true)
+    @SerializedName("numeroAnio")
     private String numeroAnio;
 
     @Ignore

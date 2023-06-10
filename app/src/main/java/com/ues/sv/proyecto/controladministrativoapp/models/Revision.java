@@ -7,8 +7,9 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-import com.ues.sv.proyecto.controladministrativoapp.utils.Validacion;
+import com.google.gson.annotations.SerializedName;
 import com.ues.sv.proyecto.controladministrativoapp.utils.DateConverter;
+import com.ues.sv.proyecto.controladministrativoapp.utils.Validacion;
 
 import java.util.Date;
 
@@ -18,33 +19,40 @@ import io.reactivex.rxjava3.annotations.NonNull;
 public class Revision {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "ID_REVISION")
+    @SerializedName("idRevision")
     private Long idRevision;
 
     @Embedded
+    @SerializedName("evaluacion")
     private Evaluacion evaluacion;
 
     @ColumnInfo(name = "NUMERO_REVISION")
     @NonNull
     @Validacion(notNull = true)
+    @SerializedName("numeroRevision")
     private String numeroRevision;
 
     @ColumnInfo(name = "OBSERVACIONES_REVISION")
     @Validacion()
+    @SerializedName("observacionesRevision")
     private String observacionesRevision;
 
     @ColumnInfo(name = "ESTADO_REVISION")
     @NonNull
     @Validacion(notNull = true)
+    @SerializedName("estadoRevision")
     private Integer estadoRevision;
 
     @ColumnInfo(name = "NOTA_REVISION")
     @NonNull
     @Validacion(notNull = true)
+    @SerializedName("notaRevision")
     private Double notaRevision;
 
     @ColumnInfo(name = "FECHA_REVISION")
     @TypeConverters(value = {DateConverter.class})
     @Validacion()
+    @SerializedName("fechaRevision")
     private Date fechaRevision;
 
     @Ignore

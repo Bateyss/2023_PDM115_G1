@@ -7,6 +7,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
+import com.google.gson.annotations.SerializedName;
 import com.ues.sv.proyecto.controladministrativoapp.utils.Validacion;
 import com.ues.sv.proyecto.controladministrativoapp.utils.DateConverter;
 
@@ -19,15 +20,18 @@ public class Docente {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "ID_DOCENTE")
+    @SerializedName("idDocente")
     private Long idDocente;
 
     @Embedded
+    @SerializedName("persona")
     private Persona persona;
 
     @ColumnInfo(name = "FECHA_INGRESO")
     @NonNull
     @TypeConverters({DateConverter.class})
     @Validacion(notNull = true)
+    @SerializedName("fechaIngreso")
     private Date fechaIngreso;
 
     @Ignore

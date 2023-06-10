@@ -6,18 +6,21 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import io.reactivex.rxjava3.annotations.NonNull;
+import com.google.gson.annotations.SerializedName;
 
 @Entity(tableName = "INSCRIPCION")
 public class Inscripcion {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "ID_INSCRIPCION")
+    @SerializedName("idInscripcion")
     private Long idInscripcion;
 
     @Embedded
+    @SerializedName("alumno")
     private Alumno alumno;
 
     @Embedded
+    @SerializedName("curso")
     private Curso curso;
 
     @Ignore

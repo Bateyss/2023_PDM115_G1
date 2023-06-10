@@ -6,6 +6,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
 import com.ues.sv.proyecto.controladministrativoapp.utils.Validacion;
 
 import io.reactivex.rxjava3.annotations.NonNull;
@@ -14,14 +15,17 @@ import io.reactivex.rxjava3.annotations.NonNull;
 public class EncargadoImpresion {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "ID_ENCARGADO")
+    @SerializedName("idEncargado")
     private Long idEncargado;
 
     @Embedded
+    @SerializedName("persona")
     private Persona persona;
 
     @ColumnInfo(name = "AREA")
     @NonNull
     @Validacion(notNull = true)
+    @SerializedName("area")
     private String area;
 
     @Ignore

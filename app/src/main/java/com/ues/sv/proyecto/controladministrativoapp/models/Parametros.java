@@ -5,6 +5,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
 import com.ues.sv.proyecto.controladministrativoapp.utils.Validacion;
 
 import io.reactivex.rxjava3.annotations.NonNull;
@@ -14,21 +15,25 @@ public class Parametros {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "ID_PARAMETRO")
+    @SerializedName("idParametro")
     private Long idParametro;
 
     @ColumnInfo(name = "NOMBRE")
     @NonNull
     @Validacion(notNull = true)
+    @SerializedName("nombre")
     private String nombre;
 
     @ColumnInfo(name = "VALOR")
     @NonNull
     @Validacion(notNull = true)
+    @SerializedName("valor")
     private String valor;
 
     @ColumnInfo(name = "ID_HISTORICO")
     @NonNull
     @Validacion(notNull = true)
+    @SerializedName("idHistorico")
     private Integer idHistorico;
 
     @Ignore

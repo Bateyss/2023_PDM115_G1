@@ -6,6 +6,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
 import com.ues.sv.proyecto.controladministrativoapp.utils.Validacion;
 
 import io.reactivex.rxjava3.annotations.NonNull;
@@ -14,25 +15,31 @@ import io.reactivex.rxjava3.annotations.NonNull;
 public class Impresion {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "ID_IMPRESION")
+    @SerializedName("idImpresion")
     private Long idImpresion;
 
     @Embedded
+    @SerializedName("evaluacion")
     private Evaluacion evaluacion;
 
     @Embedded
+    @SerializedName("encargadoImpresion")
     private EncargadoImpresion encargadoImpresion;
 
     @ColumnInfo(name = "FORMATO")
     @NonNull
     @Validacion(notNull = true)
+    @SerializedName("formato")
     private String formato;
 
     @ColumnInfo(name = "OBSERVACIONES_IMPRESION")
     @Validacion()
+    @SerializedName("observacionesImpresion")
     private String observacionesImpresion;
 
     @ColumnInfo(name = "ESTADO_IMPRESION")
     @Validacion()
+    @SerializedName("estadoImpresion")
     private Integer estadoImpresion;
 
     @Ignore

@@ -6,6 +6,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
 import com.ues.sv.proyecto.controladministrativoapp.utils.Validacion;
 
 import io.reactivex.rxjava3.annotations.NonNull;
@@ -14,14 +15,17 @@ import io.reactivex.rxjava3.annotations.NonNull;
 public class MotivoErrorImpresion {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "ID_MOTIVO")
+    @SerializedName("idMotivo")
     private Long idMotivo;
 
     @Embedded
+    @SerializedName("impresion")
     private Impresion impresion;
 
     @ColumnInfo(name = "DESCRIPCION_MOTIVO")
     @NonNull
     @Validacion(notNull = true)
+    @SerializedName("descripcionMotivo")
     private String descripcionMotivo;
 
     @Ignore

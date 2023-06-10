@@ -6,6 +6,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
 import com.ues.sv.proyecto.controladministrativoapp.utils.Validacion;
 
 import io.reactivex.rxjava3.annotations.NonNull;
@@ -15,19 +16,23 @@ public class DetalleRevision {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "ID_DETALLE")
+    @SerializedName("idDetalle")
     private Long idDetalle;
 
     @Embedded
+    @SerializedName("revision")
     private Revision revision;
 
     @ColumnInfo(name = "NOTA_ANTERIOR")
     @NonNull
     @Validacion(notNull = true)
+    @SerializedName("notaAnterior")
     private Double notaAnterior;
 
     @ColumnInfo(name = "NOTA_ACTUAL")
     @NonNull
     @Validacion(notNull = true)
+    @SerializedName("notaActual")
     private Double notaActual;
 
     @Ignore
