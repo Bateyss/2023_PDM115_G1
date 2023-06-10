@@ -13,7 +13,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.Ciclo;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.CicloService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.CicloRestService;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.OnlyTxtInterface;
@@ -26,7 +26,7 @@ public class VerCiclosActivity extends AppCompatActivity {
     private MaterialButton btnCrear, btnEditar, btnEliminar;
     private RecyclerView recyclerView;
     private Ciclo cicloSelected = null;
-    private CicloService cicloService;
+    private CicloRestService cicloRestService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class VerCiclosActivity extends AppCompatActivity {
         btnEliminar = findViewById(R.id.btn_eliminar);
         recyclerView = findViewById(R.id.recyclerList);
 
-        cicloService = new CicloService(getApplicationContext());
+        cicloRestService = new CicloRestService();
 
         btnCrear.setOnClickListener(v -> {
             Intent intent = new Intent(getBaseContext(), RegistrarCicloActivity.class);
@@ -50,7 +50,7 @@ public class VerCiclosActivity extends AppCompatActivity {
     }
 
     private void cargarRecyclerList() {
-        cicloService.obtenerListaEntidad(new CallBackDisposableInterface<List<Ciclo>>() {
+        cicloRestService.obtenerListaEntidad(new CallBackDisposableInterface<List<Ciclo>>() {
             @Override
             public void onCallBack(List<Ciclo> ciclos) {
                 OnlyTxtRecyclerAdapter<Ciclo> recyclerAdapter = new OnlyTxtRecyclerAdapter<Ciclo>(ciclos, getBaseContext(), new OnlyTxtInterface<Ciclo>() {
@@ -76,7 +76,7 @@ public class VerCiclosActivity extends AppCompatActivity {
                             });
 
                             btnEliminar.setOnClickListener(v -> {
-                                cicloService.eliminarEntidad(ciclo, new CallBackVoidInterface() {
+                                cicloRestService.eliminarEntidad(ciclo, new CallBackVoidInterface() {
                                     @Override
                                     public void onCallBack() {
                                         btnEliminar.setEnabled(Boolean.FALSE);
@@ -103,12 +103,13 @@ public class VerCiclosActivity extends AppCompatActivity {
             }
         });
     }
+
     public void onBack() {
         OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
             @Override
             public void handleOnBackPressed() {
                 // Handle the back button event
-                Intent intent = new Intent(getApplicationContext(),InicioActivity.class);
+                Intent intent = new Intent(getApplicationContext(), InicioActivity.class);
                 startActivity(intent);
             }
         };

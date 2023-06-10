@@ -12,9 +12,8 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.Ciclo;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.CicloService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.CicloRestService;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
-import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.ValidationUtils;
 
 import java.util.HashMap;
@@ -28,7 +27,7 @@ public class RegistrarCicloActivity extends AppCompatActivity {
 
     private boolean esEditar = Boolean.FALSE;
 
-    private CicloService cicloService;
+    private CicloRestService cicloRestService;
 
     private Ciclo cicloData = new Ciclo();
 
@@ -41,7 +40,7 @@ public class RegistrarCicloActivity extends AppCompatActivity {
         layouAnio = findViewById(R.id.input_layout_anio);
         btnGuardar = findViewById(R.id.btn_guardar);
 
-        cicloService = new CicloService(getApplicationContext());
+        cicloRestService = new CicloRestService();
 
         btnGuardar.setOnClickListener(v -> {
             if (validarDatos()) guardarRegistro();
@@ -66,9 +65,9 @@ public class RegistrarCicloActivity extends AppCompatActivity {
 
             try {
                 if (esEditar) {
-                    cicloService.editarEntidad(ciclo, new CallBackVoidInterface() {
+                    cicloRestService.editarEntidad(ciclo, new CallBackDisposableInterface() {
                         @Override
-                        public void onCallBack() {
+                        public void onCallBack(Object o) {
                             Toast.makeText(getBaseContext(), "editado", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getBaseContext(), VerCiclosActivity.class);
                             startActivity(intent);
@@ -80,7 +79,7 @@ public class RegistrarCicloActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    cicloService.registrarEntidad(ciclo, new CallBackDisposableInterface() {
+                    cicloRestService.registrarEntidad(ciclo, new CallBackDisposableInterface() {
                                 @Override
                                 public void onCallBack(Object o) {
                                     Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
@@ -112,7 +111,7 @@ public class RegistrarCicloActivity extends AppCompatActivity {
 
             long idCiclo = bundle.getLong("IdCiclo", 0L);
             if (idCiclo > 0)
-                cicloService.buscarPorId(idCiclo, new CallBackDisposableInterface<Ciclo>() {
+                cicloRestService.buscarPorId(idCiclo, new CallBackDisposableInterface<Ciclo>() {
                     @Override
                     public void onCallBack(Ciclo ciclo) {
                         layouNumero.getEditText().setText(ciclo.getNumeroCiclo());

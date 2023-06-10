@@ -12,9 +12,8 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.Persona;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.PersonaService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.PersonaRestService;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
-import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.ValidationUtils;
 
 import java.util.HashMap;
@@ -26,7 +25,7 @@ public class RegistrarPersonaActivity extends AppCompatActivity {
     private MaterialButton btnGuardar;
 
     private boolean esEditar = Boolean.FALSE;
-    private PersonaService personaService;
+    private PersonaRestService personaRestService;
 
     private Persona personaData = new Persona();
 
@@ -41,7 +40,7 @@ public class RegistrarPersonaActivity extends AppCompatActivity {
         layouSexo = findViewById(R.id.input_layout_sexo);
         btnGuardar = findViewById(R.id.btn_guardar);
 
-        personaService = new PersonaService(getApplicationContext());
+        personaRestService = new PersonaRestService();
 
         btnGuardar.setOnClickListener(v -> {
             if (validarDatos()) guardarRegistro();
@@ -70,9 +69,9 @@ public class RegistrarPersonaActivity extends AppCompatActivity {
 
             try {
                 if (esEditar) {
-                    personaService.editarEntidad(persona, new CallBackVoidInterface() {
+                    personaRestService.editarEntidad(persona, new CallBackDisposableInterface() {
                         @Override
-                        public void onCallBack() {
+                        public void onCallBack(Object o) {
                             Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
                             layouNombre.getEditText().setText(null);
                             layouApellido.getEditText().setText(null);
@@ -86,7 +85,7 @@ public class RegistrarPersonaActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    personaService.registrarEntidad(persona, new CallBackDisposableInterface() {
+                    personaRestService.registrarEntidad(persona, new CallBackDisposableInterface() {
                         @Override
                         public void onCallBack(Object o) {
                             Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
@@ -116,7 +115,7 @@ public class RegistrarPersonaActivity extends AppCompatActivity {
             Bundle bundle = getIntent().getExtras();
             long idPersona = bundle.getLong("IdPersona", 0L);
             if (idPersona > 0)
-                personaService.buscarPorId(idPersona, new CallBackDisposableInterface<Persona>() {
+                personaRestService.buscarPorId(idPersona, new CallBackDisposableInterface<Persona>() {
                     @Override
                     public void onCallBack(Persona persona) {
                         personaData = persona;

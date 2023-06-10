@@ -13,7 +13,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.TipoEvaluacion;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.TipoEvaluacionService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.TipoEvaluacionRestService;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.OnlyTxtInterface;
@@ -26,7 +26,7 @@ public class VerTipoEvaluacionActivity extends AppCompatActivity {
     private MaterialButton btnCrear, btnEditar, btnEliminar;
     private RecyclerView recyclerView;
     private TipoEvaluacion tipoEvaluacionSelected = null;
-    private TipoEvaluacionService tipoEvaluacionService;
+    private TipoEvaluacionRestService tipoEvaluacionRestService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class VerTipoEvaluacionActivity extends AppCompatActivity {
         btnEliminar = findViewById(R.id.btn_eliminar);
         recyclerView = findViewById(R.id.recyclerList);
 
-        tipoEvaluacionService = new TipoEvaluacionService(getApplicationContext());
+        tipoEvaluacionRestService = new TipoEvaluacionRestService();
 
         btnCrear.setOnClickListener(v -> {
             Intent intent = new Intent(getBaseContext(), RegistrarTipoEvaluacionActivity.class);
@@ -50,7 +50,7 @@ public class VerTipoEvaluacionActivity extends AppCompatActivity {
     }
 
     private void cargarRecyclerList() {
-        tipoEvaluacionService.obtenerListaEntidad(new CallBackDisposableInterface<List<TipoEvaluacion>>() {
+        tipoEvaluacionRestService.obtenerListaEntidad(new CallBackDisposableInterface<List<TipoEvaluacion>>() {
             @Override
             public void onCallBack(List<TipoEvaluacion> tiposEvaluaciones) {
                 OnlyTxtRecyclerAdapter<TipoEvaluacion> recyclerAdapter = new OnlyTxtRecyclerAdapter<TipoEvaluacion>(tiposEvaluaciones, getBaseContext(), new OnlyTxtInterface<TipoEvaluacion>() {
@@ -76,7 +76,7 @@ public class VerTipoEvaluacionActivity extends AppCompatActivity {
                             });
 
                             btnEliminar.setOnClickListener(v -> {
-                                tipoEvaluacionService.eliminarEntidad(tipoEvaluacion, new CallBackVoidInterface() {
+                                tipoEvaluacionRestService.eliminarEntidad(tipoEvaluacion, new CallBackVoidInterface() {
                                     @Override
                                     public void onCallBack() {
                                         btnEliminar.setEnabled(Boolean.FALSE);
@@ -103,12 +103,13 @@ public class VerTipoEvaluacionActivity extends AppCompatActivity {
             }
         });
     }
+
     public void onBack() {
         OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
             @Override
             public void handleOnBackPressed() {
                 // Handle the back button event
-                Intent intent = new Intent(getApplicationContext(),InicioActivity.class);
+                Intent intent = new Intent(getApplicationContext(), InicioActivity.class);
                 startActivity(intent);
             }
         };

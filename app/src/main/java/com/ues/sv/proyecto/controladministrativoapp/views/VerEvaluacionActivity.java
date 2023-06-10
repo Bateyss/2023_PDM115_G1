@@ -13,7 +13,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.Evaluacion;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.EvaluacionService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.EvaluacionRestService;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.OnlyTxtInterface;
@@ -26,7 +26,7 @@ public class VerEvaluacionActivity extends AppCompatActivity {
     private MaterialButton btnCrear, btnEditar, btnEliminar, btnImpresion, btnSolicitudes;
     private RecyclerView recyclerView;
     private Evaluacion evaluacionSelected = null;
-    private EvaluacionService evaluacionService;
+    private EvaluacionRestService evaluacionRestService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class VerEvaluacionActivity extends AppCompatActivity {
         btnSolicitudes = findViewById(R.id.btn_solicitudes);
         recyclerView = findViewById(R.id.recyclerList);
 
-        evaluacionService = new EvaluacionService(getApplicationContext());
+        evaluacionRestService = new EvaluacionRestService();
 
         btnCrear.setOnClickListener(v -> {
             Intent intent = new Intent(getBaseContext(), RegistrarEvaluacionActivity.class);
@@ -71,7 +71,7 @@ public class VerEvaluacionActivity extends AppCompatActivity {
     }
 
     private void cargarRecyclerList() {
-        evaluacionService.obtenerListaEntidad(new CallBackDisposableInterface<List<Evaluacion>>() {
+        evaluacionRestService.obtenerListaEntidad(new CallBackDisposableInterface<List<Evaluacion>>() {
             @Override
             public void onCallBack(List<Evaluacion> evaluaciones) {
                 OnlyTxtRecyclerAdapter<Evaluacion> recyclerAdapter = new OnlyTxtRecyclerAdapter<Evaluacion>(evaluaciones, getBaseContext(), new OnlyTxtInterface<Evaluacion>() {
@@ -104,7 +104,7 @@ public class VerEvaluacionActivity extends AppCompatActivity {
                             });
 
                             btnEliminar.setOnClickListener(v -> {
-                                evaluacionService.eliminarEntidad(evaluacion, new CallBackVoidInterface() {
+                                evaluacionRestService.eliminarEntidad(evaluacion, new CallBackVoidInterface() {
                                     @Override
                                     public void onCallBack() {
                                         btnEliminar.setEnabled(Boolean.FALSE);
@@ -133,12 +133,13 @@ public class VerEvaluacionActivity extends AppCompatActivity {
             }
         });
     }
+
     public void onBack() {
         OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
             @Override
             public void handleOnBackPressed() {
                 // Handle the back button event
-                Intent intent = new Intent(getApplicationContext(),InicioActivity.class);
+                Intent intent = new Intent(getApplicationContext(), InicioActivity.class);
                 startActivity(intent);
             }
         };

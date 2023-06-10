@@ -18,13 +18,12 @@ import com.ues.sv.proyecto.controladministrativoapp.models.Coordinador;
 import com.ues.sv.proyecto.controladministrativoapp.models.Curso;
 import com.ues.sv.proyecto.controladministrativoapp.models.Docente;
 import com.ues.sv.proyecto.controladministrativoapp.models.Materia;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.CicloService;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.CoordinadorService;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.CursoService;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.DocenteService;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.MateriaService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.CicloRestService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.CoordinadorRestService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.CursoRestService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.DocenteRestService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.MateriaRestService;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
-import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,11 +33,11 @@ public class RegistrarCursoActivity extends AppCompatActivity {
     private TextInputLayout layouCiclo, layouMateria, layouDocente, layouCoordinador;
     private MaterialButton btnGuardar;
 
-    private CursoService cursoService;
-    private CicloService cicloService;
-    private MateriaService materiaService;
-    private DocenteService docenteService;
-    private CoordinadorService coordinadorService;
+    private CursoRestService cursoRestService;
+    private CicloRestService cicloRestService;
+    private MateriaRestService materiaRestService;
+    private DocenteRestService docenteRestService;
+    private CoordinadorRestService coordinadorRestService;
 
     private boolean esEditar = Boolean.FALSE;
 
@@ -55,11 +54,11 @@ public class RegistrarCursoActivity extends AppCompatActivity {
         layouCoordinador = findViewById(R.id.input_layout_coordinador);
         btnGuardar = findViewById(R.id.btn_guardar);
 
-        cursoService = new CursoService(getApplicationContext());
-        cicloService = new CicloService(getApplicationContext());
-        materiaService = new MateriaService(getApplicationContext());
-        docenteService = new DocenteService(getApplicationContext());
-        coordinadorService = new CoordinadorService(getApplicationContext());
+        cursoRestService = new CursoRestService();
+        cicloRestService = new CicloRestService();
+        materiaRestService = new MateriaRestService();
+        docenteRestService = new DocenteRestService();
+        coordinadorRestService = new CoordinadorRestService();
 
         btnGuardar.setOnClickListener(v -> {
             if (validarDatos()) guardarRegistro();
@@ -94,9 +93,9 @@ public class RegistrarCursoActivity extends AppCompatActivity {
         try {
             try {
                 if (esEditar) {
-                    cursoService.editarEntidad(cursoData, new CallBackVoidInterface() {
+                    cursoRestService.editarEntidad(cursoData, new CallBackDisposableInterface() {
                         @Override
-                        public void onCallBack() {
+                        public void onCallBack(Object o) {
                             Toast.makeText(getBaseContext(), "editado", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getBaseContext(), VerCursoActivity.class);
                             startActivity(intent);
@@ -108,7 +107,7 @@ public class RegistrarCursoActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    cursoService.registrarEntidad(cursoData, new CallBackDisposableInterface() {
+                    cursoRestService.registrarEntidad(cursoData, new CallBackDisposableInterface() {
                         @Override
                         public void onCallBack(Object o) {
                             Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
@@ -139,7 +138,7 @@ public class RegistrarCursoActivity extends AppCompatActivity {
 
             long idCurso = bundle.getLong("IdCurso", 0L);
             if (idCurso > 0)
-                cursoService.buscarPorId(idCurso, new CallBackDisposableInterface<Curso>() {
+                cursoRestService.buscarPorId(idCurso, new CallBackDisposableInterface<Curso>() {
                     @Override
                     public void onCallBack(Curso curso) {
                         cursoData = curso;
@@ -155,7 +154,7 @@ public class RegistrarCursoActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e("CARGAR_DATOS", e.getMessage(), e.getCause());
         }
-        cicloService.obtenerListaEntidad(new CallBackDisposableInterface<List<Ciclo>>() {
+        cicloRestService.obtenerListaEntidad(new CallBackDisposableInterface<List<Ciclo>>() {
             @Override
             public void onCallBack(List<Ciclo> ciclos) {
                 List<String> cicloStrings = new ArrayList<>();
@@ -177,7 +176,7 @@ public class RegistrarCursoActivity extends AppCompatActivity {
 
             }
         });
-        materiaService.obtenerListaEntidad(new CallBackDisposableInterface<List<Materia>>() {
+        materiaRestService.obtenerListaEntidad(new CallBackDisposableInterface<List<Materia>>() {
             @Override
             public void onCallBack(List<Materia> materias) {
                 List<String> materiaStrings = new ArrayList<>();
@@ -199,7 +198,7 @@ public class RegistrarCursoActivity extends AppCompatActivity {
 
             }
         });
-        docenteService.obtenerListaEntidad(new CallBackDisposableInterface<List<Docente>>() {
+        docenteRestService.obtenerListaEntidad(new CallBackDisposableInterface<List<Docente>>() {
             @Override
             public void onCallBack(List<Docente> docentes) {
                 List<String> docenteStrings = new ArrayList<>();
@@ -221,7 +220,7 @@ public class RegistrarCursoActivity extends AppCompatActivity {
 
             }
         });
-        coordinadorService.obtenerListaEntidad(new CallBackDisposableInterface<List<Coordinador>>() {
+        coordinadorRestService.obtenerListaEntidad(new CallBackDisposableInterface<List<Coordinador>>() {
             @Override
             public void onCallBack(List<Coordinador> coordinadors) {
                 List<String> coordinadorStrings = new ArrayList<>();

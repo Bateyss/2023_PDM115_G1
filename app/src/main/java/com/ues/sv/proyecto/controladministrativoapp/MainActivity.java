@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.ues.sv.proyecto.controladministrativoapp.models.Usuario;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.UsuarioService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.UsuarioRestService;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.ValidationUtils;
 import com.ues.sv.proyecto.controladministrativoapp.views.InicioActivity;
@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private UsuarioService usuarioService;
+    private UsuarioRestService usuarioRestService;
 
     private TextInputLayout userNameLayout, userPassLayout;
     private MaterialButton btnLogin, brnRegistrar, btnAnonimunLogin;
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         brnRegistrar = findViewById(R.id.btn_login_registrar);
         btnAnonimunLogin = findViewById(R.id.btn_login_autoiniciar);
 
-        usuarioService = new UsuarioService(getApplicationContext());
+        usuarioRestService = new UsuarioRestService();
 
         btnLogin.setOnClickListener(v -> ingresarSesion());
 
@@ -58,10 +58,11 @@ public class MainActivity extends AppCompatActivity {
         if (valiadarFormulario()) {
             String username = userNameLayout.getEditText().getText().toString();
             String userpass = userPassLayout.getEditText().getText().toString();
-            usuarioService.buscarUserNameAndPass(username, userpass, new CallBackDisposableInterface<Usuario>() {
+            usuarioRestService.buscarUserNameAndPass(username, userpass, new CallBackDisposableInterface<Usuario>() {
                 @Override
                 public void onCallBack(Usuario usuario) {
                     // TODO inicio de sesion exitoso, intent para mover a siguiente pantalla
+                    btnLogin.setEnabled(Boolean.TRUE);
                     Toast.makeText(MainActivity.this, "Inicio Correcto", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), InicioActivity.class);
                     startActivity(intent);

@@ -17,11 +17,10 @@ import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.Evaluacion;
 import com.ues.sv.proyecto.controladministrativoapp.models.Inscripcion;
 import com.ues.sv.proyecto.controladministrativoapp.models.SolicitudRevision;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.EvaluacionService;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.InscripcionService;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.SolicitudRevisionService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.EvaluacionRestService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.InscripcionRestService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.SolicitudRevisionRestService;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
-import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.DateUtils;
 import com.ues.sv.proyecto.controladministrativoapp.utils.ValidationUtils;
 
@@ -37,9 +36,9 @@ public class RegistrarSolicitudRevicionActivity extends AppCompatActivity {
     private MaterialButton btnGuardar;
     private boolean esEditar = Boolean.FALSE;
 
-    private SolicitudRevisionService solicitudRevisionService;
-    private EvaluacionService evaluacionService;
-    private InscripcionService inscripcionService;
+    private SolicitudRevisionRestService solicitudRevisionRestService;
+    private EvaluacionRestService evaluacionRestService;
+    private InscripcionRestService inscripcionRestService;
 
     private SolicitudRevision solicitudRevisionSelected = new SolicitudRevision();
 
@@ -55,9 +54,9 @@ public class RegistrarSolicitudRevicionActivity extends AppCompatActivity {
         layouFecha = findViewById(R.id.input_layout_fecha);
         btnGuardar = findViewById(R.id.btn_guardar);
 
-        solicitudRevisionService = new SolicitudRevisionService(getApplicationContext());
-        evaluacionService = new EvaluacionService(getApplicationContext());
-        inscripcionService = new InscripcionService(getApplicationContext());
+        solicitudRevisionRestService = new SolicitudRevisionRestService();
+        evaluacionRestService = new EvaluacionRestService();
+        inscripcionRestService = new InscripcionRestService();
 
         MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker().setTitleText("Seleccionar Fecha").build();
 
@@ -106,9 +105,9 @@ public class RegistrarSolicitudRevicionActivity extends AppCompatActivity {
 
             try {
                 if (esEditar) {
-                    solicitudRevisionService.editarEntidad(solicitudRevisionSelected, new CallBackVoidInterface() {
+                    solicitudRevisionRestService.editarEntidad(solicitudRevisionSelected, new CallBackDisposableInterface() {
                         @Override
-                        public void onCallBack() {
+                        public void onCallBack(Object o) {
                             Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getBaseContext(), VerSolicitudEvaluacionActivity.class);
                             startActivity(intent);
@@ -120,7 +119,7 @@ public class RegistrarSolicitudRevicionActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    solicitudRevisionService.registrarEntidad(solicitudRevisionSelected, new CallBackDisposableInterface() {
+                    solicitudRevisionRestService.registrarEntidad(solicitudRevisionSelected, new CallBackDisposableInterface() {
                         @Override
                         public void onCallBack(Object o) {
                             Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
@@ -150,7 +149,7 @@ public class RegistrarSolicitudRevicionActivity extends AppCompatActivity {
             Bundle bundle = getIntent().getExtras();
             Long idSolicitud = bundle.getLong("IdSolicitudRevision", 0L);
             if (idSolicitud > 0L) {
-                solicitudRevisionService.buscarPorId(idSolicitud, new CallBackDisposableInterface<SolicitudRevision>() {
+                solicitudRevisionRestService.buscarPorId(idSolicitud, new CallBackDisposableInterface<SolicitudRevision>() {
                     @Override
                     public void onCallBack(SolicitudRevision solicitudRevision) {
                         solicitudRevisionSelected = solicitudRevision;
@@ -171,7 +170,7 @@ public class RegistrarSolicitudRevicionActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e("CARGAR_DATOS", e.getMessage(), e.getCause());
         }
-        evaluacionService.obtenerListaEntidad(new CallBackDisposableInterface<List<Evaluacion>>() {
+        evaluacionRestService.obtenerListaEntidad(new CallBackDisposableInterface<List<Evaluacion>>() {
             @Override
             public void onCallBack(List<Evaluacion> evaluacions) {
                 List<String> sStrings = new ArrayList<>();
@@ -193,7 +192,7 @@ public class RegistrarSolicitudRevicionActivity extends AppCompatActivity {
 
             }
         });
-        inscripcionService.obtenerListaEntidad(new CallBackDisposableInterface<List<Inscripcion>>() {
+        inscripcionRestService.obtenerListaEntidad(new CallBackDisposableInterface<List<Inscripcion>>() {
             @Override
             public void onCallBack(List<Inscripcion> inscripcions) {
                 List<String> sStrings = new ArrayList<>();

@@ -13,7 +13,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.Coordinador;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.CoordinadorService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.CoordinadorRestService;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.OnlyTxtInterface;
@@ -26,7 +26,7 @@ public class VerCoordinadoresActivity extends AppCompatActivity {
     private MaterialButton btnCrear, btnEditar, btnEliminar;
     private RecyclerView recyclerView;
     private Coordinador coordinadorSelected = null;
-    private CoordinadorService coordinadorService;
+    private CoordinadorRestService coordinadorRestService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class VerCoordinadoresActivity extends AppCompatActivity {
         btnEliminar = findViewById(R.id.btn_eliminar);
         recyclerView = findViewById(R.id.recyclerList);
 
-        coordinadorService = new CoordinadorService(getApplicationContext());
+        coordinadorRestService = new CoordinadorRestService();
 
         btnCrear.setOnClickListener(v -> {
             Intent intent = new Intent(getBaseContext(), RegistrarCoordinadorActivity.class);
@@ -50,7 +50,7 @@ public class VerCoordinadoresActivity extends AppCompatActivity {
     }
 
     private void cargarRecyclerList() {
-        coordinadorService.obtenerListaEntidad(new CallBackDisposableInterface<List<Coordinador>>() {
+        coordinadorRestService.obtenerListaEntidad(new CallBackDisposableInterface<List<Coordinador>>() {
             @Override
             public void onCallBack(List<Coordinador> coordinadores) {
                 OnlyTxtRecyclerAdapter<Coordinador> recyclerAdapter = new OnlyTxtRecyclerAdapter<Coordinador>(coordinadores, getBaseContext(), new OnlyTxtInterface<Coordinador>() {
@@ -76,7 +76,7 @@ public class VerCoordinadoresActivity extends AppCompatActivity {
                             });
 
                             btnEliminar.setOnClickListener(v -> {
-                                coordinadorService.eliminarEntidad(coordinador, new CallBackVoidInterface() {
+                                coordinadorRestService.eliminarEntidad(coordinador, new CallBackVoidInterface() {
                                     @Override
                                     public void onCallBack() {
                                         btnEliminar.setEnabled(Boolean.FALSE);
@@ -103,12 +103,13 @@ public class VerCoordinadoresActivity extends AppCompatActivity {
             }
         });
     }
+
     public void onBack() {
         OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
             @Override
             public void handleOnBackPressed() {
                 // Handle the back button event
-                Intent intent = new Intent(getApplicationContext(),InicioActivity.class);
+                Intent intent = new Intent(getApplicationContext(), InicioActivity.class);
                 startActivity(intent);
             }
         };

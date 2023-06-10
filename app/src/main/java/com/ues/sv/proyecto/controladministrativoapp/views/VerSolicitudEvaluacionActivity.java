@@ -14,7 +14,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.SolicitudRevision;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.SolicitudRevisionService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.SolicitudRevisionRestService;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.DateUtils;
@@ -29,7 +29,7 @@ public class VerSolicitudEvaluacionActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private SolicitudRevision solicitudRevisionSelected = null;
 
-    private SolicitudRevisionService solicitudRevisionService;
+    private SolicitudRevisionRestService solicitudRevisionRestService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,7 @@ public class VerSolicitudEvaluacionActivity extends AppCompatActivity {
         btnEliminar = findViewById(R.id.btn_eliminar);
         recyclerView = findViewById(R.id.recyclerList);
 
-        solicitudRevisionService = new SolicitudRevisionService(getApplicationContext());
+        solicitudRevisionRestService = new SolicitudRevisionRestService();
 
         btnCrear.setOnClickListener(v -> {
             Intent intent = new Intent(getBaseContext(), RegistrarSolicitudRevicionActivity.class);
@@ -57,7 +57,7 @@ public class VerSolicitudEvaluacionActivity extends AppCompatActivity {
             Bundle bundle = getIntent().getExtras();
             Long idEvaluacion = bundle.getLong("IdEvaluacion", 0L);
             if (idEvaluacion > 0L) {
-                solicitudRevisionService.obtenerListaPorEvaluacionId(idEvaluacion, new CallBackDisposableInterface<List<SolicitudRevision>>() {
+                solicitudRevisionRestService.obtenerListaPorEvaluacionId(idEvaluacion, new CallBackDisposableInterface<List<SolicitudRevision>>() {
                     @Override
                     public void onCallBack(List<SolicitudRevision> solicitudRevisions) {
                         OnlyTxtRecyclerAdapter<SolicitudRevision> recyclerAdapter = new OnlyTxtRecyclerAdapter<SolicitudRevision>(solicitudRevisions, getBaseContext(), new OnlyTxtInterface<SolicitudRevision>() {
@@ -88,7 +88,7 @@ public class VerSolicitudEvaluacionActivity extends AppCompatActivity {
                                     });
 
                                     btnEliminar.setOnClickListener(v -> {
-                                        solicitudRevisionService.eliminarEntidad(solicitudRevision, new CallBackVoidInterface() {
+                                        solicitudRevisionRestService.eliminarEntidad(solicitudRevision, new CallBackVoidInterface() {
                                             @Override
                                             public void onCallBack() {
                                                 btnEliminar.setEnabled(Boolean.FALSE);
@@ -121,12 +121,13 @@ public class VerSolicitudEvaluacionActivity extends AppCompatActivity {
             Log.e("CARGAR_DATOS", e.getMessage(), e.getCause());
         }
     }
+
     public void onBack() {
         OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
             @Override
             public void handleOnBackPressed() {
                 // Handle the back button event
-                Intent intent = new Intent(getApplicationContext(),VerEvaluacionActivity.class);
+                Intent intent = new Intent(getApplicationContext(), VerEvaluacionActivity.class);
                 startActivity(intent);
             }
         };

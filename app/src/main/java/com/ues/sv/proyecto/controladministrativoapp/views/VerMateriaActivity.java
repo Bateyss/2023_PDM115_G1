@@ -13,7 +13,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.Materia;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.MateriaService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.MateriaRestService;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.OnlyTxtInterface;
@@ -26,7 +26,7 @@ public class VerMateriaActivity extends AppCompatActivity {
     private MaterialButton btnCrear, btnEditar, btnEliminar;
     private RecyclerView recyclerView;
     private Materia materiaSelected = null;
-    private MateriaService materiaService;
+    private MateriaRestService materiaRestService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class VerMateriaActivity extends AppCompatActivity {
         btnEliminar = findViewById(R.id.btn_eliminar);
         recyclerView = findViewById(R.id.recyclerList);
 
-        materiaService = new MateriaService(getApplicationContext());
+        materiaRestService = new MateriaRestService();
 
         btnCrear.setOnClickListener(v -> {
             Intent intent = new Intent(getBaseContext(), RegistrarMateriaActivity.class);
@@ -50,7 +50,7 @@ public class VerMateriaActivity extends AppCompatActivity {
     }
 
     private void cargarRecyclerList() {
-        materiaService.obtenerListaEntidad(new CallBackDisposableInterface<List<Materia>>() {
+        materiaRestService.obtenerListaEntidad(new CallBackDisposableInterface<List<Materia>>() {
             @Override
             public void onCallBack(List<Materia> materias) {
                 OnlyTxtRecyclerAdapter<Materia> recyclerAdapter = new OnlyTxtRecyclerAdapter<Materia>(materias, getBaseContext(), new OnlyTxtInterface<Materia>() {
@@ -77,7 +77,7 @@ public class VerMateriaActivity extends AppCompatActivity {
                             });
 
                             btnEliminar.setOnClickListener(v -> {
-                                materiaService.eliminarEntidad(materia, new CallBackVoidInterface() {
+                                materiaRestService.eliminarEntidad(materia, new CallBackVoidInterface() {
                                     @Override
                                     public void onCallBack() {
                                         btnEliminar.setEnabled(Boolean.FALSE);
@@ -104,12 +104,13 @@ public class VerMateriaActivity extends AppCompatActivity {
             }
         });
     }
+
     public void onBack() {
         OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
             @Override
             public void handleOnBackPressed() {
                 // Handle the back button event
-                Intent intent = new Intent(getApplicationContext(),InicioActivity.class);
+                Intent intent = new Intent(getApplicationContext(), InicioActivity.class);
                 startActivity(intent);
             }
         };

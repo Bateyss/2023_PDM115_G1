@@ -12,9 +12,8 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.Materia;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.MateriaService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.MateriaRestService;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
-import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.ValidationUtils;
 
 import java.util.HashMap;
@@ -26,7 +25,7 @@ public class RegistrarMateriaActivity extends AppCompatActivity {
     private MaterialButton btnGuardar;
 
     private boolean esEditar = Boolean.FALSE;
-    private MateriaService materiaService;
+    private MateriaRestService materiaRestService;
 
     private Materia materiaData = new Materia();
 
@@ -38,7 +37,7 @@ public class RegistrarMateriaActivity extends AppCompatActivity {
         layouNombre = findViewById(R.id.input_layout_nombre);
         btnGuardar = findViewById(R.id.btn_guardar);
 
-        materiaService = new MateriaService(getApplicationContext());
+        materiaRestService = new MateriaRestService();
 
         btnGuardar.setOnClickListener(v -> {
             if (validarDatos()) guardarRegistro();
@@ -59,9 +58,9 @@ public class RegistrarMateriaActivity extends AppCompatActivity {
             materiaData.setNombreMateria(layouNombre.getEditText().getText().toString());
             try {
                 if (esEditar) {
-                    materiaService.editarEntidad(materiaData, new CallBackVoidInterface() {
+                    materiaRestService.editarEntidad(materiaData, new CallBackDisposableInterface() {
                         @Override
-                        public void onCallBack() {
+                        public void onCallBack(Object o) {
                             Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getBaseContext(), VerCiclosActivity.class);
                             startActivity(intent);
@@ -73,7 +72,7 @@ public class RegistrarMateriaActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    materiaService.registrarEntidad(materiaData, new CallBackDisposableInterface() {
+                    materiaRestService.registrarEntidad(materiaData, new CallBackDisposableInterface() {
                         @Override
                         public void onCallBack(Object o) {
                             Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
@@ -103,7 +102,7 @@ public class RegistrarMateriaActivity extends AppCompatActivity {
             Bundle bundle = getIntent().getExtras();
             long idMateria = bundle.getLong("IdMateria", 0L);
             if (idMateria > 0)
-                materiaService.buscarPorId(idMateria, new CallBackDisposableInterface<Materia>() {
+                materiaRestService.buscarPorId(idMateria, new CallBackDisposableInterface<Materia>() {
                     @Override
                     public void onCallBack(Materia materia) {
                         materiaData = materia;

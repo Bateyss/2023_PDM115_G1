@@ -8,9 +8,8 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.Parametros;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.ParametrosService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.ParametrosRestService;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
-import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.ValidationUtils;
 
 import java.util.HashMap;
@@ -21,7 +20,7 @@ public class ParametrosActivity extends AppCompatActivity {
     private TextInputLayout layoutRevision, layoutDiferir, layoutRepetir;
     private MaterialButton btnActualizar;
 
-    private ParametrosService parametrosService;
+    private ParametrosRestService parametrosRestService;
 
     private final int ID_HISTORICO_REVISION = 1;
     private final int ID_HISTORICO_DIFERIR = 2;
@@ -38,7 +37,7 @@ public class ParametrosActivity extends AppCompatActivity {
         layoutRepetir = findViewById(R.id.input_layout_repetir);
         btnActualizar = findViewById(R.id.btn_guardar);
 
-        parametrosService = new ParametrosService(getApplicationContext());
+        parametrosRestService = new ParametrosRestService();
 
         cargarDatos();
 
@@ -53,14 +52,14 @@ public class ParametrosActivity extends AppCompatActivity {
     }
 
     private void actualizar() {
-        parametrosService.buscarPorIdHistorico(ID_HISTORICO_REVISION, new CallBackDisposableInterface<Parametros>() {
+        parametrosRestService.buscarPorIdHistorico(ID_HISTORICO_REVISION, new CallBackDisposableInterface<Parametros>() {
             @Override
             public void onCallBack(Parametros parametros) {
                 if (actualizar1) {
                     parametros.setValor(layoutRevision.getEditText().getText().toString());
-                    parametrosService.editarEntidad(parametros, new CallBackVoidInterface() {
+                    parametrosRestService.editarEntidad(parametros, new CallBackDisposableInterface() {
                         @Override
-                        public void onCallBack() {
+                        public void onCallBack(Object o) {
                             actualizar1 = false;
                         }
 
@@ -78,14 +77,14 @@ public class ParametrosActivity extends AppCompatActivity {
 
             }
         });
-        parametrosService.buscarPorIdHistorico(ID_HISTORICO_DIFERIR, new CallBackDisposableInterface<Parametros>() {
+        parametrosRestService.buscarPorIdHistorico(ID_HISTORICO_DIFERIR, new CallBackDisposableInterface<Parametros>() {
             @Override
             public void onCallBack(Parametros parametros) {
                 if (actualizar2) {
                     parametros.setValor(layoutDiferir.getEditText().getText().toString());
-                    parametrosService.editarEntidad(parametros, new CallBackVoidInterface() {
+                    parametrosRestService.editarEntidad(parametros, new CallBackDisposableInterface() {
                         @Override
-                        public void onCallBack() {
+                        public void onCallBack(Object o) {
                             actualizar2 = false;
                         }
 
@@ -103,14 +102,14 @@ public class ParametrosActivity extends AppCompatActivity {
 
             }
         });
-        parametrosService.buscarPorIdHistorico(ID_HISTORICO_REPETIR, new CallBackDisposableInterface<Parametros>() {
+        parametrosRestService.buscarPorIdHistorico(ID_HISTORICO_REPETIR, new CallBackDisposableInterface<Parametros>() {
             @Override
             public void onCallBack(Parametros parametros) {
                 if (actualizar3) {
                     parametros.setValor(layoutRepetir.getEditText().getText().toString());
-                    parametrosService.editarEntidad(parametros, new CallBackVoidInterface() {
+                    parametrosRestService.editarEntidad(parametros, new CallBackDisposableInterface() {
                         @Override
-                        public void onCallBack() {
+                        public void onCallBack(Object o) {
                             actualizar3 = false;
                         }
 
@@ -144,7 +143,7 @@ public class ParametrosActivity extends AppCompatActivity {
     }
 
     private void cargarDatos() {
-        parametrosService.buscarPorIdHistorico(ID_HISTORICO_REVISION, new CallBackDisposableInterface<Parametros>() {
+        parametrosRestService.buscarPorIdHistorico(ID_HISTORICO_REVISION, new CallBackDisposableInterface<Parametros>() {
             @Override
             public void onCallBack(Parametros parametros) {
                 layoutRevision.getEditText().setText(parametros.getValor());
@@ -155,7 +154,7 @@ public class ParametrosActivity extends AppCompatActivity {
 
             }
         });
-        parametrosService.buscarPorIdHistorico(ID_HISTORICO_DIFERIR, new CallBackDisposableInterface<Parametros>() {
+        parametrosRestService.buscarPorIdHistorico(ID_HISTORICO_DIFERIR, new CallBackDisposableInterface<Parametros>() {
             @Override
             public void onCallBack(Parametros parametros) {
                 layoutDiferir.getEditText().setText(parametros.getValor());
@@ -166,7 +165,7 @@ public class ParametrosActivity extends AppCompatActivity {
 
             }
         });
-        parametrosService.buscarPorIdHistorico(ID_HISTORICO_REPETIR, new CallBackDisposableInterface<Parametros>() {
+        parametrosRestService.buscarPorIdHistorico(ID_HISTORICO_REPETIR, new CallBackDisposableInterface<Parametros>() {
             @Override
             public void onCallBack(Parametros parametros) {
                 layoutRepetir.getEditText().setText(parametros.getValor());

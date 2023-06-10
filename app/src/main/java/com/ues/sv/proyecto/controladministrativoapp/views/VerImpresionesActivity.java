@@ -15,10 +15,9 @@ import com.google.android.material.textview.MaterialTextView;
 import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.Impresion;
 import com.ues.sv.proyecto.controladministrativoapp.models.MotivoErrorImpresion;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.ImpresionService;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.MotivoErrorImpresionService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.ImpresionRestService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.MotivoErrorImpresionRestService;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
-import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.OnlyTxtInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.OnlyTxtRecyclerAdapter;
 
@@ -30,8 +29,8 @@ public class VerImpresionesActivity extends AppCompatActivity {
     private MaterialButton btnCrear, btnEditar;
     private RecyclerView recyclerView;
 
-    private ImpresionService impresionService;
-    private MotivoErrorImpresionService motivoErrorImpresionService;
+    private ImpresionRestService impresionRestService;
+    private MotivoErrorImpresionRestService motivoErrorImpresionRestService;
 
     private Impresion impresionData = new Impresion();
 
@@ -47,8 +46,8 @@ public class VerImpresionesActivity extends AppCompatActivity {
         layouMotivo = findViewById(R.id.input_layout_motivo);
         layouObservacion = findViewById(R.id.input_layout_descripcion);
 
-        impresionService = new ImpresionService(getApplicationContext());
-        motivoErrorImpresionService = new MotivoErrorImpresionService(getApplicationContext());
+        impresionRestService = new ImpresionRestService();
+        motivoErrorImpresionRestService = new MotivoErrorImpresionRestService();
 
         btnCrear.setOnClickListener(v -> agregarMotivo());
         btnEditar.setOnClickListener(v -> editarObservacion());
@@ -62,11 +61,11 @@ public class VerImpresionesActivity extends AppCompatActivity {
             Bundle bundle = getIntent().getExtras();
             Long idImpresion = bundle.getLong("IdEvaluacion", 0L);
             if (idImpresion != null) {
-                impresionService.buscarPorIdEvaluacion(idImpresion, new CallBackDisposableInterface<Impresion>() {
+                impresionRestService.buscarPorIdEvaluacion(idImpresion, new CallBackDisposableInterface<Impresion>() {
                     @Override
                     public void onCallBack(Impresion impresion) {
                         impresionData = impresion;
-                        motivoErrorImpresionService.obtenerListaPorImpresion(impresion, new CallBackDisposableInterface<List<MotivoErrorImpresion>>() {
+                        motivoErrorImpresionRestService.obtenerListaPorImpresion(impresion, new CallBackDisposableInterface<List<MotivoErrorImpresion>>() {
                             @Override
                             public void onCallBack(List<MotivoErrorImpresion> motivoErrorImpresions) {
                                 OnlyTxtRecyclerAdapter<MotivoErrorImpresion> recyclerAdapter = new OnlyTxtRecyclerAdapter<MotivoErrorImpresion>(motivoErrorImpresions, getBaseContext(), new OnlyTxtInterface<MotivoErrorImpresion>() {
@@ -114,7 +113,7 @@ public class VerImpresionesActivity extends AppCompatActivity {
                 motivoErrorImpresion.setIdMotivo(0L);
                 motivoErrorImpresion.setDescripcionMotivo(motivoText);
                 motivoErrorImpresion.setImpresion(this.impresionData);
-                motivoErrorImpresionService.registrarEntidad(motivoErrorImpresion, new CallBackDisposableInterface() {
+                motivoErrorImpresionRestService.registrarEntidad(motivoErrorImpresion, new CallBackDisposableInterface() {
                     @Override
                     public void onCallBack(Object o) {
 
@@ -136,9 +135,9 @@ public class VerImpresionesActivity extends AppCompatActivity {
             String observacionTxt = layouObservacion.getEditText().getText().toString();
             if (!observacionTxt.isEmpty() && observacionTxt.length() <= 300) {
                 this.impresionData.setObservacionesImpresion(observacionTxt);
-                impresionService.editarEntidad(impresionData, new CallBackVoidInterface() {
+                impresionRestService.editarEntidad(impresionData, new CallBackDisposableInterface() {
                     @Override
-                    public void onCallBack() {
+                    public void onCallBack(Object o) {
                         cargarDatos();
                     }
 

@@ -27,19 +27,19 @@ import com.ues.sv.proyecto.controladministrativoapp.models.Parametros;
 import com.ues.sv.proyecto.controladministrativoapp.models.Persona;
 import com.ues.sv.proyecto.controladministrativoapp.models.SolicitudRevision;
 import com.ues.sv.proyecto.controladministrativoapp.models.TipoEvaluacion;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.AlumnoService;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.CicloService;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.CoordinadorService;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.CursoService;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.DocenteService;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.EncargadoImpresionService;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.EvaluacionService;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.InscripcionService;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.MateriaService;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.ParametrosService;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.PersonaService;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.SolicitudRevisionService;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.TipoEvaluacionService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.AlumnoRestService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.CicloRestService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.CoordinadorRestService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.CursoRestService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.DocenteRestService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.EncargadoImpresionRestService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.EvaluacionRestService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.InscripcionRestService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.MateriaRestService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.ParametrosRestService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.PersonaRestService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.SolicitudRevisionRestService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.TipoEvaluacionRestService;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.OnlyTxtInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.OnlyTxtRecyclerAdapter;
@@ -53,19 +53,19 @@ public class InicioActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private MaterialButton btnParametros, btnEvaluaciones, btnCargarDatos;
 
-    private AlumnoService alumnoService;
-    private ParametrosService parametrosService;
-    private PersonaService personaService;
-    private DocenteService docenteService;
-    private EncargadoImpresionService encargadoImpresionService;
-    private CoordinadorService coordinadorService;
-    private CicloService cicloService;
-    private MateriaService materiaService;
-    private CursoService cursoService;
-    private InscripcionService inscripcionService;
-    private TipoEvaluacionService tipoEvaluacionService;
-    private EvaluacionService evaluacionService;
-    private SolicitudRevisionService solicitudRevisionService;
+    private AlumnoRestService alumnoRestService;
+    private ParametrosRestService parametrosRestService;
+    private PersonaRestService personaRestService;
+    private DocenteRestService docenteRestService;
+    private EncargadoImpresionRestService encargadoImpresionRestService;
+    private CoordinadorRestService coordinadorRestService;
+    private CicloRestService cicloRestService;
+    private MateriaRestService materiaRestService;
+    private CursoRestService cursoRestService;
+    private InscripcionRestService inscripcionRestService;
+    private TipoEvaluacionRestService tipoEvaluacionRestService;
+    private EvaluacionRestService evaluacionRestService;
+    private SolicitudRevisionRestService solicitudRevisionRestService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,19 +76,19 @@ public class InicioActivity extends AppCompatActivity {
         btnCargarDatos = findViewById(R.id.btn_cargar_datos);
         recyclerView = findViewById(R.id.recyclerList);
 
-        alumnoService = new AlumnoService(getApplicationContext());
-        parametrosService = new ParametrosService(getApplicationContext());
-        personaService = new PersonaService(getApplicationContext());
-        docenteService = new DocenteService(getApplicationContext());
-        encargadoImpresionService = new EncargadoImpresionService(getApplicationContext());
-        coordinadorService = new CoordinadorService(getApplicationContext());
-        cicloService = new CicloService(getApplicationContext());
-        materiaService = new MateriaService(getApplicationContext());
-        cursoService = new CursoService(getApplicationContext());
-        inscripcionService = new InscripcionService(getApplicationContext());
-        tipoEvaluacionService = new TipoEvaluacionService(getApplicationContext());
-        evaluacionService = new EvaluacionService(getApplicationContext());
-        solicitudRevisionService = new SolicitudRevisionService(getApplicationContext());
+        alumnoRestService = new AlumnoRestService();
+        parametrosRestService = new ParametrosRestService();
+        personaRestService = new PersonaRestService();
+        docenteRestService = new DocenteRestService();
+        encargadoImpresionRestService = new EncargadoImpresionRestService();
+        coordinadorRestService = new CoordinadorRestService();
+        cicloRestService = new CicloRestService();
+        materiaRestService = new MateriaRestService();
+        cursoRestService = new CursoRestService();
+        inscripcionRestService = new InscripcionRestService();
+        tipoEvaluacionRestService = new TipoEvaluacionRestService();
+        evaluacionRestService = new EvaluacionRestService();
+        solicitudRevisionRestService = new SolicitudRevisionRestService();
 
         btnParametros.setOnClickListener(v -> {
             Intent intent = new Intent(getBaseContext(), ParametrosActivity.class);
@@ -107,11 +107,10 @@ public class InicioActivity extends AppCompatActivity {
     }
 
     private void comprobarBaseDeDatos() {
-        evaluacionService.obtenerListaEntidad(new CallBackDisposableInterface<List<Evaluacion>>() {
+        evaluacionRestService.obtenerListaEntidad(new CallBackDisposableInterface<List<Evaluacion>>() {
             @Override
             public void onCallBack(List<Evaluacion> evaluacions) {
-                if (evaluacions.isEmpty()) cargarDatosDePrueba();
-                else {
+                if (!evaluacions.isEmpty()) {
                     Toast.makeText(InicioActivity.this, "Ya existen datos", Toast.LENGTH_SHORT).show();
                     Toast.makeText(InicioActivity.this, "BORRAR CACHE", Toast.LENGTH_SHORT).show();
                 }
@@ -119,7 +118,7 @@ public class InicioActivity extends AppCompatActivity {
 
             @Override
             public void onThrow(Throwable throwable) {
-
+                cargarDatosDePrueba();
             }
         });
     }
@@ -130,10 +129,11 @@ public class InicioActivity extends AppCompatActivity {
         tipoEvaluacions.add(new TipoEvaluacion(2L, "REPETIDO"));
         tipoEvaluacions.add(new TipoEvaluacion(3L, "DIFERIDO"));
         tipoEvaluacions.forEach(tipoEvaluacion -> {
-            tipoEvaluacionService.registrarEntidad(tipoEvaluacion, new CallBackDisposableInterface() {
+            tipoEvaluacionRestService.registrarEntidad(tipoEvaluacion, new CallBackDisposableInterface() {
                 @Override
                 public void onCallBack(Object o) {
-                    tipoEvaluacion.setIdTipoEvaluacion((long) o);
+                    TipoEvaluacion tipoEvaluacionNuevo = (TipoEvaluacion) o;
+                    tipoEvaluacion.setIdTipoEvaluacion(tipoEvaluacionNuevo.getIdTipoEvaluacion());
                 }
 
                 @Override
@@ -152,10 +152,11 @@ public class InicioActivity extends AppCompatActivity {
         materias.add(new Materia(3L, "Materia 3"));
         materias.add(new Materia(4L, "Materia 4"));
         materias.forEach(materia -> {
-            materiaService.registrarEntidad(materia, new CallBackDisposableInterface() {
+            materiaRestService.registrarEntidad(materia, new CallBackDisposableInterface() {
                 @Override
                 public void onCallBack(Object o) {
-                    materia.setIdMateria((long) o);
+                    Materia materia1 = (Materia) o;
+                    materia.setIdMateria(materia1.getIdMateria());
                 }
 
                 @Override
@@ -174,10 +175,11 @@ public class InicioActivity extends AppCompatActivity {
         ciclos.add(new Ciclo(2L, "02", "2023"));
         ciclos.add(new Ciclo(3L, "01", "2022"));
         ciclos.add(new Ciclo(4L, "02", "2022"));
-        ciclos.forEach(ciclo -> cicloService.registrarEntidad(ciclo, new CallBackDisposableInterface() {
+        ciclos.forEach(ciclo -> cicloRestService.registrarEntidad(ciclo, new CallBackDisposableInterface() {
             @Override
             public void onCallBack(Object o) {
-                ciclo.setIdCiclo((long) o);
+                Ciclo ciclo1 = (Ciclo) o;
+                ciclo.setIdCiclo(ciclo1.getIdCiclo());
             }
 
             @Override
@@ -195,10 +197,11 @@ public class InicioActivity extends AppCompatActivity {
         parametros.add(new Parametros(2L, "MAX_DAY_SOL_DIFERIR", "10", 2));
         parametros.add(new Parametros(3L, "MAX_DAY_SOL_REPETIR", "10", 3));
         parametros.forEach(parametro -> {
-            parametrosService.registrarEntidad(parametro, new CallBackDisposableInterface() {
+            parametrosRestService.registrarEntidad(parametro, new CallBackDisposableInterface() {
                 @Override
                 public void onCallBack(Object o) {
-                    parametro.setIdParametro((long) o);
+                    Parametros parametros1 = (Parametros) o;
+                    parametro.setIdParametro(parametros1.getIdParametro());
                 }
 
                 @Override
@@ -212,10 +215,11 @@ public class InicioActivity extends AppCompatActivity {
         personas.add(new Persona(1L, "PERSONA", "PRUEBA 1", "012345", "M"));
         personas.add(new Persona(2L, "PERSONA", "PRUEBA 2", "056789", "M"));
         personas.add(new Persona(3L, "PERSONA", "PRUEBA 3", "098765", "M"));
-        personas.forEach(persona -> personaService.registrarEntidad(persona, new CallBackDisposableInterface() {
+        personas.forEach(persona -> personaRestService.registrarEntidad(persona, new CallBackDisposableInterface() {
             @Override
             public void onCallBack(Object o) {
-                persona.setIdPersona((long) o);
+                Persona persona1 = (Persona) o;
+                persona.setIdPersona(persona1.getIdPersona());
             }
 
             @Override
@@ -231,10 +235,11 @@ public class InicioActivity extends AppCompatActivity {
         alumnos.add(new Alumno(1L, personas.get(0), "AA" + personas.get(0).getIdentificacion()));
         alumnos.add(new Alumno(2L, personas.get(1), "AA" + personas.get(1).getIdentificacion()));
         alumnos.add(new Alumno(3L, personas.get(2), "AA" + personas.get(2).getIdentificacion()));
-        alumnos.forEach(alumno -> alumnoService.registrarEntidad(alumno, new CallBackDisposableInterface() {
+        alumnos.forEach(alumno -> alumnoRestService.registrarEntidad(alumno, new CallBackDisposableInterface() {
             @Override
             public void onCallBack(Object o) {
-                alumno.setIdAlumno((long) o);
+                Alumno alumno1 = (Alumno) o;
+                alumno.setIdAlumno(alumno1.getIdAlumno());
             }
 
             @Override
@@ -250,10 +255,11 @@ public class InicioActivity extends AppCompatActivity {
         docentes.add(new Docente(1L, personas.get(0), new Date()));
         docentes.add(new Docente(2L, personas.get(1), new Date()));
         docentes.add(new Docente(3L, personas.get(2), new Date()));
-        docentes.forEach(docente -> docenteService.registrarEntidad(docente, new CallBackDisposableInterface() {
+        docentes.forEach(docente -> docenteRestService.registrarEntidad(docente, new CallBackDisposableInterface() {
             @Override
             public void onCallBack(Object o) {
-                docente.setIdDocente((long) o);
+                Docente docente1 = (Docente) o;
+                docente.setIdDocente(docente1.getIdDocente());
             }
 
             @Override
@@ -269,10 +275,11 @@ public class InicioActivity extends AppCompatActivity {
         encargadoImpresions.add(new EncargadoImpresion(1L, personas.get(0), "Area x"));
         encargadoImpresions.add(new EncargadoImpresion(2L, personas.get(1), "Area x"));
         encargadoImpresions.add(new EncargadoImpresion(3L, personas.get(2), "Area x"));
-        encargadoImpresions.forEach(encargadoImpresion -> encargadoImpresionService.registrarEntidad(encargadoImpresion, new CallBackDisposableInterface() {
+        encargadoImpresions.forEach(encargadoImpresion -> encargadoImpresionRestService.registrarEntidad(encargadoImpresion, new CallBackDisposableInterface() {
             @Override
             public void onCallBack(Object o) {
-                encargadoImpresion.setIdEncargado((long) o);
+                EncargadoImpresion encargadoImpresion1 = (EncargadoImpresion) o;
+                encargadoImpresion.setIdEncargado((encargadoImpresion1.getIdEncargado()));
             }
 
             @Override
@@ -288,10 +295,11 @@ public class InicioActivity extends AppCompatActivity {
         coordinadors.add(new Coordinador(1L, personas.get(0), new Date()));
         coordinadors.add(new Coordinador(2L, personas.get(1), new Date()));
         coordinadors.add(new Coordinador(3L, personas.get(2), new Date()));
-        coordinadors.forEach(coordinador -> coordinadorService.registrarEntidad(coordinador, new CallBackDisposableInterface() {
+        coordinadors.forEach(coordinador -> coordinadorRestService.registrarEntidad(coordinador, new CallBackDisposableInterface() {
             @Override
             public void onCallBack(Object o) {
-                coordinador.setIdCoordinador((long) o);
+                Coordinador coordinador1 = (Coordinador) o;
+                coordinador.setIdCoordinador(coordinador1.getIdCoordinador());
             }
 
             @Override
@@ -307,10 +315,11 @@ public class InicioActivity extends AppCompatActivity {
         cursos.add(new Curso(1L, ciclos.get(0), materias.get(0), docentes.get(0), coordinadors.get(0)));
         cursos.add(new Curso(2L, ciclos.get(1), materias.get(1), docentes.get(1), coordinadors.get(1)));
         cursos.add(new Curso(3L, ciclos.get(2), materias.get(2), docentes.get(2), coordinadors.get(2)));
-        cursos.forEach(curso -> cursoService.registrarEntidad(curso, new CallBackDisposableInterface() {
+        cursos.forEach(curso -> cursoRestService.registrarEntidad(curso, new CallBackDisposableInterface() {
             @Override
             public void onCallBack(Object o) {
-                curso.setIdCurso((long) o);
+                Curso curso1 = (Curso) o;
+                curso.setIdCurso(curso1.getIdCurso());
             }
 
             @Override
@@ -326,10 +335,11 @@ public class InicioActivity extends AppCompatActivity {
         inscripciones.add(new Inscripcion(1L, alumnos.get(0), cursos.get(0)));
         inscripciones.add(new Inscripcion(2L, alumnos.get(1), cursos.get(1)));
         inscripciones.add(new Inscripcion(3L, alumnos.get(2), cursos.get(2)));
-        inscripciones.forEach(inscripcion -> inscripcionService.registrarEntidad(inscripcion, new CallBackDisposableInterface() {
+        inscripciones.forEach(inscripcion -> inscripcionRestService.registrarEntidad(inscripcion, new CallBackDisposableInterface() {
             @Override
             public void onCallBack(Object o) {
-                inscripcion.setIdInscripcion((long) o);
+                Inscripcion inscripcion1 = (Inscripcion) o;
+                inscripcion.setIdInscripcion((inscripcion1.getIdInscripcion()));
             }
 
             @Override
@@ -345,10 +355,11 @@ public class InicioActivity extends AppCompatActivity {
         evaluaciones.add(new Evaluacion(1L, cursos.get(0), tipoEvaluacions.get(0), 1));
         evaluaciones.add(new Evaluacion(2L, cursos.get(0), tipoEvaluacions.get(1), 1));
         evaluaciones.add(new Evaluacion(3L, cursos.get(0), tipoEvaluacions.get(0), 2));
-        evaluaciones.forEach(evaluacion -> evaluacionService.registrarEntidad(evaluacion, new CallBackDisposableInterface() {
+        evaluaciones.forEach(evaluacion -> evaluacionRestService.registrarEntidad(evaluacion, new CallBackDisposableInterface() {
             @Override
             public void onCallBack(Object o) {
-                evaluacion.setIdEvaluacion((long) o);
+                Evaluacion evaluacion1 = (Evaluacion) o;
+                evaluacion.setIdEvaluacion(evaluacion1.getIdEvaluacion());
             }
 
             @Override
@@ -364,10 +375,11 @@ public class InicioActivity extends AppCompatActivity {
         solicitudRevisiones.add(new SolicitudRevision(1L, inscripciones.get(0), evaluaciones.get(1), "asd", new Date(), 1));
         solicitudRevisiones.add(new SolicitudRevision(2L, inscripciones.get(1), evaluaciones.get(1), "asd", new Date(), 1));
         solicitudRevisiones.add(new SolicitudRevision(3L, inscripciones.get(2), evaluaciones.get(2), "asd", new Date(), 1));
-        solicitudRevisiones.forEach(solicitudRevision -> solicitudRevisionService.registrarEntidad(solicitudRevision, new CallBackDisposableInterface() {
+        solicitudRevisiones.forEach(solicitudRevision -> solicitudRevisionRestService.registrarEntidad(solicitudRevision, new CallBackDisposableInterface() {
             @Override
             public void onCallBack(Object o) {
-                solicitudRevision.setIdSolicitudRevision((long) o);
+                SolicitudRevision solicitudRevision1 = (SolicitudRevision) o;
+                solicitudRevision.setIdSolicitudRevision(solicitudRevision1.getIdSolicitudRevision());
             }
 
             @Override

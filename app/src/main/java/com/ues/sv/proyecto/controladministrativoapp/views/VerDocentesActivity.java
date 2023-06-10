@@ -13,7 +13,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.Docente;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.DocenteService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.DocenteRestService;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.OnlyTxtInterface;
@@ -26,7 +26,7 @@ public class VerDocentesActivity extends AppCompatActivity {
     private MaterialButton btnCrear, btnEditar, btnEliminar;
     private RecyclerView recyclerView;
     private Docente docenteSelected = null;
-    private DocenteService docenteService;
+    private DocenteRestService docenteRestService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class VerDocentesActivity extends AppCompatActivity {
         btnEliminar = findViewById(R.id.btn_eliminar);
         recyclerView = findViewById(R.id.recyclerList);
 
-        docenteService = new DocenteService(getApplicationContext());
+        docenteRestService = new DocenteRestService();
 
         btnCrear.setOnClickListener(v -> {
             Intent intent = new Intent(getBaseContext(), RegistrarDocenteActivity.class);
@@ -50,7 +50,7 @@ public class VerDocentesActivity extends AppCompatActivity {
     }
 
     private void cargarRecyclerList() {
-        docenteService.obtenerListaEntidad(new CallBackDisposableInterface<List<Docente>>() {
+        docenteRestService.obtenerListaEntidad(new CallBackDisposableInterface<List<Docente>>() {
             @Override
             public void onCallBack(List<Docente> docentes) {
                 OnlyTxtRecyclerAdapter<Docente> recyclerAdapter = new OnlyTxtRecyclerAdapter<Docente>(docentes, getBaseContext(), new OnlyTxtInterface<Docente>() {
@@ -76,7 +76,7 @@ public class VerDocentesActivity extends AppCompatActivity {
                             });
 
                             btnEliminar.setOnClickListener(v -> {
-                                docenteService.eliminarEntidad(docente, new CallBackVoidInterface() {
+                                docenteRestService.eliminarEntidad(docente, new CallBackVoidInterface() {
                                     @Override
                                     public void onCallBack() {
                                         btnEliminar.setEnabled(Boolean.FALSE);
@@ -103,12 +103,13 @@ public class VerDocentesActivity extends AppCompatActivity {
             }
         });
     }
+
     public void onBack() {
         OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
             @Override
             public void handleOnBackPressed() {
                 // Handle the back button event
-                Intent intent = new Intent(getApplicationContext(),InicioActivity.class);
+                Intent intent = new Intent(getApplicationContext(), InicioActivity.class);
                 startActivity(intent);
             }
         };

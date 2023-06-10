@@ -16,10 +16,9 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.Docente;
 import com.ues.sv.proyecto.controladministrativoapp.models.Persona;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.DocenteService;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.PersonaService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.DocenteRestService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.PersonaRestService;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
-import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.DateUtils;
 
 import java.util.ArrayList;
@@ -32,8 +31,8 @@ public class RegistrarDocenteActivity extends AppCompatActivity {
     private MaterialButton btnGuardar;
     private boolean esEditar = Boolean.FALSE;
 
-    private DocenteService docenteService;
-    private PersonaService personaService;
+    private DocenteRestService docenteRestService;
+    private PersonaRestService personaRestService;
 
     private Docente docenteData = new Docente();
 
@@ -46,8 +45,8 @@ public class RegistrarDocenteActivity extends AppCompatActivity {
         layouFecha = findViewById(R.id.input_layout_fecha);
         btnGuardar = findViewById(R.id.btn_guardar);
 
-        personaService = new PersonaService(getApplicationContext());
-        docenteService = new DocenteService(getApplicationContext());
+        docenteRestService = new DocenteRestService();
+        personaRestService = new PersonaRestService();
 
         MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker().setTitleText("Seleccionar Fecha").build();
 
@@ -88,9 +87,9 @@ public class RegistrarDocenteActivity extends AppCompatActivity {
 
             try {
                 if (esEditar) {
-                    docenteService.editarEntidad(docenteData, new CallBackVoidInterface() {
+                    docenteRestService.editarEntidad(docenteData, new CallBackDisposableInterface() {
                         @Override
-                        public void onCallBack() {
+                        public void onCallBack(Object o) {
                             Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getBaseContext(), VerDocentesActivity.class);
                             startActivity(intent);
@@ -102,7 +101,7 @@ public class RegistrarDocenteActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    docenteService.registrarEntidad(docenteData, new CallBackDisposableInterface() {
+                    docenteRestService.registrarEntidad(docenteData, new CallBackDisposableInterface() {
                         @Override
                         public void onCallBack(Object o) {
                             Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
@@ -133,7 +132,7 @@ public class RegistrarDocenteActivity extends AppCompatActivity {
 
             long idDocente = bundle.getLong("IdDocente", 0L);
             if (idDocente > 0)
-                docenteService.buscarPorId(idDocente, new CallBackDisposableInterface<Docente>() {
+                docenteRestService.buscarPorId(idDocente, new CallBackDisposableInterface<Docente>() {
                     @Override
                     public void onCallBack(Docente docente) {
                         docenteData = docente;
@@ -151,7 +150,7 @@ public class RegistrarDocenteActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e("CARGAR_DATOS", e.getMessage(), e.getCause());
         }
-        personaService.obtenerListaEntidad(new CallBackDisposableInterface<List<Persona>>() {
+        personaRestService.obtenerListaEntidad(new CallBackDisposableInterface<List<Persona>>() {
             @Override
             public void onCallBack(List<Persona> personas) {
                 List<String> personasStrings = new ArrayList<>();

@@ -16,11 +16,10 @@ import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.Curso;
 import com.ues.sv.proyecto.controladministrativoapp.models.Evaluacion;
 import com.ues.sv.proyecto.controladministrativoapp.models.TipoEvaluacion;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.CursoService;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.EvaluacionService;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.TipoEvaluacionService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.CursoRestService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.EvaluacionRestService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.TipoEvaluacionRestService;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
-import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.ValidationUtils;
 
 import java.util.ArrayList;
@@ -35,9 +34,9 @@ public class RegistrarEvaluacionActivity extends AppCompatActivity {
 
     private boolean esEditar = Boolean.FALSE;
 
-    private EvaluacionService evaluacionService;
-    private CursoService cursoService;
-    private TipoEvaluacionService tipoEvaluacionService;
+    private EvaluacionRestService evaluacionRestService;
+    private CursoRestService cursoRestService;
+    private TipoEvaluacionRestService tipoEvaluacionRestService;
 
     private Evaluacion evaluacionData = new Evaluacion();
 
@@ -51,9 +50,9 @@ public class RegistrarEvaluacionActivity extends AppCompatActivity {
         layouNumero = findViewById(R.id.input_layout_numero);
         btnGuardar = findViewById(R.id.btn_guardar);
 
-        evaluacionService = new EvaluacionService(getApplicationContext());
-        cursoService = new CursoService(getApplicationContext());
-        tipoEvaluacionService = new TipoEvaluacionService(getApplicationContext());
+        evaluacionRestService = new EvaluacionRestService();
+        cursoRestService = new CursoRestService();
+        tipoEvaluacionRestService = new TipoEvaluacionRestService();
 
         btnGuardar.setOnClickListener(v -> {
             if (validarDatos()) guardarRegistro();
@@ -86,9 +85,9 @@ public class RegistrarEvaluacionActivity extends AppCompatActivity {
                 Integer numeroEvaluacion = Integer.parseInt(layouNumero.getEditText().getText().toString());
                 evaluacionData.setNumeroEvaluacion(numeroEvaluacion);
                 if (esEditar) {
-                    evaluacionService.editarEntidad(evaluacionData, new CallBackVoidInterface() {
+                    evaluacionRestService.editarEntidad(evaluacionData, new CallBackDisposableInterface() {
                         @Override
-                        public void onCallBack() {
+                        public void onCallBack(Object o) {
                             Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getBaseContext(), VerEvaluacionActivity.class);
                             startActivity(intent);
@@ -100,7 +99,7 @@ public class RegistrarEvaluacionActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    evaluacionService.registrarEntidad(evaluacionData, new CallBackDisposableInterface() {
+                    evaluacionRestService.registrarEntidad(evaluacionData, new CallBackDisposableInterface() {
                         @Override
                         public void onCallBack(Object o) {
                             Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
@@ -131,7 +130,7 @@ public class RegistrarEvaluacionActivity extends AppCompatActivity {
 
             long idEvaluacion = bundle.getLong("IdEvaluacion", 0L);
             if (idEvaluacion > 0) {
-                evaluacionService.buscarPorId(idEvaluacion, new CallBackDisposableInterface<Evaluacion>() {
+                evaluacionRestService.buscarPorId(idEvaluacion, new CallBackDisposableInterface<Evaluacion>() {
                     @Override
                     public void onCallBack(Evaluacion evaluacion) {
                         evaluacionData = evaluacion;
@@ -149,7 +148,7 @@ public class RegistrarEvaluacionActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e("CARGAR_DATOS", e.getMessage(), e.getCause());
         }
-        cursoService.obtenerListaEntidad(new CallBackDisposableInterface<List<Curso>>() {
+        cursoRestService.obtenerListaEntidad(new CallBackDisposableInterface<List<Curso>>() {
             @Override
             public void onCallBack(List<Curso> cursos) {
                 List<String> cursosStrings = new ArrayList<>();
@@ -171,7 +170,7 @@ public class RegistrarEvaluacionActivity extends AppCompatActivity {
 
             }
         });
-        tipoEvaluacionService.obtenerListaEntidad(new CallBackDisposableInterface<List<TipoEvaluacion>>() {
+        tipoEvaluacionRestService.obtenerListaEntidad(new CallBackDisposableInterface<List<TipoEvaluacion>>() {
             @Override
             public void onCallBack(List<TipoEvaluacion> tipoEvaluacions) {
                 List<String> tipoEvaluacionesStrings = new ArrayList<>();

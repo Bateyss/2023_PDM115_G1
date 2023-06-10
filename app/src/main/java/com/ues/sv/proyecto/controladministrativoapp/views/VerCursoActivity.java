@@ -13,7 +13,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.Curso;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.CursoService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.CursoRestService;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.OnlyTxtInterface;
@@ -26,7 +26,7 @@ public class VerCursoActivity extends AppCompatActivity {
     private MaterialButton btnCrear, btnEditar, btnEliminar;
     private RecyclerView recyclerView;
     private Curso cursoSelected = null;
-    private CursoService cursoService;
+    private CursoRestService cursoRestService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class VerCursoActivity extends AppCompatActivity {
         btnEliminar = findViewById(R.id.btn_eliminar);
         recyclerView = findViewById(R.id.recyclerList);
 
-        cursoService = new CursoService(getApplicationContext());
+        cursoRestService = new CursoRestService();
 
         btnCrear.setOnClickListener(v -> {
             Intent intent = new Intent(getBaseContext(), RegistrarCursoActivity.class);
@@ -50,7 +50,7 @@ public class VerCursoActivity extends AppCompatActivity {
     }
 
     private void cargarRecyclerList() {
-        cursoService.obtenerListaEntidad(new CallBackDisposableInterface<List<Curso>>() {
+        cursoRestService.obtenerListaEntidad(new CallBackDisposableInterface<List<Curso>>() {
             @Override
             public void onCallBack(List<Curso> cursos) {
                 OnlyTxtRecyclerAdapter<Curso> recyclerAdapter = new OnlyTxtRecyclerAdapter<Curso>(cursos, getBaseContext(), new OnlyTxtInterface<Curso>() {
@@ -76,7 +76,7 @@ public class VerCursoActivity extends AppCompatActivity {
                             });
 
                             btnEliminar.setOnClickListener(v -> {
-                                cursoService.eliminarEntidad(curso, new CallBackVoidInterface() {
+                                cursoRestService.eliminarEntidad(curso, new CallBackVoidInterface() {
                                     @Override
                                     public void onCallBack() {
                                         btnEliminar.setEnabled(Boolean.FALSE);
@@ -103,12 +103,13 @@ public class VerCursoActivity extends AppCompatActivity {
             }
         });
     }
+
     public void onBack() {
         OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
             @Override
             public void handleOnBackPressed() {
                 // Handle the back button event
-                Intent intent = new Intent(getApplicationContext(),InicioActivity.class);
+                Intent intent = new Intent(getApplicationContext(), InicioActivity.class);
                 startActivity(intent);
             }
         };

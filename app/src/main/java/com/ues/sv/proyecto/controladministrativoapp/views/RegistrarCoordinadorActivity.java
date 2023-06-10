@@ -16,10 +16,9 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.Coordinador;
 import com.ues.sv.proyecto.controladministrativoapp.models.Persona;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.CoordinadorService;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.PersonaService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.CoordinadorRestService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.PersonaRestService;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
-import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.DateUtils;
 
 import java.util.ArrayList;
@@ -33,8 +32,8 @@ public class RegistrarCoordinadorActivity extends AppCompatActivity {
 
     private boolean esEditar = Boolean.FALSE;
 
-    private PersonaService personaService;
-    private CoordinadorService coordinadorService;
+    private PersonaRestService personaRestService;
+    private CoordinadorRestService coordinadorRestService;
 
     private Coordinador coordinadorData = new Coordinador();
 
@@ -47,8 +46,8 @@ public class RegistrarCoordinadorActivity extends AppCompatActivity {
         layouFecha = findViewById(R.id.input_layout_fecha);
         btnGuardar = findViewById(R.id.btn_guardar);
 
-        personaService = new PersonaService(getApplicationContext());
-        coordinadorService = new CoordinadorService(getApplicationContext());
+        personaRestService = new PersonaRestService();
+        coordinadorRestService = new CoordinadorRestService();
 
         MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker().setTitleText("Seleccionar Fecha").build();
 
@@ -88,9 +87,9 @@ public class RegistrarCoordinadorActivity extends AppCompatActivity {
         try {
             try {
                 if (esEditar) {
-                    coordinadorService.editarEntidad(coordinadorData, new CallBackVoidInterface() {
+                    coordinadorRestService.editarEntidad(coordinadorData, new CallBackDisposableInterface() {
                         @Override
-                        public void onCallBack() {
+                        public void onCallBack(Object o) {
                             Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getBaseContext(), VerCoordinadoresActivity.class);
                             startActivity(intent);
@@ -102,7 +101,7 @@ public class RegistrarCoordinadorActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    coordinadorService.registrarEntidad(coordinadorData, new CallBackDisposableInterface() {
+                    coordinadorRestService.registrarEntidad(coordinadorData, new CallBackDisposableInterface() {
                         @Override
                         public void onCallBack(Object o) {
                             Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
@@ -133,7 +132,7 @@ public class RegistrarCoordinadorActivity extends AppCompatActivity {
 
             long idCoordinador = bundle.getLong("IdCoordinador", 0L);
             if (idCoordinador > 0) {
-                coordinadorService.buscarPorId(idCoordinador, new CallBackDisposableInterface<Coordinador>() {
+                coordinadorRestService.buscarPorId(idCoordinador, new CallBackDisposableInterface<Coordinador>() {
                     @Override
                     public void onCallBack(Coordinador coordinador) {
                         coordinadorData = coordinador;
@@ -152,7 +151,7 @@ public class RegistrarCoordinadorActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e("CARGAR_DATOS", e.getMessage(), e.getCause());
         }
-        personaService.obtenerListaEntidad(new CallBackDisposableInterface<List<Persona>>() {
+        personaRestService.obtenerListaEntidad(new CallBackDisposableInterface<List<Persona>>() {
             @Override
             public void onCallBack(List<Persona> personas) {
                 List<String> personasStrings = new ArrayList<>();

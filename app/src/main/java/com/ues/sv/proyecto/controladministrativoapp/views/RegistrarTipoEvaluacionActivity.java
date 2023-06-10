@@ -12,9 +12,8 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.TipoEvaluacion;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.TipoEvaluacionService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.TipoEvaluacionRestService;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
-import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.ValidationUtils;
 
 import java.util.HashMap;
@@ -26,7 +25,7 @@ public class RegistrarTipoEvaluacionActivity extends AppCompatActivity {
     private MaterialButton btnGuardar;
 
     private boolean esEditar = Boolean.FALSE;
-    private TipoEvaluacionService tipoEvaluacionService;
+    private TipoEvaluacionRestService tipoEvaluacionRestService;
 
     private TipoEvaluacion tipoEvaluacionData = new TipoEvaluacion();
 
@@ -38,7 +37,7 @@ public class RegistrarTipoEvaluacionActivity extends AppCompatActivity {
         layouNombre = findViewById(R.id.input_layout_nombre);
         btnGuardar = findViewById(R.id.btn_guardar);
 
-        tipoEvaluacionService = new TipoEvaluacionService(getApplicationContext());
+        tipoEvaluacionRestService = new TipoEvaluacionRestService();
 
         btnGuardar.setOnClickListener(v -> {
             if (validarDatos()) guardarRegistro();
@@ -61,9 +60,9 @@ public class RegistrarTipoEvaluacionActivity extends AppCompatActivity {
 
             try {
                 if (esEditar) {
-                    tipoEvaluacionService.editarEntidad(tipoEvaluacionData, new CallBackVoidInterface() {
+                    tipoEvaluacionRestService.editarEntidad(tipoEvaluacionData, new CallBackDisposableInterface() {
                         @Override
-                        public void onCallBack() {
+                        public void onCallBack(Object o) {
                             Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getBaseContext(), VerTipoEvaluacionActivity.class);
                             startActivity(intent);
@@ -75,7 +74,7 @@ public class RegistrarTipoEvaluacionActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    tipoEvaluacionService.registrarEntidad(tipoEvaluacionData, new CallBackDisposableInterface() {
+                    tipoEvaluacionRestService.registrarEntidad(tipoEvaluacionData, new CallBackDisposableInterface() {
                         @Override
                         public void onCallBack(Object o) {
                             Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
@@ -105,7 +104,7 @@ public class RegistrarTipoEvaluacionActivity extends AppCompatActivity {
             Bundle bundle = getIntent().getExtras();
             long idTipoEvaluacion = bundle.getLong("IdTipoEvaluacion", 0L);
             if (idTipoEvaluacion > 0)
-                tipoEvaluacionService.buscarPorId(idTipoEvaluacion, new CallBackDisposableInterface<TipoEvaluacion>() {
+                tipoEvaluacionRestService.buscarPorId(idTipoEvaluacion, new CallBackDisposableInterface<TipoEvaluacion>() {
                     @Override
                     public void onCallBack(TipoEvaluacion tipoEvaluacion) {
                         tipoEvaluacionData = tipoEvaluacion;

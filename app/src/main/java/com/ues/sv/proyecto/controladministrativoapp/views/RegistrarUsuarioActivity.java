@@ -15,8 +15,8 @@ import com.ues.sv.proyecto.controladministrativoapp.MainActivity;
 import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.Persona;
 import com.ues.sv.proyecto.controladministrativoapp.models.Usuario;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.PersonaService;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.UsuarioService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.PersonaRestService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.UsuarioRestService;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.ValidationUtils;
 
@@ -25,8 +25,8 @@ import java.util.Map;
 
 public class RegistrarUsuarioActivity extends AppCompatActivity {
 
-    private UsuarioService usuarioService;
-    private PersonaService personaService;
+    private UsuarioRestService usuarioRestService;
+    private PersonaRestService personaRestService;
 
     private TextInputLayout userNombreLayout, userApellidoLayout, userIdentificacionLayoutv, userSexoLayout, userNameLayout, userPassLayout;
     private MaterialButton brnRegistrar;
@@ -38,8 +38,8 @@ public class RegistrarUsuarioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_usuario);
 
-        usuarioService = new UsuarioService(getApplicationContext());
-        personaService = new PersonaService(getApplicationContext());
+        usuarioRestService = new UsuarioRestService();
+        personaRestService = new PersonaRestService();
 
         userNombreLayout = findViewById(R.id.input_layout_nombre);
         userApellidoLayout = findViewById(R.id.input_layout_apellido);
@@ -51,20 +51,21 @@ public class RegistrarUsuarioActivity extends AppCompatActivity {
 
         brnRegistrar.setOnClickListener(v -> {
             if (valiadarFormularioPersona() && valiadarFormularioUsuario()) {
-                Persona persona = new Persona();
-                persona.setNombre(userNombreLayout.getEditText().getText().toString());
-                persona.setApellido(userApellidoLayout.getEditText().getText().toString());
-                persona.setIdentificacion(userIdentificacionLayoutv.getEditText().getText().toString());
-                persona.setSexo(userSexoLayout.getEditText().getText().toString());
-                personaService.registrarEntidad(persona, new CallBackDisposableInterface() {
+                final Persona[] persona = {new Persona()};
+                persona[0].setNombre(userNombreLayout.getEditText().getText().toString());
+                persona[0].setApellido(userApellidoLayout.getEditText().getText().toString());
+                persona[0].setIdentificacion(userIdentificacionLayoutv.getEditText().getText().toString());
+                persona[0].setSexo(userSexoLayout.getEditText().getText().toString());
+                personaRestService.registrarEntidad(persona[0], new CallBackDisposableInterface() {
                     @Override
                     public void onCallBack(Object o) {
-                        persona.setIdPersona((long) o);
-                        usuarioData.setPersona(persona);
+                        persona[0] = (Persona) o;
+//                        persona.setIdPersona((long) o);
+                        usuarioData.setPersona(persona[0]);
                         usuarioData.setUserName(userNameLayout.getEditText().getText().toString());
                         usuarioData.setUserPass(userPassLayout.getEditText().getText().toString());
 
-                        usuarioService.registrarEntidad(usuarioData, new CallBackDisposableInterface() {
+                        usuarioRestService.registrarEntidad(usuarioData, new CallBackDisposableInterface() {
                             @Override
                             public void onCallBack(Object o) {
                                 Toast.makeText(RegistrarUsuarioActivity.this, "usuario Registrado", Toast.LENGTH_SHORT).show();

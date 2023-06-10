@@ -15,10 +15,9 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.Alumno;
 import com.ues.sv.proyecto.controladministrativoapp.models.Persona;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.AlumnoService;
-import com.ues.sv.proyecto.controladministrativoapp.room.service.PersonaService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.AlumnoRestService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.PersonaRestService;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
-import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.ValidationUtils;
 
 import java.util.ArrayList;
@@ -32,8 +31,8 @@ public class RegistrarAlumnoActivity extends AppCompatActivity {
     private MaterialButton btnGuardar;
     private boolean esEditar = Boolean.FALSE;
 
-    private AlumnoService alumnoService;
-    private PersonaService personaService;
+    private AlumnoRestService alumnoRestService;
+    private PersonaRestService personaRestService;
     private Alumno alumnoData = new Alumno();
 
     @Override
@@ -45,8 +44,8 @@ public class RegistrarAlumnoActivity extends AppCompatActivity {
         layouCarnet = findViewById(R.id.input_layout_carnet);
         btnGuardar = findViewById(R.id.btn_guardar);
 
-        personaService = new PersonaService(getApplicationContext());
-        alumnoService = new AlumnoService(getApplicationContext());
+        alumnoRestService = new AlumnoRestService();
+        personaRestService = new PersonaRestService();
 
         btnGuardar.setOnClickListener(v -> {
             if (validarDatos()) guardarRegistro();
@@ -72,9 +71,9 @@ public class RegistrarAlumnoActivity extends AppCompatActivity {
         try {
             alumnoData.setCarnet(layouCarnet.getEditText().getText().toString());
             if (esEditar) {
-                alumnoService.editarEntidad(alumnoData, new CallBackVoidInterface() {
+                alumnoRestService.editarEntidad(alumnoData, new CallBackDisposableInterface() {
                     @Override
-                    public void onCallBack() {
+                    public void onCallBack(Object o) {
                         Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getBaseContext(), VerAlumnosActivity.class);
                         startActivity(intent);
@@ -86,7 +85,7 @@ public class RegistrarAlumnoActivity extends AppCompatActivity {
                     }
                 });
             } else {
-                alumnoService.registrarEntidad(alumnoData, new CallBackDisposableInterface() {
+                alumnoRestService.registrarEntidad(alumnoData, new CallBackDisposableInterface() {
                     @Override
                     public void onCallBack(Object o) {
                         Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
@@ -113,7 +112,7 @@ public class RegistrarAlumnoActivity extends AppCompatActivity {
 
             long idAlumno = bundle.getLong("IdAlumno", 0L);
             if (idAlumno > 0)
-                alumnoService.buscarPorId(idAlumno, new CallBackDisposableInterface<Alumno>() {
+                alumnoRestService.buscarPorId(idAlumno, new CallBackDisposableInterface<Alumno>() {
                     @Override
                     public void onCallBack(Alumno alumno) {
                         alumnoData = alumno;
@@ -130,7 +129,7 @@ public class RegistrarAlumnoActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e("CARGAR_DATOS", e.getMessage(), e.getCause());
         }
-        personaService.obtenerListaEntidad(new CallBackDisposableInterface<List<Persona>>() {
+        personaRestService.obtenerListaEntidad(new CallBackDisposableInterface<List<Persona>>() {
             @Override
             public void onCallBack(List<Persona> personas) {
                 List<String> personasStrings = new ArrayList<>();
