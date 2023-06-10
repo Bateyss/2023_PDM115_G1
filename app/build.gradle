@@ -30,18 +30,21 @@ android {
 
 dependencies {
     def room_version = "2.5.1"
-    def rx_version = '3.0.2'
+    def rx3_version = '3.0.2'
+    def rx2_version = '2.0.1'
     def material3_version = "1.1.0"
     def retrofit_version='2.9.0'
-    def okhttp3_version='4.11.0'
-    def picasso_version='2.8'
-
+    def okhttp3_version= '5.0.0-alpha.11'
+    def picasso_version= '2.71828'
 
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-rxjava3:$room_version"
-    implementation "io.reactivex.rxjava3:rxandroid:$rx_version"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+//    implementation "androidx.room:room-rxjava2:$room_version"
+    implementation "io.reactivex.rxjava3:rxandroid:$rx3_version"
+//    implementation "io.reactivex.rxjava2:rxandroid:$rx2_version"
+//    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava3:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3_version"
     implementation "com.squareup.picasso:picasso:$picasso_version"
@@ -53,4 +56,17 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    // la actualizacion a java17
+    // modifico la ubicacion de algunos paqueques de modulos
+    // afectando el uso de jdk7 o jdk8 en librerias que no estan actualizadas
+    // por lo que se ve necesario cambiarle el uso de los paquetes
+    modules {
+        module("org.jetbrains.kotlin:kotlin-stdlib-jdk7") {
+            replacedBy("org.jetbrains.kotlin:kotlin-stdlib", "kotlin-stdlib-jdk7 is now part of kotlin-stdlib")
+        }
+        module("org.jetbrains.kotlin:kotlin-stdlib-jdk8") {
+            replacedBy("org.jetbrains.kotlin:kotlin-stdlib", "kotlin-stdlib-jdk8 is now part of kotlin-stdlib")
+        }
+    }
 }
