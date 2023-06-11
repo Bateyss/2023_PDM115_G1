@@ -8,8 +8,8 @@ import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 import com.google.gson.annotations.SerializedName;
-import com.ues.sv.proyecto.controladministrativoapp.utils.Validacion;
 import com.ues.sv.proyecto.controladministrativoapp.utils.DateConverter;
+import com.ues.sv.proyecto.controladministrativoapp.utils.Validacion;
 
 import java.util.Date;
 
