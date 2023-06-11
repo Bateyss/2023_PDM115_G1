@@ -28,7 +28,6 @@ public class ParticipanteRevisionRestService extends AbsRestServiceImpl<Particip
                     @Override
 
                     public Single<?> singleAction() {
-                        participanteRevision.setIdParticipante(null);
                         return restServiceInterface.create(participanteRevision);
                     }
 
@@ -68,7 +67,7 @@ public class ParticipanteRevisionRestService extends AbsRestServiceImpl<Particip
                 DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
                     @Override
                     public Completable completableAction() {
-                        return restServiceInterface.delete(participanteRevision);
+                        return restServiceInterface.delete(participanteRevision.getIdParticipante());
                     }
 
                     @Override

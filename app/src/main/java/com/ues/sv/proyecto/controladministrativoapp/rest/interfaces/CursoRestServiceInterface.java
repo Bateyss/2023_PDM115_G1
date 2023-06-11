@@ -22,8 +22,8 @@ public interface CursoRestServiceInterface {
     @GET("curso/id/{id}")
     Single<Curso> getOneById(@Path("id") Long id);
 
-    @DELETE("curso")
-    Completable delete(@Body Curso entity);
+    @DELETE("curso/{id}")
+    Completable delete(@Path("id") Long id);
 
     @POST("curso")
     Single<Curso> create(@Body Curso entity);

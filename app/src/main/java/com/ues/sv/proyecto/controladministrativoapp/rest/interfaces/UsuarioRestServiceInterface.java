@@ -25,8 +25,8 @@ public interface UsuarioRestServiceInterface {
     @GET("usuario/id/{id}")
     Single<Usuario> getOneById(@Path("id") Long id);
 
-    @DELETE("usuario")
-    Completable delete(@Body Usuario entity);
+    @DELETE("usuario/{id}")
+    Completable delete(@Path("id") Long id);
 
     @POST("usuario")
     Single<Usuario> create(@Body Usuario entity);

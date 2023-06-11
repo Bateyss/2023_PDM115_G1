@@ -25,8 +25,8 @@ public interface ImpresionRestServiceInterface {
     @GET("impresion/id/{id}")
     Single<Impresion> getOneById(@Path("id") Long id);
 
-    @DELETE("impresion")
-    Completable delete(@Body Impresion entity);
+    @DELETE("impresion/{id}")
+    Completable delete(@Path("id") Long id);
 
     @POST("impresion")
     Single<Impresion> create(@Body Impresion entity);

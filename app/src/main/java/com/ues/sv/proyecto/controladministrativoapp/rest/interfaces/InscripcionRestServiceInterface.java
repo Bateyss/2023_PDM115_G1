@@ -22,8 +22,8 @@ public interface InscripcionRestServiceInterface {
     @GET("inscripcion/id/{id}")
     Single<Inscripcion> getOneById(@Path("id") Long id);
 
-    @DELETE("inscripcion")
-    Completable delete(@Body Inscripcion entity);
+    @DELETE("inscripcion/{id}")
+    Completable delete(@Path("id") Long id);
 
     @POST("inscripcion")
     Single<Inscripcion> create(@Body Inscripcion entity);

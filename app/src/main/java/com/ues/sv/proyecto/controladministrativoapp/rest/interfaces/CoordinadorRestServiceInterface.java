@@ -22,8 +22,8 @@ public interface CoordinadorRestServiceInterface {
     @GET("coordinador/id/{id}")
     Single<Coordinador> getOneById(@Path("id") Long id);
 
-    @DELETE("coordinador")
-    Completable delete(@Body Coordinador entity);
+    @DELETE("coordinador/{id}")
+    Completable delete(@Path("id") Long id);
 
     @POST("coordinador")
     Single<Coordinador> create(@Body Coordinador entity);

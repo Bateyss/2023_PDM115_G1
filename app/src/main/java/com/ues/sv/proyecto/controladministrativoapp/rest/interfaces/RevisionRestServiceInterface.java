@@ -22,8 +22,8 @@ public interface RevisionRestServiceInterface {
     @GET("revision/id/{id}")
     Single<Revision> getOneById(@Path("id") Long id);
 
-    @DELETE("revision")
-    Completable delete(@Body Revision entity);
+    @DELETE("revision/{id}")
+    Completable delete(@Path("id") Long id);
 
     @POST("revision")
     Single<Revision> create(@Body Revision entity);

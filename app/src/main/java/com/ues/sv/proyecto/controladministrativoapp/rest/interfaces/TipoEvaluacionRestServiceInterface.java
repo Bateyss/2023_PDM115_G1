@@ -21,9 +21,9 @@ public interface TipoEvaluacionRestServiceInterface {
 
     @GET("tipoevaluacion/id/{id}")
     Single<TipoEvaluacion> getOneById(@Path("id") Long id);
-
-    @DELETE("tipoevaluacion")
-    Completable delete(@Body TipoEvaluacion entity);
+    
+    @DELETE("tipoevaluacion/{id}")
+    Completable delete(@Path("id") Long id);
 
     @POST("tipoevaluacion")
     Single<TipoEvaluacion> create(@Body TipoEvaluacion entity);

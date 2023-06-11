@@ -25,8 +25,8 @@ public interface SolicitudRevisionRestServiceInterface {
     @GET("solicitudrevision/id/{id}")
     Single<SolicitudRevision> getOneById(@Path("id") Long id);
 
-    @DELETE("solicitudrevision")
-    Completable delete(@Body SolicitudRevision entity);
+    @DELETE("solicitudrevision/{id}")
+    Completable delete(@Path("id") Long id);
 
     @POST("solicitudrevision")
     Single<SolicitudRevision> create(@Body SolicitudRevision entity);

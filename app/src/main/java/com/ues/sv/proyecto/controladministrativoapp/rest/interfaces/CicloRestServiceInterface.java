@@ -22,8 +22,8 @@ public interface CicloRestServiceInterface {
     @GET("ciclo/id/{id}")
     Single<Ciclo> getOneById(@Path("id") Long id);
 
-    @DELETE("ciclo")
-    Completable delete(@Body Ciclo entity);
+    @DELETE("ciclo/{id}")
+    Completable delete(@Path("id") Long id);
 
     @POST("ciclo")
     Single<Ciclo> create(@Body Ciclo entity);

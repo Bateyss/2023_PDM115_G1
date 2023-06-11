@@ -28,7 +28,6 @@ public class CicloRestService extends AbsRestServiceImpl<Ciclo, CicloRestService
                     @Override
 
                     public Single<?> singleAction() {
-                        ciclo.setIdCiclo(null);
                         return restServiceInterface.create(ciclo);
                     }
 
@@ -68,7 +67,7 @@ public class CicloRestService extends AbsRestServiceImpl<Ciclo, CicloRestService
                 DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
                     @Override
                     public Completable completableAction() {
-                        return restServiceInterface.delete(ciclo);
+                        return restServiceInterface.delete(ciclo.getIdCiclo());
                     }
 
                     @Override

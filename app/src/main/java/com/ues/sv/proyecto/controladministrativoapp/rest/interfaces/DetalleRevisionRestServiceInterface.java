@@ -22,8 +22,8 @@ public interface DetalleRevisionRestServiceInterface {
     @GET("detallerevision/id/{id}")
     Single<DetalleRevision> getOneById(@Path("id") Long id);
 
-    @DELETE("detallerevision")
-    Completable delete(@Body DetalleRevision entity);
+    @DELETE("detallerevision/{id}")
+    Completable delete(@Path("id") Long id);
 
     @POST("detallerevision")
     Single<DetalleRevision> create(@Body DetalleRevision entity);

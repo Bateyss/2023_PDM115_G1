@@ -28,7 +28,6 @@ public class TipoEvaluacionRestService extends AbsRestServiceImpl<TipoEvaluacion
                     @Override
 
                     public Single<?> singleAction() {
-                        tipoEvaluacion.setIdTipoEvaluacion(null);
                         return restServiceInterface.create(tipoEvaluacion);
                     }
 
@@ -68,7 +67,7 @@ public class TipoEvaluacionRestService extends AbsRestServiceImpl<TipoEvaluacion
                 DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
                     @Override
                     public Completable completableAction() {
-                        return restServiceInterface.delete(tipoEvaluacion);
+                        return restServiceInterface.delete(tipoEvaluacion.getIdTipoEvaluacion());
                     }
 
                     @Override

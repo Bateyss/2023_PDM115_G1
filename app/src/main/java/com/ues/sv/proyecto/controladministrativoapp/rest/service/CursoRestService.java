@@ -28,7 +28,6 @@ public class CursoRestService extends AbsRestServiceImpl<Curso, CursoRestService
                     @Override
 
                     public Single<?> singleAction() {
-                        curso.setIdCurso(null);
                         return restServiceInterface.create(curso);
                     }
 
@@ -68,7 +67,7 @@ public class CursoRestService extends AbsRestServiceImpl<Curso, CursoRestService
                 DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
                     @Override
                     public Completable completableAction() {
-                        return restServiceInterface.delete(curso);
+                        return restServiceInterface.delete(curso.getIdCurso());
                     }
 
                     @Override

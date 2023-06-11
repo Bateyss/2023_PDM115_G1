@@ -28,7 +28,6 @@ public class PersonaRestService extends AbsRestServiceImpl<Persona, PersonaRestS
                     @Override
 
                     public Single<?> singleAction() {
-                        persona.setIdPersona(null);
                         return restServiceInterface.create(persona);
                     }
 
@@ -68,7 +67,7 @@ public class PersonaRestService extends AbsRestServiceImpl<Persona, PersonaRestS
                 DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
                     @Override
                     public Completable completableAction() {
-                        return restServiceInterface.delete(persona);
+                        return restServiceInterface.delete(persona.getIdPersona());
                     }
 
                     @Override

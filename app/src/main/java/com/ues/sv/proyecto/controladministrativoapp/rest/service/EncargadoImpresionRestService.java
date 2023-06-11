@@ -28,7 +28,6 @@ public class EncargadoImpresionRestService extends AbsRestServiceImpl<EncargadoI
                     @Override
 
                     public Single<?> singleAction() {
-                        encargadoImpresion.setIdEncargado(null);
                         return restServiceInterface.create(encargadoImpresion);
                     }
 
@@ -68,7 +67,7 @@ public class EncargadoImpresionRestService extends AbsRestServiceImpl<EncargadoI
                 DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
                     @Override
                     public Completable completableAction() {
-                        return restServiceInterface.delete(encargadoImpresion);
+                        return restServiceInterface.delete(encargadoImpresion.getIdEncargado());
                     }
 
                     @Override

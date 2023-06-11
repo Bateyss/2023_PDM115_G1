@@ -28,7 +28,6 @@ public class DocenteRestService extends AbsRestServiceImpl<Docente, DocenteRestS
                     @Override
 
                     public Single<?> singleAction() {
-                        docente.setIdDocente(null);
                         return restServiceInterface.create(docente);
                     }
 
@@ -68,7 +67,7 @@ public class DocenteRestService extends AbsRestServiceImpl<Docente, DocenteRestS
                 DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
                     @Override
                     public Completable completableAction() {
-                        return restServiceInterface.delete(docente);
+                        return restServiceInterface.delete(docente.getIdDocente());
                     }
 
                     @Override

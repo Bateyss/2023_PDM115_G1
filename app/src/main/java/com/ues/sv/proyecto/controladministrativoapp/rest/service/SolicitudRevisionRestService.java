@@ -28,7 +28,6 @@ public class SolicitudRevisionRestService extends AbsRestServiceImpl<SolicitudRe
                     @Override
 
                     public Single<?> singleAction() {
-                        solicitudSolicitudRevision.setIdSolicitudRevision(null);
                         return restServiceInterface.create(solicitudSolicitudRevision);
                     }
 
@@ -68,7 +67,7 @@ public class SolicitudRevisionRestService extends AbsRestServiceImpl<SolicitudRe
                 DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
                     @Override
                     public Completable completableAction() {
-                        return restServiceInterface.delete(solicitudSolicitudRevision);
+                        return restServiceInterface.delete(solicitudSolicitudRevision.getIdSolicitudRevision());
                     }
 
                     @Override

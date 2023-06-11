@@ -29,7 +29,6 @@ public class UsuarioRestService extends AbsRestServiceImpl<Usuario, UsuarioRestS
                     @Override
 
                     public Single<?> singleAction() {
-                        usuario.setIdUsuario(null);
                         return restServiceInterface.create(usuario);
                     }
 
@@ -69,7 +68,7 @@ public class UsuarioRestService extends AbsRestServiceImpl<Usuario, UsuarioRestS
                 DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
                     @Override
                     public Completable completableAction() {
-                        return restServiceInterface.delete(usuario);
+                        return restServiceInterface.delete(usuario.getIdUsuario());
                     }
 
                     @Override

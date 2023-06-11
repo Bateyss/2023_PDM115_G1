@@ -29,7 +29,6 @@ public class MotivoErrorImpresionRestService extends AbsRestServiceImpl<MotivoEr
                     @Override
 
                     public Single<?> singleAction() {
-                        motivoErrorImpresion.setIdMotivo(null);
                         return restServiceInterface.create(motivoErrorImpresion);
                     }
 
@@ -69,7 +68,7 @@ public class MotivoErrorImpresionRestService extends AbsRestServiceImpl<MotivoEr
                 DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
                     @Override
                     public Completable completableAction() {
-                        return restServiceInterface.delete(motivoErrorImpresion);
+                        return restServiceInterface.delete(motivoErrorImpresion.getIdMotivo());
                     }
 
                     @Override

@@ -28,7 +28,6 @@ public class DetalleRevisionRestService extends AbsRestServiceImpl<DetalleRevisi
                     @Override
 
                     public Single<?> singleAction() {
-                        detalleRevision.setIdDetalle(null);
                         return restServiceInterface.create(detalleRevision);
                     }
 
@@ -66,7 +65,7 @@ public class DetalleRevisionRestService extends AbsRestServiceImpl<DetalleRevisi
                 DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
                     @Override
                     public Completable completableAction() {
-                        return restServiceInterface.delete(detalleRevision);
+                        return restServiceInterface.delete(detalleRevision.getIdDetalle());
                     }
 
                     @Override

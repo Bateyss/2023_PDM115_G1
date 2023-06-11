@@ -22,8 +22,8 @@ public interface EncargadoImpresionRestServiceInterface {
     @GET("encargadoimpresion/id/{id}")
     Single<EncargadoImpresion> getOneById(@Path("id") Long id);
 
-    @DELETE("encargadoimpresion")
-    Completable delete(@Body EncargadoImpresion entity);
+    @DELETE("encargadoimpresion/{id}")
+    Completable delete(@Path("id") Long id);
 
     @POST("encargadoimpresion")
     Single<EncargadoImpresion> create(@Body EncargadoImpresion entity);

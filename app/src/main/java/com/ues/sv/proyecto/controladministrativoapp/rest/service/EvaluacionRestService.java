@@ -28,7 +28,6 @@ public class EvaluacionRestService extends AbsRestServiceImpl<Evaluacion, Evalua
                     @Override
 
                     public Single<?> singleAction() {
-                        evaluacion.setIdEvaluacion(null);
                         return restServiceInterface.create(evaluacion);
                     }
 
@@ -68,7 +67,7 @@ public class EvaluacionRestService extends AbsRestServiceImpl<Evaluacion, Evalua
                 DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
                     @Override
                     public Completable completableAction() {
-                        return restServiceInterface.delete(evaluacion);
+                        return restServiceInterface.delete(evaluacion.getIdEvaluacion());
                     }
 
                     @Override

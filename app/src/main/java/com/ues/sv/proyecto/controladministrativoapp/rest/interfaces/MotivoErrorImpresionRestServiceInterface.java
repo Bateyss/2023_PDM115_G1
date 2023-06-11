@@ -26,8 +26,8 @@ public interface MotivoErrorImpresionRestServiceInterface {
     @GET("motivoerrorimpresion/id/{id}")
     Single<MotivoErrorImpresion> getOneById(@Path("id") Long id);
 
-    @DELETE("motivoerrorimpresion")
-    Completable delete(@Body MotivoErrorImpresion entity);
+    @DELETE("motivoerrorimpresion/{id}")
+    Completable delete(@Path("id") Long id);
 
     @POST("motivoerrorimpresion")
     Single<MotivoErrorImpresion> create(@Body MotivoErrorImpresion entity);

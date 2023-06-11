@@ -28,7 +28,6 @@ public class CoordinadorRestService extends AbsRestServiceImpl<Coordinador, Coor
                     @Override
 
                     public Single<?> singleAction() {
-                        coordinador.setIdCoordinador(null);
                         return restServiceInterface.create(coordinador);
                     }
 
@@ -68,7 +67,7 @@ public class CoordinadorRestService extends AbsRestServiceImpl<Coordinador, Coor
                 DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
                     @Override
                     public Completable completableAction() {
-                        return restServiceInterface.delete(coordinador);
+                        return restServiceInterface.delete(coordinador.getIdCoordinador());
                     }
 
                     @Override

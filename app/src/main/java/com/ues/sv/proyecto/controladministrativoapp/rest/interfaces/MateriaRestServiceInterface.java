@@ -1,7 +1,6 @@
 package com.ues.sv.proyecto.controladministrativoapp.rest.interfaces;
 
 import com.ues.sv.proyecto.controladministrativoapp.models.Materia;
-import com.ues.sv.proyecto.controladministrativoapp.rest.conf.ApiData;
 
 import java.util.List;
 
@@ -23,8 +22,8 @@ public interface MateriaRestServiceInterface {
     @GET("materia/id/{id}")
     Single<Materia> getOneById(@Path("id") Long id);
 
-    @DELETE("materia")
-    Completable delete(@Body Materia entity);
+    @DELETE("materia/{id}")
+    Completable delete(@Path("id") Long id);
 
     @POST("materia")
     Single<Materia> create(@Body Materia entity);

@@ -28,7 +28,6 @@ public class ParametrosRestService extends AbsRestServiceImpl<Parametros, Parame
                     @Override
 
                     public Single<?> singleAction() {
-                        parametros.setIdParametro(null);
                         return restServiceInterface.create(parametros);
                     }
 
@@ -68,7 +67,7 @@ public class ParametrosRestService extends AbsRestServiceImpl<Parametros, Parame
                 DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
                     @Override
                     public Completable completableAction() {
-                        return restServiceInterface.delete(parametros);
+                        return restServiceInterface.delete(parametros.getIdParametro());
                     }
 
                     @Override

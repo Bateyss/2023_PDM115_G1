@@ -22,8 +22,8 @@ public interface PersonaRestServiceInterface {
     @GET("persona/id/{id}")
     Single<Persona> getOneById(@Path("id") Long id);
 
-    @DELETE("persona")
-    Completable delete(@Body Persona entity);
+    @DELETE("persona/{id}")
+    Completable delete(@Path("id") Long id);
 
     @POST("persona")
     Single<Persona> create(@Body Persona entity);

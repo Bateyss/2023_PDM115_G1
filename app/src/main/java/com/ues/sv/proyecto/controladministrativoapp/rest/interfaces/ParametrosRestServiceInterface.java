@@ -25,8 +25,8 @@ public interface ParametrosRestServiceInterface {
     @GET("parametros/id/{id}")
     Single<Parametros> getOneById(@Path("id") Long id);
 
-    @DELETE("parametros")
-    Completable delete(@Body Parametros entity);
+    @DELETE("parametros/{id}")
+    Completable delete(@Path("id") Long id);
 
     @POST("parametros")
     Single<Parametros> create(@Body Parametros entity);

@@ -1,7 +1,6 @@
 package com.ues.sv.proyecto.controladministrativoapp.rest.interfaces;
 
 import com.ues.sv.proyecto.controladministrativoapp.models.Imagen;
-import com.ues.sv.proyecto.controladministrativoapp.rest.conf.ApiData;
 
 import java.util.List;
 
@@ -27,8 +26,8 @@ public interface ImagenRestServiceInterface {
     @GET("imagenid/{id}")
     Single<Imagen> getOneById(@Path("id") Long id);
 
-    @DELETE("imagen")
-    Completable delete(@Body Imagen imagen);
+    @DELETE("imagen/{id}")
+    Completable delete(@Path("id") Long id);
 
     @Multipart
     @POST("imagen")

@@ -93,7 +93,7 @@ public class ImagenRestService {
         DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
             @Override
             public Completable completableAction() {
-                return imagenRestService.delete(imagen);
+                return imagenRestService.delete(imagen.getIdImagen());
             }
 
             @Override

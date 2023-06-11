@@ -28,7 +28,6 @@ public class ImpresionRestService extends AbsRestServiceImpl<Impresion, Impresio
                     @Override
 
                     public Single<?> singleAction() {
-                        impresion.setIdImpresion(null);
                         return restServiceInterface.create(impresion);
                     }
 
@@ -66,7 +65,7 @@ public class ImpresionRestService extends AbsRestServiceImpl<Impresion, Impresio
                 DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
                     @Override
                     public Completable completableAction() {
-                        return restServiceInterface.delete(impresion);
+                        return restServiceInterface.delete(impresion.getIdImpresion());
                     }
 
                     @Override

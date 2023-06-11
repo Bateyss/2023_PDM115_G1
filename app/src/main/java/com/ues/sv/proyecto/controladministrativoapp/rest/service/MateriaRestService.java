@@ -28,7 +28,6 @@ public class MateriaRestService extends AbsRestServiceImpl<Materia, MateriaRestS
                     @Override
 
                     public Single<?> singleAction() {
-                        materia.setIdMateria(null);
                         return restServiceInterface.create(materia);
                     }
 
@@ -68,7 +67,7 @@ public class MateriaRestService extends AbsRestServiceImpl<Materia, MateriaRestS
                 DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
                     @Override
                     public Completable completableAction() {
-                        return restServiceInterface.delete(materia);
+                        return restServiceInterface.delete(materia.getIdMateria());
                     }
 
                     @Override

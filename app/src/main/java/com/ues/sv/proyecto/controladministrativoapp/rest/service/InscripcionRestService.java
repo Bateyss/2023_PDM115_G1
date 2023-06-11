@@ -28,7 +28,6 @@ public class InscripcionRestService extends AbsRestServiceImpl<Inscripcion, Insc
                     @Override
 
                     public Single<?> singleAction() {
-                        inscripcion.setIdInscripcion(null);
                         return restServiceInterface.create(inscripcion);
                     }
 
@@ -68,7 +67,7 @@ public class InscripcionRestService extends AbsRestServiceImpl<Inscripcion, Insc
                 DisposableUtils.addComposite(new DisposableUtils.CompositeCompletableCallback() {
                     @Override
                     public Completable completableAction() {
-                        return restServiceInterface.delete(inscripcion);
+                        return restServiceInterface.delete(inscripcion.getIdInscripcion());
                     }
 
                     @Override

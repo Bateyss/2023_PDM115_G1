@@ -22,8 +22,8 @@ public interface AlumnoRestServiceInterface {
     @GET("alumno/id/{id}")
     Single<Alumno> getOneById(@Path("id") Long id);
 
-    @DELETE("alumno")
-    Completable delete(@Body Alumno entity);
+    @DELETE("alumno/{id}")
+    Completable delete(@Path("id") Long id);
 
     @POST("alumno")
     Single<Alumno> create(@Body Alumno entity);
