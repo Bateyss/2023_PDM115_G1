@@ -2,8 +2,6 @@ package com.ues.sv.proyecto.controladministrativoapp.utils;
 
 import android.util.Log;
 
-import com.ues.sv.proyecto.controladministrativoapp.rest.bin.ErrorResponse;
-
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
@@ -15,6 +13,10 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class DisposableUtils {
 
     private static final CompositeDisposable mDisposable = new CompositeDisposable();
+
+    public static void addDisposable(Disposable disposable) {
+        mDisposable.add(disposable);
+    }
 
     public static void addComposite(CompositeCompletableCallback compositeInterface) {
         mDisposable.add(
