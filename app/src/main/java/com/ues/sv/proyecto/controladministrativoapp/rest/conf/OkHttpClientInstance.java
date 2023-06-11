@@ -1,5 +1,7 @@
 package com.ues.sv.proyecto.controladministrativoapp.rest.conf;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.ues.sv.proyecto.controladministrativoapp.rest.interfaces.AlumnoRestServiceInterface;
 import com.ues.sv.proyecto.controladministrativoapp.rest.interfaces.CicloRestServiceInterface;
 import com.ues.sv.proyecto.controladministrativoapp.rest.interfaces.CoordinadorRestServiceInterface;
@@ -67,7 +69,8 @@ public class OkHttpClientInstance {
 
 
     public static Retrofit getRetrofitInstance() {
-        return new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+        return new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .client(OkHttpClientInstance.getOkHtttpInstance())
                 .baseUrl(ApiData.API1_URL)
