@@ -71,7 +71,7 @@ public class ValidationUtils {
                             }
                         });
                     } else {
-                        Log.e("VALIDATION_UTILS_VALIDATE", "El campo " + field.getName() + "no existe para validar");
+                        Log.e("VALIDATION_UTILS_VALIDATE", "El campo " + field.getName() + " no existe para validar");
                     }
                 }
             }
