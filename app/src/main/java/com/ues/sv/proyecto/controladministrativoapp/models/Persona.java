@@ -39,6 +39,10 @@ public class Persona {
     @SerializedName("sexo")
     private String sexo;
 
+    @SerializedName("idImagen")
+    @Validacion
+    private Integer idImagen;
+
     @Ignore
     public Persona() {
     }
@@ -49,6 +53,16 @@ public class Persona {
         this.apellido = apellido;
         this.identificacion = identificacion;
         this.sexo = sexo;
+    }
+
+    @Ignore
+    public Persona(Long idPersona, String nombre, String apellido, String identificacion, String sexo, Integer idImagen) {
+        this.idPersona = idPersona;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.identificacion = identificacion;
+        this.sexo = sexo;
+        this.idImagen = idImagen;
     }
 
     @Override
@@ -104,5 +118,13 @@ public class Persona {
 
     public void setSexo(String sexo) {
         this.sexo = sexo;
+    }
+
+    public Integer getIdImagen() {
+        return idImagen;
+    }
+
+    public void setIdImagen(Integer idImagen) {
+        this.idImagen = idImagen;
     }
 }

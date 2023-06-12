@@ -24,6 +24,10 @@ public class Materia {
     @SerializedName("nombreMateria")
     private String nombreMateria;
 
+    @SerializedName("idImagen")
+    @Validacion
+    private Integer idImagen;
+
     @Ignore
     public Materia() {
     }
@@ -31,6 +35,13 @@ public class Materia {
     public Materia(Long idMateria, String nombreMateria) {
         this.idMateria = idMateria;
         this.nombreMateria = nombreMateria;
+    }
+
+    @Ignore
+    public Materia(Long idMateria, String nombreMateria, Integer idImagen) {
+        this.idMateria = idMateria;
+        this.nombreMateria = nombreMateria;
+        this.idImagen = idImagen;
     }
 
     @Override
@@ -63,4 +74,13 @@ public class Materia {
     public void setNombreMateria(String nombreMateria) {
         this.nombreMateria = nombreMateria;
     }
+
+    public Integer getIdImagen() {
+        return idImagen;
+    }
+
+    public void setIdImagen(Integer idImagen) {
+        this.idImagen = idImagen;
+    }
+
 }
