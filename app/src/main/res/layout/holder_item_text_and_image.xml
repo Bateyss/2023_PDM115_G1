@@ -24,14 +24,16 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/text_and_image_image_view"
-        style="@style/circleImageView"
+        android:theme="@style/circleImageView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:paddingVertical="@dimen/padding_medium"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_launcher_foreground"
+        app:layout_constraintDimensionRatio="4:4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/text_and_image_txt_view"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.2" />
+        app:layout_constraintWidth_percent="0.25" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

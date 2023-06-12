@@ -29,6 +29,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imageview"
+                android:theme="@style/circleImageView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_launcher_foreground"
+                app:layout_constraintDimensionRatio="4:4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.5" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_persona"
@@ -40,7 +52,7 @@
                 android:hint="@string/registrar_coordinador_persona"
                 app:helperText="@string/registrar_coordinador_persona"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/imageview">
 
                 <AutoCompleteTextView
                     android:layout_width="match_parent"
