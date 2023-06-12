@@ -37,12 +37,7 @@ public class OnlyTxtRecyclerAdapter<Modelo> extends RecyclerView.Adapter<OnlyTxt
     @Override
     public void onBindViewHolder(@NonNull OnlyTxtItemHolder holder, int position) {
         final int posicion = position;
-        holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onlyTxtInterface.onItemClick(holder.constraintLayout, items.get(posicion), posicion);
-            }
-        });
+        holder.constraintLayout.setOnClickListener(v -> onlyTxtInterface.onItemClick(holder.constraintLayout, items.get(posicion), posicion));
         this.onlyTxtInterface.imprimirdatos(holder.textView, items.get(position));
     }
 

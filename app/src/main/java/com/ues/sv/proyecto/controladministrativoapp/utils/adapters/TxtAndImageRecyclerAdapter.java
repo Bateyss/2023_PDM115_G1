@@ -36,12 +36,7 @@ public class TxtAndImageRecyclerAdapter<Modelo> extends RecyclerView.Adapter<Txt
     @Override
     public void onBindViewHolder(@NonNull TxtIAndImagentemHolder holder, int position) {
         final int posicion = position;
-        holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                modeloTxtAndImageInterface.onItemClick(holder.constraintLayout, items.get(posicion), posicion);
-            }
-        });
+        holder.constraintLayout.setOnClickListener(v -> modeloTxtAndImageInterface.onItemClick(holder.constraintLayout, items.get(posicion), posicion));
         this.modeloTxtAndImageInterface.imprimirdatos(holder.textView, holder.imageView, items.get(position));
     }
 

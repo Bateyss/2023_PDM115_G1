@@ -34,12 +34,7 @@ public class OnlyTxtSpinnerAdapter<Modelo> extends CustomSpinnerAdapter<Modelo> 
         }
         Modelo modelo = (Modelo) getItem(position);
 
-        holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onlyTxtInterface.onItemClick(holder.constraintLayout, modelo, position);
-            }
-        });
+        holder.constraintLayout.setOnClickListener(v -> onlyTxtInterface.onItemClick(holder.constraintLayout, modelo, position));
 
         this.onlyTxtInterface.imprimirdatos(holder.textView, modelo);
         return convertView;
