@@ -2,9 +2,13 @@ package com.ues.sv.proyecto.controladministrativoapp.rest.service;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.ImageView;
+
+import androidx.loader.content.CursorLoader;
 
 import com.squareup.picasso.Picasso;
 import com.ues.sv.proyecto.controladministrativoapp.models.Imagen;
@@ -41,10 +45,30 @@ public class ImagenRestService {
 
     public void registrarEntidad(Uri fileUri, CallBackDisposableInterface<Imagen> disposableInterface) {
         try {
-            File file = new File(fileUri.getPath());
+            Log.w("IMAG_URI", fileUri.getPath());
+
+            String result = "";
+            String[] proj = {MediaStore.Images.Media.DATA};
+            CursorLoader loader = new CursorLoader(context, fileUri, proj, null, null, null);
+            Cursor cursor = loader.loadInBackground();
+            if (cursor == null) {
+                result = fileUri.getPath();
+            } else {
+                cursor.moveToFirst();
+                int idx = cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATA);
+                result = cursor.getString(idx);
+                cursor.close();
+            }
+            if (result == null) result = fileUri.toString();
+
+            if (result != null)
+                Log.w("IMAG_RESULT", result);
+
+
+            File file = new File(result);
 
             RequestBody requestBody = RequestBody.create(MediaType.parse(context.getContentResolver().getType(fileUri)), file);
-            MultipartBody.Part body = MultipartBody.Part.createFormData("fotillo", file.getName(), requestBody);
+            MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestBody);
 
             Call<Imagen> call = imagenRestService.create(body);
             call.enqueue(new Callback<Imagen>() {
@@ -66,12 +90,31 @@ public class ImagenRestService {
 
     public void editarEntidad(Uri fileUri, Imagen imagen, CallBackDisposableInterface<Imagen> disposableInterface) {
         try {
-            File file = new File(fileUri.getPath());
+            Log.w("IMAG_URI", fileUri.getPath());
+
+            String result = "";
+            String[] proj = {MediaStore.Images.Media.DATA};
+            CursorLoader loader = new CursorLoader(context, fileUri, proj, null, null, null);
+            Cursor cursor = loader.loadInBackground();
+            if (cursor == null) {
+                result = fileUri.getPath();
+            } else {
+                cursor.moveToFirst();
+                int idx = cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATA);
+                result = cursor.getString(idx);
+                cursor.close();
+            }
+            if (result == null) result = fileUri.toString();
+
+            if (result != null)
+                Log.w("IMAG_RESULT", result);
+
+            File file = new File(result);
 
             RequestBody requestBody = RequestBody.create(MediaType.parse(context.getContentResolver().getType(fileUri)), file);
-            MultipartBody.Part body = MultipartBody.Part.createFormData("fotillo", file.getName(), requestBody);
+            MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestBody);
 
-            Call<Imagen> call = imagenRestService.update(imagen, body);
+            Call<Imagen> call = imagenRestService.update(imagen.getIdImagen(), body);
             call.enqueue(new Callback<Imagen>() {
                 @Override
                 public void onResponse(Call<Imagen> call, Response<Imagen> response) {
@@ -80,12 +123,15 @@ public class ImagenRestService {
 
                 @Override
                 public void onFailure(Call<Imagen> call, Throwable t) {
-                    Log.e("CREAR_ENTIDAD", "Error al crear entidad", t);
+                    Log.e("CREAR_ENTIDAD", "Error al editar imagen", t.getCause());
+                    Log.e("CREAR_ENTIDAD", t.getMessage());
+
                     disposableInterface.onThrow(t);
                 }
             });
         } catch (Exception e) {
-            Log.e("CREAR_ENTIDAD", "Error al crear entidad", e.getCause());
+            Log.e("CREAR_ENTIDAD", "Error al editar imagen", e.getCause());
+            Log.e("CREAR_ENTIDAD", e.getMessage());
         }
     }
 
