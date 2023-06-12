@@ -31,6 +31,8 @@ public class VerSolicitudEvaluacionActivity extends AppCompatActivity {
 
     private SolicitudRevisionRestService solicitudRevisionRestService;
 
+    Long idEvaluacionGeneral = 0L;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +47,7 @@ public class VerSolicitudEvaluacionActivity extends AppCompatActivity {
 
         btnCrear.setOnClickListener(v -> {
             Intent intent = new Intent(getBaseContext(), RegistrarSolicitudRevicionActivity.class);
+            if (idEvaluacionGeneral >0)intent.putExtra("IdEvaluacion", idEvaluacionGeneral);
             startActivity(intent);
         });
 
@@ -57,6 +60,7 @@ public class VerSolicitudEvaluacionActivity extends AppCompatActivity {
             Bundle bundle = getIntent().getExtras();
             Long idEvaluacion = bundle.getLong("IdEvaluacion", 0L);
             if (idEvaluacion > 0L) {
+                idEvaluacionGeneral = idEvaluacion;
                 solicitudRevisionRestService.obtenerListaPorEvaluacionId(idEvaluacion, new CallBackDisposableInterface<List<SolicitudRevision>>() {
                     @Override
                     public void onCallBack(List<SolicitudRevision> solicitudRevisions) {
@@ -68,6 +72,8 @@ public class VerSolicitudEvaluacionActivity extends AppCompatActivity {
                                         + " " + solicitudRevision.getEvaluacion().getNumeroEvaluacion()
                                         + " \n " + solicitudRevision.getEvaluacion().getCurso().getMateria().getNombreMateria()
                                         + " \n " + solicitudRevision.getEvaluacion().getCurso().getCiclo().getNumeroAnio()
+                                        + " \n estado " + solicitudRevision.getEstadoSolicitud()
+                                        + " \n motivo " + solicitudRevision.getMotivo()
                                         + " \n " + DateUtils.formatDate(solicitudRevision.getFechaCreacion(), DateUtils.FORMAT_DD_MM_YYYY);
                                 textView.setText(txt);
                             }
@@ -83,6 +89,7 @@ public class VerSolicitudEvaluacionActivity extends AppCompatActivity {
                                         btnEliminar.setEnabled(Boolean.FALSE);
                                         btnEditar.setEnabled(Boolean.FALSE);
                                         Intent intent = new Intent(getBaseContext(), RegistrarSolicitudRevicionActivity.class);
+                                        if (idEvaluacionGeneral >0)intent.putExtra("IdEvaluacion", idEvaluacionGeneral);
                                         intent.putExtra("IdSolicitudRevision", solicitudRevision.getIdSolicitudRevision());
                                         startActivity(intent);
                                     });

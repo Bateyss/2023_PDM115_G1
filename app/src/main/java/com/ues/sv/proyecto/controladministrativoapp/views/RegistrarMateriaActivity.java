@@ -187,7 +187,7 @@ public class RegistrarMateriaActivity extends AppCompatActivity {
             @Override
             public void onCallBack(Object o) {
                 Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getBaseContext(), VerCiclosActivity.class);
+                Intent intent = new Intent(getBaseContext(), VerMateriaActivity.class);
                 startActivity(intent);
             }
 
@@ -231,7 +231,7 @@ public class RegistrarMateriaActivity extends AppCompatActivity {
                                 @Override
                                 public void onCallBack(Imagen imagen) {
                                     String urlImagen = ApiData.API1_URL.concat("imagen/download/").concat(imagen.getNombre());
-                                    Picasso.get().load(urlImagen).into(imageView, new Callback() {
+                                    Picasso.get().load(urlImagen).resize(400, 400).into(imageView, new Callback() {
                                         @Override
                                         public void onSuccess() {
 

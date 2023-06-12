@@ -42,6 +42,8 @@ public class RegistrarSolicitudRevicionActivity extends AppCompatActivity {
 
     private SolicitudRevision solicitudRevisionSelected = new SolicitudRevision();
 
+    Long idEvaluacionGeneral = 0L;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,14 +104,17 @@ public class RegistrarSolicitudRevicionActivity extends AppCompatActivity {
 
     private void guardarRegistro() {
         try {
-
             try {
+                solicitudRevisionSelected.setMotivo(layouMotivo.getEditText().getText().toString());
+                solicitudRevisionSelected.setEstadoSolicitud(Integer.parseInt(layouEstado.getEditText().getText().toString()));
                 if (esEditar) {
                     solicitudRevisionRestService.editarEntidad(solicitudRevisionSelected, new CallBackDisposableInterface() {
                         @Override
                         public void onCallBack(Object o) {
                             Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getBaseContext(), VerSolicitudEvaluacionActivity.class);
+                            if (idEvaluacionGeneral > 0)
+                                intent.putExtra("IdEvaluacion", idEvaluacionGeneral);
                             startActivity(intent);
                         }
 
@@ -124,6 +129,8 @@ public class RegistrarSolicitudRevicionActivity extends AppCompatActivity {
                         public void onCallBack(Object o) {
                             Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getBaseContext(), VerSolicitudEvaluacionActivity.class);
+                            if (idEvaluacionGeneral > 0)
+                                intent.putExtra("IdEvaluacion", idEvaluacionGeneral);
                             startActivity(intent);
                         }
 
@@ -147,6 +154,10 @@ public class RegistrarSolicitudRevicionActivity extends AppCompatActivity {
     private void cargarDatos() {
         try {
             Bundle bundle = getIntent().getExtras();
+            Long idEvaluacion = bundle.getLong("IdEvaluacion", 0L);
+            if (idEvaluacion > 0) {
+                idEvaluacionGeneral = idEvaluacion;
+            }
             Long idSolicitud = bundle.getLong("IdSolicitudRevision", 0L);
             if (idSolicitud > 0L) {
                 solicitudRevisionRestService.buscarPorId(idSolicitud, new CallBackDisposableInterface<SolicitudRevision>() {
@@ -221,7 +232,8 @@ public class RegistrarSolicitudRevicionActivity extends AppCompatActivity {
             @Override
             public void handleOnBackPressed() {
                 // Handle the back button event
-                Intent intent = new Intent(getApplicationContext(), VerEvaluacionActivity.class);
+                Intent intent = new Intent(getApplicationContext(), VerSolicitudEvaluacionActivity.class);
+                if (idEvaluacionGeneral > 0) intent.putExtra("IdEvaluacion", idEvaluacionGeneral);
                 startActivity(intent);
             }
         };

@@ -243,7 +243,7 @@ public class RegistrarAlumnoActivity extends AppCompatActivity {
                                 @Override
                                 public void onCallBack(Imagen imagen) {
                                     String urlImagen = ApiData.API1_URL.concat("imagen/download/").concat(imagen.getNombre());
-                                    Picasso.get().load(urlImagen).into(imageView, new Callback() {
+                                    Picasso.get().load(urlImagen).resize(400, 400).into(imageView, new Callback() {
                                         @Override
                                         public void onSuccess() {
 

@@ -73,10 +73,10 @@ public class RegistrarPersonaActivity extends AppCompatActivity {
                         @Override
                         public void onCallBack(Object o) {
                             Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
-                            layouNombre.getEditText().setText(null);
-                            layouApellido.getEditText().setText(null);
-                            layouIdentificacion.getEditText().setText(null);
-                            layouSexo.getEditText().setText(null);
+//                            layouNombre.getEditText().setText(null);
+//                            layouApellido.getEditText().setText(null);
+//                            layouIdentificacion.getEditText().setText(null);
+//                            layouSexo.getEditText().setText(null);
                         }
 
                         @Override
