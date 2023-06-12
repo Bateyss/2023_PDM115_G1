@@ -2,6 +2,7 @@ package com.ues.sv.proyecto.controladministrativoapp.views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,13 +12,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.Coordinador;
+import com.ues.sv.proyecto.controladministrativoapp.models.Imagen;
+import com.ues.sv.proyecto.controladministrativoapp.rest.conf.ApiData;
 import com.ues.sv.proyecto.controladministrativoapp.rest.service.CoordinadorRestService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.ImagenRestService;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;
-import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.OnlyTxtInterface;
-import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.OnlyTxtRecyclerAdapter;
+import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.TxtAndImageInterface;
+import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.TxtAndImageRecyclerAdapter;
 
 import java.util.List;
 
@@ -27,6 +33,7 @@ public class VerCoordinadoresActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Coordinador coordinadorSelected = null;
     private CoordinadorRestService coordinadorRestService;
+    private ImagenRestService imagenRestService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +46,7 @@ public class VerCoordinadoresActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerList);
 
         coordinadorRestService = new CoordinadorRestService();
+        imagenRestService = new ImagenRestService(getApplicationContext());
 
         btnCrear.setOnClickListener(v -> {
             Intent intent = new Intent(getBaseContext(), RegistrarCoordinadorActivity.class);
@@ -53,11 +61,38 @@ public class VerCoordinadoresActivity extends AppCompatActivity {
         coordinadorRestService.obtenerListaEntidad(new CallBackDisposableInterface<List<Coordinador>>() {
             @Override
             public void onCallBack(List<Coordinador> coordinadores) {
-                OnlyTxtRecyclerAdapter<Coordinador> recyclerAdapter = new OnlyTxtRecyclerAdapter<Coordinador>(coordinadores, getBaseContext(), new OnlyTxtInterface<Coordinador>() {
+                TxtAndImageRecyclerAdapter<Coordinador> recyclerImageAdapter = new TxtAndImageRecyclerAdapter<>(coordinadores, getBaseContext(), new TxtAndImageInterface<Coordinador>() {
                     @Override
-                    public void imprimirdatos(MaterialTextView textView, Coordinador coordinador) {
+                    public void imprimirdatos(MaterialTextView textView, ImageView imageView, Coordinador coordinador) {
                         String txt = coordinador.getPersona().getNombre() + " " + coordinador.getPersona().getApellido();
                         textView.setText(txt);
+
+                        imageView.setImageDrawable(getDrawable(R.drawable.image_person));
+
+                        if (coordinador.getPersona().getIdImagen() != null && coordinador.getPersona().getIdImagen() > 0) {
+                            imagenRestService.buscarPorId(coordinador.getPersona().getIdImagen().longValue(), new CallBackDisposableInterface<Imagen>() {
+                                @Override
+                                public void onCallBack(Imagen imagen) {
+                                    String urlImagen = ApiData.API1_URL.concat("imagen/download/").concat(imagen.getNombre());
+                                    Picasso.get().load(urlImagen).resize(100, 100).into(imageView, new Callback() {
+                                        @Override
+                                        public void onSuccess() {
+
+                                        }
+
+                                        @Override
+                                        public void onError(Exception e) {
+                                            imageView.setImageDrawable(getDrawable(R.drawable.image_person));
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onThrow(Throwable throwable) {
+
+                                }
+                            });
+                        }
                     }
 
                     @Override
@@ -94,7 +129,7 @@ public class VerCoordinadoresActivity extends AppCompatActivity {
                     }
                 });
                 recyclerView.setLayoutManager(new GridLayoutManager(getBaseContext(), 1));
-                recyclerView.setAdapter(recyclerAdapter);
+                recyclerView.setAdapter(recyclerImageAdapter);
             }
 
             @Override

@@ -2,6 +2,7 @@ package com.ues.sv.proyecto.controladministrativoapp.views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,13 +12,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 import com.ues.sv.proyecto.controladministrativoapp.R;
 import com.ues.sv.proyecto.controladministrativoapp.models.Docente;
+import com.ues.sv.proyecto.controladministrativoapp.models.Imagen;
+import com.ues.sv.proyecto.controladministrativoapp.rest.conf.ApiData;
 import com.ues.sv.proyecto.controladministrativoapp.rest.service.DocenteRestService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.ImagenRestService;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;
-import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.OnlyTxtInterface;
-import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.OnlyTxtRecyclerAdapter;
+import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.TxtAndImageInterface;
+import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.TxtAndImageRecyclerAdapter;
 
 import java.util.List;
 
@@ -27,6 +33,7 @@ public class VerDocentesActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Docente docenteSelected = null;
     private DocenteRestService docenteRestService;
+    private ImagenRestService imagenRestService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +46,7 @@ public class VerDocentesActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerList);
 
         docenteRestService = new DocenteRestService();
+        imagenRestService = new ImagenRestService(getApplicationContext());
 
         btnCrear.setOnClickListener(v -> {
             Intent intent = new Intent(getBaseContext(), RegistrarDocenteActivity.class);
@@ -53,11 +61,38 @@ public class VerDocentesActivity extends AppCompatActivity {
         docenteRestService.obtenerListaEntidad(new CallBackDisposableInterface<List<Docente>>() {
             @Override
             public void onCallBack(List<Docente> docentes) {
-                OnlyTxtRecyclerAdapter<Docente> recyclerAdapter = new OnlyTxtRecyclerAdapter<Docente>(docentes, getBaseContext(), new OnlyTxtInterface<Docente>() {
+                TxtAndImageRecyclerAdapter<Docente> recyclerImageAdapter = new TxtAndImageRecyclerAdapter<>(docentes, getBaseContext(), new TxtAndImageInterface<Docente>() {
                     @Override
-                    public void imprimirdatos(MaterialTextView textView, Docente docente) {
+                    public void imprimirdatos(MaterialTextView textView, ImageView imageView, Docente docente) {
                         String txt = docente.getPersona().getNombre() + " - " + docente.getPersona().getApellido();
                         textView.setText(txt);
+
+                        imageView.setImageDrawable(getDrawable(R.drawable.image_person));
+
+                        if (docente.getPersona().getIdImagen() != null && docente.getPersona().getIdImagen() > 0) {
+                            imagenRestService.buscarPorId(docente.getPersona().getIdImagen().longValue(), new CallBackDisposableInterface<Imagen>() {
+                                @Override
+                                public void onCallBack(Imagen imagen) {
+                                    String urlImagen = ApiData.API1_URL.concat("imagen/download/").concat(imagen.getNombre());
+                                    Picasso.get().load(urlImagen).resize(100, 100).into(imageView, new Callback() {
+                                        @Override
+                                        public void onSuccess() {
+
+                                        }
+
+                                        @Override
+                                        public void onError(Exception e) {
+                                            imageView.setImageDrawable(getDrawable(R.drawable.image_person));
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onThrow(Throwable throwable) {
+
+                                }
+                            });
+                        }
                     }
 
                     @Override
@@ -94,7 +129,7 @@ public class VerDocentesActivity extends AppCompatActivity {
                     }
                 });
                 recyclerView.setLayoutManager(new GridLayoutManager(getBaseContext(), 1));
-                recyclerView.setAdapter(recyclerAdapter);
+                recyclerView.setAdapter(recyclerImageAdapter);
             }
 
             @Override
