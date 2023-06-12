@@ -23,7 +23,7 @@ public interface ImagenRestServiceInterface {
     @GET("imagen/list")
     Flowable<List<Imagen>> getList();
 
-    @GET("imagenid/{id}")
+    @GET("imagen/id/{id}")
     Single<Imagen> getOneById(@Path("id") Long id);
 
     @DELETE("imagen/{id}")
@@ -34,7 +34,7 @@ public interface ImagenRestServiceInterface {
     Call<Imagen> create(@Part MultipartBody.Part file);
 
     @Multipart
-    @PUT("imagen")
-    Call<Imagen> update(@Body Imagen imagen, @Part MultipartBody.Part file);
+    @PUT("imagen/{id}")
+    Call<Imagen> update(@Path("id") Long id, @Part MultipartBody.Part file);
 
 }
