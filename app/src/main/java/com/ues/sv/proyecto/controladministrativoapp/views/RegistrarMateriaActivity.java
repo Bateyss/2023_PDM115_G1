@@ -63,7 +63,7 @@ public class RegistrarMateriaActivity extends AppCompatActivity {
                         @Override
                         public void onCallBack() {
                             Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getBaseContext(), VerCiclosActivity.class);
+                            Intent intent = new Intent(getBaseContext(), VerMateriaActivity.class);
                             startActivity(intent);
                         }
 
