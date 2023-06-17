@@ -141,6 +141,7 @@ public class RegistrarCoordinadorActivity extends AppCompatActivity {
     private void guardarRegistro() {
         try {
             try {
+                guardarImagen();
                 if (esEditar) {
                     coordinadorRestService.editarEntidad(coordinadorData, new CallBackDisposableInterface() {
                         @Override

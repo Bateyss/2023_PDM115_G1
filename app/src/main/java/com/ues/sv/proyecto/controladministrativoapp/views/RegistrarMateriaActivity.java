@@ -122,6 +122,7 @@ public class RegistrarMateriaActivity extends AppCompatActivity {
                                     imagenRestService.editarEntidad(imageSelectedUri, imagen, new CallBackDisposableInterface<Imagen>() {
                                         @Override
                                         public void onCallBack(Imagen imagen) {
+                                            materiaData.setIdImagen(imagen.getIdImagen().intValue());
                                             editarMateria();
                                         }
 
@@ -159,6 +160,7 @@ public class RegistrarMateriaActivity extends AppCompatActivity {
                         imagenRestService.registrarEntidad(imageSelectedUri, new CallBackDisposableInterface<Imagen>() {
                             @Override
                             public void onCallBack(Imagen imagen) {
+                                materiaData.setIdImagen(imagen.getIdImagen().intValue());
                                 registrarMateria();
                             }
 

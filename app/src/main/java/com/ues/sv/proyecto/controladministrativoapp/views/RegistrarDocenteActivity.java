@@ -142,6 +142,7 @@ public class RegistrarDocenteActivity extends AppCompatActivity {
         try {
 
             try {
+                guardarImagen();
                 if (esEditar) {
                     docenteRestService.editarEntidad(docenteData, new CallBackDisposableInterface() {
                         @Override
