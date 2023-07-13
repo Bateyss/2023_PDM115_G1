@@ -1,10 +1,7 @@
-package com.ues.sv.proyecto.controladministrativoapp.views;
+package com.ues.sv.proyecto.controladministrativoapp.views.rest;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.activity.OnBackPressedCallback;
@@ -18,11 +15,11 @@ import com.google.android.material.textview.MaterialTextView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.ues.sv.proyecto.controladministrativoapp.R;
-import com.ues.sv.proyecto.controladministrativoapp.models.Alumno;
 import com.ues.sv.proyecto.controladministrativoapp.models.Imagen;
+import com.ues.sv.proyecto.controladministrativoapp.models.Materia;
 import com.ues.sv.proyecto.controladministrativoapp.rest.conf.ApiData;
-import com.ues.sv.proyecto.controladministrativoapp.rest.service.AlumnoRestService;
 import com.ues.sv.proyecto.controladministrativoapp.rest.service.ImagenRestService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.MateriaRestService;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.TxtAndImageInterface;
@@ -30,28 +27,29 @@ import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.TxtAndImageRe
 
 import java.util.List;
 
-public class VerAlumnosActivity extends AppCompatActivity {
+public class VerMateriaActivity extends AppCompatActivity {
 
     private MaterialButton btnCrear, btnEditar, btnEliminar;
     private RecyclerView recyclerView;
-    private AlumnoRestService alumnoRestService;
+    private Materia materiaSelected = null;
+    private MateriaRestService materiaRestService;
     private ImagenRestService imagenRestService;
-    private Alumno alumnoSelected = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ver_alumnos);
+        setContentView(R.layout.activity_ver_materia);
 
         btnCrear = findViewById(R.id.btn_crear);
         btnEditar = findViewById(R.id.btn_editar);
         btnEliminar = findViewById(R.id.btn_eliminar);
         recyclerView = findViewById(R.id.recyclerList);
 
-        alumnoRestService = new AlumnoRestService();
+        materiaRestService = new MateriaRestService();
         imagenRestService = new ImagenRestService(getApplicationContext());
+
         btnCrear.setOnClickListener(v -> {
-            Intent intent = new Intent(getBaseContext(), RegistrarAlumnoActivity.class);
+            Intent intent = new Intent(getBaseContext(), RegistrarMateriaActivity.class);
             startActivity(intent);
         });
 
@@ -60,36 +58,31 @@ public class VerAlumnosActivity extends AppCompatActivity {
     }
 
     private void cargarRecyclerList() {
-        alumnoRestService.obtenerListaEntidad(new CallBackDisposableInterface<List<Alumno>>() {
+        materiaRestService.obtenerListaEntidad(new CallBackDisposableInterface<List<Materia>>() {
             @Override
-            public void onCallBack(List<Alumno> alumnos) {
-                TxtAndImageRecyclerAdapter<Alumno> recyclerImageAdapter = new TxtAndImageRecyclerAdapter<Alumno>(alumnos, getBaseContext(), new TxtAndImageInterface<Alumno>() {
+            public void onCallBack(List<Materia> materias) {
+                TxtAndImageRecyclerAdapter<Materia> recyclerImageAdapter = new TxtAndImageRecyclerAdapter<>(materias, getBaseContext(), new TxtAndImageInterface<Materia>() {
                     @Override
-                    public void imprimirdatos(MaterialTextView textView, ImageView imageView, Alumno alumno) {
-                        String txt = alumno.getCarnet() + " - " + alumno.getPersona().getNombre()
-                                + " " + alumno.getPersona().getApellido();
+                    public void imprimirdatos(MaterialTextView textView, ImageView imageView, Materia materia) {
+                        String txt = materia.getNombreMateria();
                         textView.setText(txt);
 
-                        Bitmap bitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.image_person);
+                        imageView.setImageDrawable(getDrawable(R.drawable.image_materia));
 
-                        imageView.setImageDrawable(getDrawable(R.drawable.image_person));
-
-                        if (alumno.getPersona().getIdImagen() != null && alumno.getPersona().getIdImagen() > 0) {
-                            imagenRestService.buscarPorId(alumno.getPersona().getIdImagen().longValue(), new CallBackDisposableInterface<Imagen>() {
+                        if (materia.getIdImagen() != null && materia.getIdImagen() > 0) {
+                            imagenRestService.buscarPorId(materia.getIdImagen().longValue(), new CallBackDisposableInterface<Imagen>() {
                                 @Override
                                 public void onCallBack(Imagen imagen) {
                                     String urlImagen = ApiData.API1_URL.concat("imagen/download/").concat(imagen.getNombre());
-                                    Log.w("PICASO_URL", "imagen " + urlImagen);
                                     Picasso.get().load(urlImagen).resize(100, 100).into(imageView, new Callback() {
                                         @Override
                                         public void onSuccess() {
-                                            Log.w("PICASO", "imagen cargada");
+
                                         }
 
                                         @Override
                                         public void onError(Exception e) {
-                                            Log.e("PICASO", "imagen no cargada", e);
-                                            imageView.setImageDrawable(getDrawable(R.drawable.image_person));
+                                            imageView.setImageDrawable(getDrawable(R.drawable.image_materia));
                                         }
                                     });
                                 }
@@ -103,22 +96,23 @@ public class VerAlumnosActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onItemClick(ConstraintLayout constraint, Alumno alumno, int position) {
-                        alumnoSelected = alumno;
-                        if (alumnoSelected != null) {
+                    public void onItemClick(ConstraintLayout constraint, Materia materia, int position) {
+                        materiaSelected = materia;
+                        if (materiaSelected != null) {
                             btnEliminar.setEnabled(Boolean.TRUE);
                             btnEditar.setEnabled(Boolean.TRUE);
 
                             btnEditar.setOnClickListener(v -> {
                                 btnEliminar.setEnabled(Boolean.FALSE);
                                 btnEditar.setEnabled(Boolean.FALSE);
-                                Intent intent = new Intent(getBaseContext(), RegistrarAlumnoActivity.class);
-                                intent.putExtra("IdAlumno", alumno.getIdAlumno());
+                                Intent intent = new Intent(getBaseContext(), RegistrarMateriaActivity.class);
+                                intent.putExtra("IdMateria", materia.getIdMateria());
+                                intent.putExtra("NombreMateria", materia.getNombreMateria());
                                 startActivity(intent);
                             });
 
                             btnEliminar.setOnClickListener(v -> {
-                                alumnoRestService.eliminarEntidad(alumno, new CallBackVoidInterface() {
+                                materiaRestService.eliminarEntidad(materia, new CallBackVoidInterface() {
                                     @Override
                                     public void onCallBack() {
                                         btnEliminar.setEnabled(Boolean.FALSE);
@@ -133,6 +127,7 @@ public class VerAlumnosActivity extends AppCompatActivity {
                                 });
                             });
                         }
+
                     }
                 });
                 recyclerView.setLayoutManager(new GridLayoutManager(getBaseContext(), 1));

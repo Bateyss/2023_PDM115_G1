@@ -1,4 +1,4 @@
-package com.ues.sv.proyecto.controladministrativoapp.views;
+package com.ues.sv.proyecto.controladministrativoapp.views.rest;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.ues.sv.proyecto.controladministrativoapp.R;
-import com.ues.sv.proyecto.controladministrativoapp.models.TipoEvaluacion;
-import com.ues.sv.proyecto.controladministrativoapp.rest.service.TipoEvaluacionRestService;
+import com.ues.sv.proyecto.controladministrativoapp.models.Curso;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.CursoRestService;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.OnlyTxtInterface;
@@ -21,27 +21,27 @@ import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.OnlyTxtRecycl
 
 import java.util.List;
 
-public class VerTipoEvaluacionActivity extends AppCompatActivity {
+public class VerCursoActivity extends AppCompatActivity {
 
     private MaterialButton btnCrear, btnEditar, btnEliminar;
     private RecyclerView recyclerView;
-    private TipoEvaluacion tipoEvaluacionSelected = null;
-    private TipoEvaluacionRestService tipoEvaluacionRestService;
+    private Curso cursoSelected = null;
+    private CursoRestService cursoRestService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ver_tipo_evaluacion);
+        setContentView(R.layout.activity_ver_curso);
 
         btnCrear = findViewById(R.id.btn_crear);
         btnEditar = findViewById(R.id.btn_editar);
         btnEliminar = findViewById(R.id.btn_eliminar);
         recyclerView = findViewById(R.id.recyclerList);
 
-        tipoEvaluacionRestService = new TipoEvaluacionRestService();
+        cursoRestService = new CursoRestService();
 
         btnCrear.setOnClickListener(v -> {
-            Intent intent = new Intent(getBaseContext(), RegistrarTipoEvaluacionActivity.class);
+            Intent intent = new Intent(getBaseContext(), RegistrarCursoActivity.class);
             startActivity(intent);
         });
 
@@ -50,33 +50,33 @@ public class VerTipoEvaluacionActivity extends AppCompatActivity {
     }
 
     private void cargarRecyclerList() {
-        tipoEvaluacionRestService.obtenerListaEntidad(new CallBackDisposableInterface<List<TipoEvaluacion>>() {
+        cursoRestService.obtenerListaEntidad(new CallBackDisposableInterface<List<Curso>>() {
             @Override
-            public void onCallBack(List<TipoEvaluacion> tiposEvaluaciones) {
-                OnlyTxtRecyclerAdapter<TipoEvaluacion> recyclerAdapter = new OnlyTxtRecyclerAdapter<TipoEvaluacion>(tiposEvaluaciones, getBaseContext(), new OnlyTxtInterface<TipoEvaluacion>() {
+            public void onCallBack(List<Curso> cursos) {
+                OnlyTxtRecyclerAdapter<Curso> recyclerAdapter = new OnlyTxtRecyclerAdapter<Curso>(cursos, getBaseContext(), new OnlyTxtInterface<Curso>() {
                     @Override
-                    public void imprimirdatos(MaterialTextView textView, TipoEvaluacion tipoEvaluacion) {
-                        String txt = tipoEvaluacion.getNombreTipoEvaluacion();
+                    public void imprimirdatos(MaterialTextView textView, Curso curso) {
+                        String txt = curso.getMateria().getNombreMateria() + " " + curso.getCiclo().getNumeroAnio();
                         textView.setText(txt);
                     }
 
                     @Override
-                    public void onItemClick(ConstraintLayout constraint, TipoEvaluacion tipoEvaluacion, int position) {
-                        tipoEvaluacionSelected = tipoEvaluacion;
-                        if (tipoEvaluacionSelected != null) {
+                    public void onItemClick(ConstraintLayout constraint, Curso curso, int position) {
+                        cursoSelected = curso;
+                        if (cursoSelected != null) {
                             btnEliminar.setEnabled(Boolean.TRUE);
                             btnEditar.setEnabled(Boolean.TRUE);
 
                             btnEditar.setOnClickListener(v -> {
                                 btnEliminar.setEnabled(Boolean.FALSE);
                                 btnEditar.setEnabled(Boolean.FALSE);
-                                Intent intent = new Intent(getBaseContext(), RegistrarTipoEvaluacionActivity.class);
-                                intent.putExtra("IdTipoEvaluacion", tipoEvaluacion.getIdTipoEvaluacion());
+                                Intent intent = new Intent(getBaseContext(), RegistrarCursoActivity.class);
+                                intent.putExtra("IdCurso", curso.getIdCurso());
                                 startActivity(intent);
                             });
 
                             btnEliminar.setOnClickListener(v -> {
-                                tipoEvaluacionRestService.eliminarEntidad(tipoEvaluacion, new CallBackVoidInterface() {
+                                cursoRestService.eliminarEntidad(curso, new CallBackVoidInterface() {
                                     @Override
                                     public void onCallBack() {
                                         btnEliminar.setEnabled(Boolean.FALSE);

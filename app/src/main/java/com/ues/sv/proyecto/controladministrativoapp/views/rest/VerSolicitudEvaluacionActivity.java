@@ -1,4 +1,4 @@
-package com.ues.sv.proyecto.controladministrativoapp.views;
+package com.ues.sv.proyecto.controladministrativoapp.views.rest;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.ues.sv.proyecto.controladministrativoapp.views;
+package com.ues.sv.proyecto.controladministrativoapp.views.rest;
 
 import android.Manifest;
 import android.content.Intent;
@@ -18,39 +18,39 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.ues.sv.proyecto.controladministrativoapp.R;
-import com.ues.sv.proyecto.controladministrativoapp.models.Alumno;
+import com.ues.sv.proyecto.controladministrativoapp.models.Docente;
 import com.ues.sv.proyecto.controladministrativoapp.models.Imagen;
 import com.ues.sv.proyecto.controladministrativoapp.models.Persona;
 import com.ues.sv.proyecto.controladministrativoapp.rest.conf.ApiData;
-import com.ues.sv.proyecto.controladministrativoapp.rest.service.AlumnoRestService;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.DocenteRestService;
 import com.ues.sv.proyecto.controladministrativoapp.rest.service.ImagenRestService;
 import com.ues.sv.proyecto.controladministrativoapp.rest.service.PersonaRestService;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
-import com.ues.sv.proyecto.controladministrativoapp.utils.ValidationUtils;
+import com.ues.sv.proyecto.controladministrativoapp.utils.DateUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
-public class RegistrarAlumnoActivity extends AppCompatActivity {
+public class RegistrarDocenteActivity extends AppCompatActivity {
 
-    private TextInputLayout layouPersona, layouCarnet;
+    private TextInputLayout layouPersona, layouFecha;
     private MaterialButton btnGuardar;
-
     private ShapeableImageView imageView;
     private boolean esEditar = Boolean.FALSE;
 
-    private AlumnoRestService alumnoRestService;
+    private DocenteRestService docenteRestService;
     private PersonaRestService personaRestService;
     private ImagenRestService imagenRestService;
-    private Alumno alumnoData = new Alumno();
+
+    private Docente docenteData = new Docente();
 
     private Uri imageSelectedUri = null;
 
@@ -79,23 +79,36 @@ public class RegistrarAlumnoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registrar_alumno);
+        setContentView(R.layout.activity_registrar_docente);
 
         layouPersona = findViewById(R.id.input_layout_persona);
-        layouCarnet = findViewById(R.id.input_layout_carnet);
+        layouFecha = findViewById(R.id.input_layout_fecha);
         btnGuardar = findViewById(R.id.btn_guardar);
         imageView = findViewById(R.id.imageview);
 
-        alumnoRestService = new AlumnoRestService();
+        docenteRestService = new DocenteRestService();
         personaRestService = new PersonaRestService();
         imagenRestService = new ImagenRestService(getApplicationContext());
+
+        MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker().setTitleText("Seleccionar Fecha").build();
 
         btnGuardar.setOnClickListener(v -> {
             if (validarDatos()) guardarRegistro();
         });
+
+        layouFecha.getEditText().setOnClickListener(v -> {
+            datePicker.show(getSupportFragmentManager(), "tag");
+            datePicker.addOnPositiveButtonClickListener(selection -> {
+                Long timeMilis = (long) selection;
+                Date dateSelected = new Date(timeMilis);
+                docenteData.setFechaIngreso(dateSelected);
+                String dateTxt = DateUtils.formatDate(dateSelected, DateUtils.FORMAT_DD_MM_YYYY);
+                layouFecha.getEditText().setText(dateTxt);
+            });
+        });
+
         cargarDatos();
         onBack();
-
 
         imageView.setOnClickListener(v -> {
             Intent imgintent = new Intent();
@@ -114,75 +127,75 @@ public class RegistrarAlumnoActivity extends AppCompatActivity {
 
     private boolean validarDatos() {
         boolean valid = true;
-
-        if (alumnoData.getPersona() == null) {
+        if (docenteData.getFechaIngreso() == null) {
+            layouFecha.setError("Seleccione Fecha de Ingreso");
+            valid = false;
+        }
+        if (docenteData.getPersona() == null) {
             layouPersona.setError("Seleccione Persona");
             valid = false;
         }
-        Map<String, TextInputLayout> map = new HashMap<>();
-        map.put("carnet", layouCarnet);
-        if (!ValidationUtils.validate(Alumno.class, map)) valid = false;
         return valid;
     }
 
     private void guardarRegistro() {
         try {
-            guardarImagen();
-            alumnoData.setCarnet(layouCarnet.getEditText().getText().toString());
-            if (esEditar) {
-                alumnoRestService.editarEntidad(alumnoData, new CallBackDisposableInterface() {
-                    @Override
-                    public void onCallBack(Object o) {
-                        Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getBaseContext(), VerAlumnosActivity.class);
-                        startActivity(intent);
-                    }
 
-                    @Override
-                    public void onThrow(Throwable throwable) {
+            try {
+                guardarImagen();
+                if (esEditar) {
+                    docenteRestService.editarEntidad(docenteData, new CallBackDisposableInterface() {
+                        @Override
+                        public void onCallBack(Object o) {
+                            Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getBaseContext(), VerDocentesActivity.class);
+                            startActivity(intent);
+                        }
 
-                    }
-                });
-            } else {
-                alumnoRestService.registrarEntidad(alumnoData, new CallBackDisposableInterface() {
-                    @Override
-                    public void onCallBack(Object o) {
-                        Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getBaseContext(), VerAlumnosActivity.class);
-                        startActivity(intent);
-                    }
+                        @Override
+                        public void onThrow(Throwable throwable) {
 
-                    @Override
-                    public void onThrow(Throwable throwable) {
+                        }
+                    });
+                } else {
+                    docenteRestService.registrarEntidad(docenteData, new CallBackDisposableInterface() {
+                        @Override
+                        public void onCallBack(Object o) {
+                            Toast.makeText(getBaseContext(), "almacenado", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getBaseContext(), VerDocentesActivity.class);
+                            startActivity(intent);
+                        }
 
-                    }
-                });
+                        @Override
+                        public void onThrow(Throwable throwable) {
+
+                        }
+                    });
+                }
+
+            } catch (Exception ex) {
+                Log.e("GUARDAR_DATOS", ex.getMessage(), ex.getCause());
+                Toast.makeText(this, "Errorcillo", Toast.LENGTH_SHORT).show();
             }
 
-        } catch (Exception ex) {
-            Log.e("GUARDAR_DATOS", ex.getMessage(), ex.getCause());
-            Toast.makeText(this, "Errorcillo", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Log.e("CARGAR_DATOS", e.getMessage(), e.getCause());
         }
     }
 
     private void guardarImagen() {
         boolean editar = false;
         if (imageSelectedUri != null) {
-            if (esEditar && alumnoData.getPersona().getIdImagen() != null && alumnoData.getPersona().getIdImagen() > 0) {
+            if (esEditar && docenteData.getPersona().getIdImagen() != null && docenteData.getPersona().getIdImagen() > 0) {
                 editar = true;
-            } else {
-                Log.w("EDIT_IMAGE", "no se editara");
             }
             if (editar) {
-                Log.w("EDIT_IMAGE", "editar imagen");
-                imagenRestService.buscarPorId(alumnoData.getPersona().getIdImagen().longValue(), new CallBackDisposableInterface<Imagen>() {
+                imagenRestService.buscarPorId(docenteData.getPersona().getIdImagen().longValue(), new CallBackDisposableInterface<Imagen>() {
                     @Override
                     public void onCallBack(Imagen imagen) {
-                        Log.w("EDIT_IMAGE", "imagen encontrada");
                         imagenRestService.editarEntidad(imageSelectedUri, imagen, new CallBackDisposableInterface<Imagen>() {
                             @Override
                             public void onCallBack(Imagen imagen) {
-                                Log.w("EDIT_IMAGE", "imagen editada");
 
                             }
 
@@ -202,8 +215,8 @@ public class RegistrarAlumnoActivity extends AppCompatActivity {
                 imagenRestService.registrarEntidad(imageSelectedUri, new CallBackDisposableInterface<Imagen>() {
                     @Override
                     public void onCallBack(Imagen imagen) {
-                        alumnoData.getPersona().setIdImagen(imagen.getIdImagen().intValue());
-                        personaRestService.editarEntidad(alumnoData.getPersona(), new CallBackDisposableInterface() {
+                        docenteData.getPersona().setIdImagen(imagen.getIdImagen().intValue());
+                        personaRestService.editarEntidad(docenteData.getPersona(), new CallBackDisposableInterface() {
                             @Override
                             public void onCallBack(Object o) {
 
@@ -229,17 +242,18 @@ public class RegistrarAlumnoActivity extends AppCompatActivity {
         try {
             Bundle bundle = getIntent().getExtras();
 
-            long idAlumno = bundle.getLong("IdAlumno", 0L);
-            if (idAlumno > 0)
-                alumnoRestService.buscarPorId(idAlumno, new CallBackDisposableInterface<Alumno>() {
+            long idDocente = bundle.getLong("IdDocente", 0L);
+            if (idDocente > 0)
+                docenteRestService.buscarPorId(idDocente, new CallBackDisposableInterface<Docente>() {
                     @Override
-                    public void onCallBack(Alumno alumno) {
-                        alumnoData = alumno;
-                        layouCarnet.getEditText().setText(alumno.getCarnet());
-                        esEditar = true;
+                    public void onCallBack(Docente docente) {
+                        docenteData = docente;
+                        String dateTxt = DateUtils.formatDate(docente.getFechaIngreso(), DateUtils.FORMAT_DD_MM_YYYY);
+                        layouFecha.getEditText().setText(dateTxt);
+                        esEditar = Boolean.TRUE;
 
-                        if (alumno.getPersona().getIdImagen() != null && alumno.getPersona().getIdImagen() > 0) {
-                            imagenRestService.buscarPorId(alumno.getPersona().getIdImagen().longValue(), new CallBackDisposableInterface<Imagen>() {
+                        if (docente.getPersona().getIdImagen() != null && docente.getPersona().getIdImagen() > 0) {
+                            imagenRestService.buscarPorId(docente.getPersona().getIdImagen().longValue(), new CallBackDisposableInterface<Imagen>() {
                                 @Override
                                 public void onCallBack(Imagen imagen) {
                                     String urlImagen = ApiData.API1_URL.concat("imagen/download/").concat(imagen.getNombre());
@@ -282,12 +296,9 @@ public class RegistrarAlumnoActivity extends AppCompatActivity {
                 MaterialAutoCompleteTextView autoCompleteTextView = (MaterialAutoCompleteTextView) layouPersona.getEditText();
                 if (autoCompleteTextView != null) {
                     autoCompleteTextView.setAdapter(adapter);
-                    autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
-                        Persona persona = personas.get(position);
-                        alumnoData.setPersona(persona);
-                    });
-                    if (alumnoData.getPersona() != null) {
-                        int index = personas.lastIndexOf(alumnoData.getPersona());
+                    autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> docenteData.setPersona(personas.get(position)));
+                    if (docenteData.getPersona() != null) {
+                        int index = personas.lastIndexOf(docenteData.getPersona());
                         autoCompleteTextView.setText(autoCompleteTextView.getAdapter().getItem(index).toString(), false);
                     }
                 }
@@ -305,7 +316,7 @@ public class RegistrarAlumnoActivity extends AppCompatActivity {
             @Override
             public void handleOnBackPressed() {
                 // Handle the back button event
-                Intent intent = new Intent(getApplicationContext(), VerAlumnosActivity.class);
+                Intent intent = new Intent(getApplicationContext(), VerDocentesActivity.class);
                 startActivity(intent);
             }
         };

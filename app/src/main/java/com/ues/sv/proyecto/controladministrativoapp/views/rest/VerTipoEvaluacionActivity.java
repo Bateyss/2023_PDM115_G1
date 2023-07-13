@@ -1,4 +1,4 @@
-package com.ues.sv.proyecto.controladministrativoapp.views;
+package com.ues.sv.proyecto.controladministrativoapp.views.rest;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.ues.sv.proyecto.controladministrativoapp.R;
-import com.ues.sv.proyecto.controladministrativoapp.models.Evaluacion;
-import com.ues.sv.proyecto.controladministrativoapp.rest.service.EvaluacionRestService;
+import com.ues.sv.proyecto.controladministrativoapp.models.TipoEvaluacion;
+import com.ues.sv.proyecto.controladministrativoapp.rest.service.TipoEvaluacionRestService;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackDisposableInterface;
 import com.ues.sv.proyecto.controladministrativoapp.room.bin.CallBackVoidInterface;
 import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.OnlyTxtInterface;
@@ -21,96 +21,66 @@ import com.ues.sv.proyecto.controladministrativoapp.utils.adapters.OnlyTxtRecycl
 
 import java.util.List;
 
-public class VerEvaluacionActivity extends AppCompatActivity {
+public class VerTipoEvaluacionActivity extends AppCompatActivity {
 
-    private MaterialButton btnCrear, btnEditar, btnEliminar, btnImpresion, btnSolicitudes;
+    private MaterialButton btnCrear, btnEditar, btnEliminar;
     private RecyclerView recyclerView;
-    private Evaluacion evaluacionSelected = null;
-    private EvaluacionRestService evaluacionRestService;
+    private TipoEvaluacion tipoEvaluacionSelected = null;
+    private TipoEvaluacionRestService tipoEvaluacionRestService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ver_evaluacion);
+        setContentView(R.layout.activity_ver_tipo_evaluacion);
 
         btnCrear = findViewById(R.id.btn_crear);
         btnEditar = findViewById(R.id.btn_editar);
         btnEliminar = findViewById(R.id.btn_eliminar);
-        btnImpresion = findViewById(R.id.btn_impresion);
-        btnSolicitudes = findViewById(R.id.btn_solicitudes);
         recyclerView = findViewById(R.id.recyclerList);
 
-        evaluacionRestService = new EvaluacionRestService();
+        tipoEvaluacionRestService = new TipoEvaluacionRestService();
 
         btnCrear.setOnClickListener(v -> {
-            Intent intent = new Intent(getBaseContext(), RegistrarEvaluacionActivity.class);
+            Intent intent = new Intent(getBaseContext(), RegistrarTipoEvaluacionActivity.class);
             startActivity(intent);
         });
-
-        btnImpresion.setOnClickListener(v -> verControlImpresion());
-        btnSolicitudes.setOnClickListener(v -> verSolicitudesEvaluacion());
 
         cargarRecyclerList();
         onBack();
     }
 
-    private void verSolicitudesEvaluacion() {
-        if (evaluacionSelected.getIdEvaluacion() != null) {
-            Intent intent = new Intent(getApplicationContext(), VerSolicitudEvaluacionActivity.class);
-            intent.putExtra("IdEvaluacion", evaluacionSelected.getIdEvaluacion());
-            startActivity(intent);
-        }
-    }
-
-    private void verControlImpresion() {
-        if (evaluacionSelected.getIdEvaluacion() != null) {
-            Intent intent = new Intent(getApplicationContext(), VerImpresionesActivity.class);
-            intent.putExtra("IdEvaluacion", evaluacionSelected.getIdEvaluacion());
-            startActivity(intent);
-        }
-    }
-
     private void cargarRecyclerList() {
-        evaluacionRestService.obtenerListaEntidad(new CallBackDisposableInterface<List<Evaluacion>>() {
+        tipoEvaluacionRestService.obtenerListaEntidad(new CallBackDisposableInterface<List<TipoEvaluacion>>() {
             @Override
-            public void onCallBack(List<Evaluacion> evaluaciones) {
-                OnlyTxtRecyclerAdapter<Evaluacion> recyclerAdapter = new OnlyTxtRecyclerAdapter<Evaluacion>(evaluaciones, getBaseContext(), new OnlyTxtInterface<Evaluacion>() {
+            public void onCallBack(List<TipoEvaluacion> tiposEvaluaciones) {
+                OnlyTxtRecyclerAdapter<TipoEvaluacion> recyclerAdapter = new OnlyTxtRecyclerAdapter<TipoEvaluacion>(tiposEvaluaciones, getBaseContext(), new OnlyTxtInterface<TipoEvaluacion>() {
                     @Override
-                    public void imprimirdatos(MaterialTextView textView, Evaluacion evaluacion) {
-                        String txt = evaluacion.getTipoEvaluacion().getNombreTipoEvaluacion() +
-                                " " + evaluacion.getNumeroEvaluacion() +
-                                " " + evaluacion.getCurso().getMateria().getNombreMateria() +
-                                " " + evaluacion.getCurso().getCiclo().getNumeroAnio();
+                    public void imprimirdatos(MaterialTextView textView, TipoEvaluacion tipoEvaluacion) {
+                        String txt = tipoEvaluacion.getNombreTipoEvaluacion();
                         textView.setText(txt);
                     }
 
                     @Override
-                    public void onItemClick(ConstraintLayout constraint, Evaluacion evaluacion, int position) {
-                        evaluacionSelected = evaluacion;
-                        if (evaluacionSelected != null) {
+                    public void onItemClick(ConstraintLayout constraint, TipoEvaluacion tipoEvaluacion, int position) {
+                        tipoEvaluacionSelected = tipoEvaluacion;
+                        if (tipoEvaluacionSelected != null) {
                             btnEliminar.setEnabled(Boolean.TRUE);
                             btnEditar.setEnabled(Boolean.TRUE);
-                            btnImpresion.setEnabled(Boolean.TRUE);
-                            btnSolicitudes.setEnabled(Boolean.TRUE);
 
                             btnEditar.setOnClickListener(v -> {
                                 btnEliminar.setEnabled(Boolean.FALSE);
                                 btnEditar.setEnabled(Boolean.FALSE);
-                                btnImpresion.setEnabled(Boolean.TRUE);
-                                btnSolicitudes.setEnabled(Boolean.TRUE);
-                                Intent intent = new Intent(getBaseContext(), RegistrarEvaluacionActivity.class);
-                                intent.putExtra("IdEvaluacion", evaluacion.getIdEvaluacion());
+                                Intent intent = new Intent(getBaseContext(), RegistrarTipoEvaluacionActivity.class);
+                                intent.putExtra("IdTipoEvaluacion", tipoEvaluacion.getIdTipoEvaluacion());
                                 startActivity(intent);
                             });
 
                             btnEliminar.setOnClickListener(v -> {
-                                evaluacionRestService.eliminarEntidad(evaluacion, new CallBackVoidInterface() {
+                                tipoEvaluacionRestService.eliminarEntidad(tipoEvaluacion, new CallBackVoidInterface() {
                                     @Override
                                     public void onCallBack() {
                                         btnEliminar.setEnabled(Boolean.FALSE);
                                         btnEditar.setEnabled(Boolean.FALSE);
-                                        btnImpresion.setEnabled(Boolean.TRUE);
-                                        btnSolicitudes.setEnabled(Boolean.TRUE);
                                         cargarRecyclerList();
                                     }
 
