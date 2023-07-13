@@ -14,79 +14,157 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.2023_PDM115_G1"
-        tools:targetApi="31"
-        android:requestLegacyExternalStorage="true"
-        android:networkSecurityConfig="@xml/network_security_config">
+        tools:targetApi="31">
         <activity
-            android:name=".views.RegistrarAlumnoActivity"
+            android:name=".views.HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".views.VerAlumnosActivity"
+            android:name=".views.rest.RegistrarAlumnoActivity"
             android:exported="false" />
         <activity
-            android:name=".views.InicioActivity"
+            android:name=".views.rest.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".views.VerImpresionesActivity"
+            android:name=".views.rest.VerAlumnosActivity"
             android:exported="false" />
         <activity
-            android:name=".views.RegistrarSolicitudRevicionActivity"
+            android:name=".views.rest.InicioActivity"
             android:exported="false" />
         <activity
-            android:name=".views.VerSolicitudEvaluacionActivity"
+            android:name=".views.rest.VerImpresionesActivity"
             android:exported="false" />
         <activity
-            android:name=".views.ParametrosActivity"
+            android:name=".views.rest.RegistrarSolicitudRevicionActivity"
             android:exported="false" />
         <activity
-            android:name=".views.RegistrarTipoEvaluacionActivity"
+            android:name=".views.rest.VerSolicitudEvaluacionActivity"
             android:exported="false" />
         <activity
-            android:name=".views.RegistrarPersonaActivity"
+            android:name=".views.rest.ParametrosActivity"
             android:exported="false" />
         <activity
-            android:name=".views.RegistrarMateriaActivity"
+            android:name=".views.rest.RegistrarTipoEvaluacionActivity"
             android:exported="false" />
         <activity
-            android:name=".views.RegistrarEvaluacionActivity"
+            android:name=".views.rest.RegistrarPersonaActivity"
             android:exported="false" />
         <activity
-            android:name=".views.RegistrarDocenteActivity"
+            android:name=".views.rest.RegistrarMateriaActivity"
             android:exported="false" />
         <activity
-            android:name=".views.RegistrarCursoActivity"
+            android:name=".views.rest.RegistrarEvaluacionActivity"
             android:exported="false" />
         <activity
-            android:name=".views.RegistrarCoordinadorActivity"
+            android:name=".views.rest.RegistrarDocenteActivity"
             android:exported="false" />
         <activity
-            android:name=".views.RegistrarCicloActivity"
+            android:name=".views.rest.RegistrarCursoActivity"
             android:exported="false" />
         <activity
-            android:name=".views.VerTipoEvaluacionActivity"
+            android:name=".views.rest.RegistrarCoordinadorActivity"
             android:exported="false" />
         <activity
-            android:name=".views.VerMateriaActivity"
+            android:name=".views.rest.RegistrarCicloActivity"
             android:exported="false" />
         <activity
-            android:name=".views.VerEvaluacionActivity"
+            android:name=".views.rest.VerTipoEvaluacionActivity"
             android:exported="false" />
         <activity
-            android:name=".views.VerDocentesActivity"
+            android:name=".views.rest.VerMateriaActivity"
             android:exported="false" />
         <activity
-            android:name=".views.VerCursoActivity"
+            android:name=".views.rest.VerEvaluacionActivity"
             android:exported="false" />
         <activity
-            android:name=".views.VerCoordinadoresActivity"
+            android:name=".views.rest.VerDocentesActivity"
             android:exported="false" />
         <activity
-            android:name=".views.VerCiclosActivity"
+            android:name=".views.rest.VerCursoActivity"
             android:exported="false" />
         <activity
-            android:name=".views.RegistrarUsuarioActivity"
+            android:name=".views.rest.VerCoordinadoresActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.rest.VerCiclosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.rest.RegistrarUsuarioActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.room.RegistrarAlumnoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.room.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.room.VerAlumnosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.room.InicioActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.room.VerImpresionesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.room.RegistrarSolicitudRevicionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.room.VerSolicitudEvaluacionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.room.ParametrosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.room.RegistrarTipoEvaluacionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.room.RegistrarPersonaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.room.RegistrarMateriaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.room.RegistrarEvaluacionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.room.RegistrarDocenteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.room.RegistrarCursoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.room.RegistrarCoordinadorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.room.RegistrarCicloActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.room.VerTipoEvaluacionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.room.VerMateriaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.room.VerEvaluacionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.room.VerDocentesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.room.VerCursoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.room.VerCoordinadoresActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.room.VerCiclosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.room.RegistrarUsuarioActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
