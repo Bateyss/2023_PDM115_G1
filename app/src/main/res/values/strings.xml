@@ -70,4 +70,7 @@
     <string name="title_ver_alumnos">Alumnos</string>
     <string name="btn_crear_alumno">Crear Alumno</string>
     <string name="carnet">Carnet de Alumno</string>
+    <string name="btn_ver_room">Room/SQLITE</string>
+    <string name="btn_ver_rest">Servicios Web</string>
+    <string name="opcion_data">Elije una opcion para manejar los datos</string>
 </resources>
